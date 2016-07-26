@@ -1,0 +1,36 @@
+PACKAGE asp_arch_sh34_gcc
+VERSION 1.4.1
+
+MANIFEST
+Makefile.prc
+makeoffset.c
+prc.tf
+prc_cfg1_out.h
+prc_check.tf
+prc_config.c
+prc_config.h
+prc_def.csv
+prc_insn.h
+prc_kernel.h
+prc_rename.def
+prc_rename.h
+prc_sil.h
+prc_stddef.h
+prc_support.S
+prc_timer.c
+prc_timer.cfg
+prc_timer.h
+prc_unrename.h
+prc_user.txt
+sh7727.h
+sh7727.tf
+sh7727_config.h
+sh7780.h
+sh7780.tf
+sh7780_config.h
+shelf.ld
+shlelf.ld
+start.S
+
+INCLUDE ../../target/ms7727cp01_gcc/MANIFEST
+INCLUDE ../../target/apsh4a_gcc/MANIFEST

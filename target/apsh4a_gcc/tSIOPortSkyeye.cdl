@@ -1,0 +1,87 @@
+ /*
+  * 非依存部に提供する関数
+  */
+signature sSIOPort {
+ 	void	open(void);
+	void	close(void);
+	bool_t	putChar([in] char_t c);
+	int_t	getChar(void);
+	void	enableCBR([in] uint_t cbrtn);
+	void	disableCBR([in] uint_t cbrtn);
+};
+/*
+ * 非依存部へのコールバック
+ */
+signature siSIOCBR {
+	void	readySend(void);
+	void	readyReceive(void);
+};
+
+/* コールバックルーチンの識別番号 */
+const uint_t SIO_RDY_SND = 1;		/* 送信可能コールバック */
+const uint_t SIO_RDY_RCV = 2;		/* 受信通知コールバック */
+
+celltype tSIOPortSkyeyeMain {
+	entry sSIOPort	eSIOPort;
+	call siSIOCBR	ciSIOCBR;
+
+	entry sInitializeRoutineBody eInitialize; /* 初期化処理 */
+	entry sTerminateRoutineBody eTerminate;   /* 終了処理 */
+
+	entry siHandlerBody eiISR;/* 割込みサービスルーチン */
+	
+	attr {
+		/*Skyeye用のアドレス*/
+		uint32_t  uartBase;
+	};
+	var {
+		/*
+		 * skyeye用
+		 */
+		bool_t	openFlag;			/* オープン済みフラグ */
+		bool_t	receiveFlag;			/* 受信文字バッファ有効フラグ */
+		char_t	receiveBuffer;			/* 受信文字バッファ */
+		bool_t	receiveReady;			/* 受信通知コールバック許可フラグ */
+		/* SkyEyeの場合は送信は常にできるので、送信文字バッファは必要ない */
+     	bool_t	sendReady;			/* 送信通知コールバック許可フラグ */
+	};
+	FACTORY {
+		write("$ct$_factory.h", "#include \"at91skyeye.h\"");
+	};
+};
+
+[active]
+composite tSIOPortSkyeye {
+	entry sSIOPort	eSIOPort;
+	call siSIOCBR	ciSIOCBR;
+
+	attr {
+		/*Skyeye用のアドレス*/
+		//uint32_t* uartBase = C_EXP("(USART0_BASE)");
+		uint32_t uartBase = 0xFFFD0000;
+	};
+
+	cell tSIOPortSkyeyeMain SIOPortMain {
+		ciSIOCBR => composite.ciSIOCBR;
+		uartBase = composite.uartBase;
+	};
+	/*
+	 *  簡易SIOドライバの初期化処理ルーチン
+	 */
+	cell tInitializeRoutine InitializeSIO{
+		cInitializeRoutine = SIOPortMain.eInitialize;
+	};
+	/*
+	 *  簡易SIOドライバの終了処理ルーチン
+	 */
+	cell tTerminateRoutine TerminateSIO{
+		cTerminateRoutine = SIOPortMain.eTerminate;
+	};
+	cell tISRWithConfigInterrupt SIOPortSkyeyeISR{
+		ciBody =  SIOPortMain.eiISR;
+		interruptNumber   =  2;
+		interruptPriority = -2;
+	};
+	composite.eSIOPort => SIOPortMain.eSIOPort;
+};
+	

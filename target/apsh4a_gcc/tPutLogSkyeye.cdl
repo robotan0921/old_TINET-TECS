@@ -1,0 +1,12 @@
+/*
+ * 
+ */
+signature sPutLog {
+	void	putChar([in] char_t c);
+};
+
+[singleton]
+celltype tPutLogSkyeye {
+	entry sPutLog	ePutLog;
+	call  sSIOPort  cSIOPort;
+};

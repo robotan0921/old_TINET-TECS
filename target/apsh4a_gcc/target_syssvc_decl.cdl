@@ -1,0 +1,22 @@
+/*
+ *  @(#) $Id: target_syssvc_decl.cdl 109 2008-05-28 14:33:39Z ertl-hiro $
+ */
+
+/*
+ *		ターゲット依存のシステムサービスコンポーネントの定義（Skyeye用）
+ */
+
+/*
+ *  簡易SIOドライバの定義
+ */
+import("tSIOPortSkyeye.cdl");
+
+/*
+ *  システムログの低レベル出力の定義
+ */
+import("tPutLogSkyeye.cdl");
+
+/*
+ *  ログタスクのスタックサイズ
+ */
+const uint_t LogTaskStackSize = 131072;

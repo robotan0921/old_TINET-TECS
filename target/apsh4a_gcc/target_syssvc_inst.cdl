@@ -1,0 +1,26 @@
+/*
+ *  @(#) $Id: target_syssvc_inst.cdl 109 2008-05-28 14:33:39Z ertl-hiro $
+ */
+
+/*
+ *		ターゲット依存のシステムサービスコンポーネントの組上げ記述
+ *		（Skyeye用）
+ */
+
+/*
+ *  簡易SIOドライバの組み上げ記述
+ */
+cell tSerialPort SerialPort1;
+
+
+cell tSIOPortSkyeye SIOPortTarget{
+	ciSIOCBR = SerialPort1.eiSIOCBR;
+};
+
+/*
+ *  システムログの低レベル出力の組上げ記述
+ */
+cell tPutLogSkyeye PutLogTarget {
+	cSIOPort = SIOPortTarget.eSIOPort;
+};
+
