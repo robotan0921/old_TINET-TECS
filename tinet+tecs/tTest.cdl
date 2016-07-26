@@ -1,0 +1,123 @@
+//ASPカーネルオブジェクトコンポーネントをインクルード
+import ("kernel.cdl");
+cell tKernel ASPKernel{
+};
+
+
+
+
+//************************************************
+
+//            TIENT+TECS
+
+//************************************************
+
+//TINET+TECSの定義を宣言
+import("tTINET+TECS_decl.cdl");
+
+//TINET+TECSの組上げプロトコタイプ宣言
+import("tTINET+TECS_pre.cdl");
+
+//インタフェースレイヤ組み上げ記述
+//インタフェースレイヤの各パラメータを定義する
+//UDPCEPの数
+const uint32_t NUM_UDPCEP=1;
+const uint32_t UDPV4ADDR_000=C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
+const uint32_t UDPV4ADDR_001=C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
+
+const uint16_t UDPPORT_000=8931;
+const uint16_t UDPPORT_001=10000;
+
+//TCPCEPの数
+const uint32_t NUM_TCPCEP=1;
+//**********************
+
+
+[generate(RepeatCellPlugin, "count = NUM_UDPCEP"),allocator(eInput.sendData.input=NetworkBuffer.eNetworkAlloc)]//逆リクワイアが使えないためとりあえず
+cell tUDPCEP4 UDPCEP_000{
+    v4addr = UDPV4ADDR_000;
+    port = UDPPORT_000;
+    cSemaphoreAllCEP = SemaphoreUDPCEP.eSemaphore;
+    cUDPOutput = UDPOutput.eOutput;
+};
+
+
+
+[generate(RepeatCellPlugin, "count = NUM_TCPCEP"),allocator(eInput.input.inputp=NetworkBuffer.eNetworkAlloc)]//逆リクワイアが使えないためとりあえず
+cell tTCPCEP4 TCPCEP_000{
+    sbufSize = 512;
+    rbufSize = 512;
+    cTCPFunctions = TCPFunctions.eTCPFunctions;
+    cSemTcppost = SemaphoreTcppost.eSemaphore;
+    cSemTcpcep = SemaphoreTcpcep.eSemaphore;
+    cTCPOutput = TCPOutputBody.eTCPOutput;
+};
+
+cell tREP4 REP4_000{
+    myaddr = C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
+    myport = 50000;
+};
+
+cell tREP4 REP4_001{
+    myaddr = C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
+    myport = 23;
+};
+
+/////*****インタフェースレイヤの組上げ記述ここまで
+/**************TINET+TECS組上げ記述*******************/
+import("tTINET+TECS_init.cdl");
+
+
+//アプリケーションレイヤのCDLの記述****************
+[active,singleton]
+celltype tTest {
+    require tKernel.eKernel;
+
+    call sTCPCEPAPI4 cTCPAPI4;
+    call sUDPCEPAPI4 cUDPAPI4;
+
+    call sREP4 cREP4_000;
+    call sREP4 cREP4_001;
+    
+    entry sTaskBody eTestTask;
+};
+
+[active,singleton]
+celltype tRelTest{
+    call sUDPCEPAPI4 cUDPAPI4;
+
+    entry sTaskBody eBody;
+};
+
+    
+
+cell tTest Main{
+    cTCPAPI4 = TCPCEP_000.eAPI;
+    cUDPAPI4 = UDPCEP_000.eAPI;
+    cREP4_000 = REP4_000.eREP4;
+    cREP4_001 = REP4_001.eREP4;
+};
+    
+cell tTask mainTask{
+    cBody = Main.eTestTask;
+    
+    taskAttribute = C_EXP("TA_ACT");
+    priority = 10;
+    stackSize = 1024;
+};
+
+/*cell tRelTest RelTest{
+    cUDPAPI4 = UDPCEP_000.eAPI;
+};
+
+cell tTask RelTestTask{
+    cBody = Main.eTestTask;
+    
+    taskAttribute = C_EXP("TA_NULL");
+    priority = 10;
+    stackSize = 512;
+};*/
+
+//アプリケーションレイヤの記述ここまで**********************
+
+

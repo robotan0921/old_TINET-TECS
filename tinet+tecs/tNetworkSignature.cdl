@@ -1,0 +1,7 @@
+//ドライバ操作用シグニチャ
+
+signature sNicDriver {
+    void init(void);
+    void start([send(sNetworkAlloc),size_is(size)] int8_t *output,[in]int8_t size);
+    void read([receive(sNetworkAlloc),size_is(*size)]int8_t **input,[out]int8_t *size);
+};

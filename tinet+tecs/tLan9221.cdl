@@ -1,0 +1,108 @@
+import_C("lan9221_define.h");
+
+
+//ドライバ操作用シグニチャ
+
+signature sNicDriver {
+    void init(void);
+    void start([send(sNetworkAlloc),size_is(size)] int8_t *outputp,[in]int32_t size,[in]uint8_t align);
+    void read([receive(sNetworkAlloc),size_is(*size)]int8_t **inputp,[out]int32_t *size,[in]uint8_t align);
+    void getMac([out,size_is(6)]uint8_t *macaddress);
+};
+
+celltype tLan9221 {
+
+    attr{
+        uint8_t macaddr0,macaddr1,macaddr2,macaddr3,macaddr4,macaddr5;
+    };
+
+    var{
+        uint16_t Timer;
+    };
+    
+
+    require tKernel.eKernel;
+
+    call sSemaphore cSemaphoreSend;
+    call siSemaphore ciSemaphoreReceive;
+    call sConfigInterrupt cConfigInterrupt;
+    call sNetworkTimer cNetworkTimer;
+   
+    entry sCallTimerFunction eWatchdogTimer;
+    entry sNicDriver eNicDriver;
+    entry siHandlerBody eiBody;
+
+
+};
+
+
+
+[active]
+composite tLan9221Composite {
+
+    call sNetworkTimer cNetworkTimer;
+    
+    entry sSemaphore eSemaphoreSend;
+    entry sSemaphore eSemaphoreReceive;
+    entry sNicDriver eNicDriver;
+    entry sCallTimerFunction eWatchdogTimer;
+
+    attr{
+        INTNO interruptNumber;
+        PRI interruptPriority;
+        uint8_t mac0;
+        uint8_t mac1;
+        uint8_t mac2;
+        uint8_t mac3;
+        uint8_t mac4;
+        uint8_t mac5;
+    };
+    
+    cell tLan9221 Lan9221;
+
+    //ドライバ送受信用セマフォ
+    cell tSemaphore SemaphoreNicSend{
+        attribute = C_EXP("TA_TPRI");
+        count = 1;
+        max = 1;
+    };
+    cell tSemaphore SemaphoreNicReceive{
+        attribute = C_EXP("TA_TPRI");
+        count = 0;
+        max = 1;
+    };
+    
+    cell tISRWithConfigInterrupt NicInterrupt{
+        
+        interruptNumber = composite.interruptNumber;
+        interruptAttribute = C_EXP("TA_ENAINT");
+        interruptPriority = composite.interruptPriority;
+        ciBody = Lan9221.eiBody;
+    };
+
+    cell tLan9221 Lan9221 {
+
+        //MACアドレス指定ポイント
+        //        macaddr = {composite.mac0,composite.mac1,composite.mac2,composite.mac3,composite.mac4,composite.mac5};
+
+        macaddr0 = composite.mac0;
+        macaddr1 = composite.mac1;
+        macaddr2 = composite.mac2;
+        macaddr3 = composite.mac3;
+        macaddr4 = composite.mac4;
+        macaddr5 = composite.mac5;
+        
+        cSemaphoreSend = SemaphoreNicSend.eSemaphore;
+        ciSemaphoreReceive = SemaphoreNicReceive.eiSemaphore;
+        
+        cConfigInterrupt = NicInterrupt.eConfigInterrupt;
+
+        cNetworkTimer => composite.cNetworkTimer;
+    };
+
+    composite.eSemaphoreSend => SemaphoreNicSend.eSemaphore;
+    composite.eSemaphoreReceive => SemaphoreNicReceive.eSemaphore;
+    composite.eWatchdogTimer =>Lan9221.eWatchdogTimer;
+    composite.eNicDriver => Lan9221.eNicDriver;
+
+};

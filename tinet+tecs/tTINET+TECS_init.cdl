@@ -1,0 +1,236 @@
+cell tTINET TINET{
+};
+
+
+//
+//******************タイマの組み上げは少しわかりにくい
+import("tNetworkTimer_inst.cdl");
+
+cell tSemaphore SemaphoreUDPCEP{
+    attribute = C_EXP("TA_TPRI");
+    count = 1;
+    max = 1;
+};
+
+cell tSemaphore SemaphoreTcpcep{
+    attribute = C_EXP("TA_TPRI");
+    count = 1;
+    max = 1;
+};
+
+cell tSemaphore SemaphoreTcppost{
+    attribute = C_EXP("TA_TPRI");
+    count = 0;
+    max = 1;
+};
+cell tTCPFunctions TCPFunctions{
+};
+
+
+
+//UDPの組み上げ記述
+[allocator(eInput.UDPInput.inputp=NetworkBuffer.eNetworkAlloc),generate(RepeatPlugin ,"count = NUM_UDPCEP")]//逆リクワイアsendが使えないためとりあえず
+cell tUDPInput UDPInput{
+    cCEPInput[0] = UDPCEP_000.eInput;
+    cCallback[0] = UDPCEP_000.eCallback;
+    cICMP4Error = ICMP4.eICMP4Error;
+};
+
+cell tIPv4Functions IPv4Functions;
+
+//TCPの組み上げ記述
+[allocator(eInput.TCPInput.inputp=NetworkBuffer.eNetworkAlloc),generate(RepeatPlugin ,"count = NUM_TCPCEP")]//逆リクワイアsendが使えないためとりあえず
+cell tTCPInput TCPInput{
+    cCEPInput[0] = TCPCEP_000.eInput;
+    cIPv4CheckSum = IPv4Functions.eCheckSum;
+    cTCPRespond = TCPOutputBody.eTCPOutput;
+};
+
+
+
+const T_IN4_ADDR MYIP4ADDRESS=C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
+const T_IN4_ADDR MYIP4MASK=C_EXP("MAKE_IPV4_ADDR(255,255,255,0)");
+const T_IN4_ADDR MYIP4GATAWAY=C_EXP("MAKE_IPV4_ADDR(192,168,1,1)");
+
+cell tSemaphore SemaphoreIPv4Routing{
+    attribute = C_EXP("TA_TPRI");
+    count = 1;
+    max = 1;
+};
+cell tIPv4RoutingTable IPv4RoutingTable{
+    numStaticEntry = 3;
+    numRedirectEntry =1;
+    staticRoutingTable = {{0,0,C_EXP("MYIP4GATAWAY"),0,C_EXP("IN_RTF_DEFINED")},
+        {C_EXP("MYIP4ADDRESS &MYIP4MASK"),C_EXP("MYIP4MASK"),0,0,C_EXP("IN_RTF_DEFINED")},
+        {C_EXP("0xffffffff,0xffffffff,0"),0,C_EXP("IN_RTF_DEFINED")}};
+    timeout = 10;
+    cSemaphore = SemaphoreIPv4Routing.eSemaphore;
+    cNetworkTimer = NetworkTimer.eNetworkTimer[2];
+};
+cell tIPv4Functions IPv4Functions{
+    IPv4AddressInit = MYIP4ADDRESS;
+    IPv4MaskInit =  MYIP4MASK;
+    IPv4GatawayInit = MYIP4GATAWAY;
+};
+[allocator(eICMP4.input.inputp=NetworkBuffer.eNetworkAlloc,
+           eICMP4Error.error.inputp=NetworkBuffer.eNetworkAlloc)]
+cell tICMP4 ICMP4{
+    cTCPInput = TCPInput.eInput;
+    cIPv4Reply = IPv4Output.eOutput;
+    cIPv4Functions = IPv4Functions.eFunctions;
+};
+[allocator(eIPv4Input.IPv4Input.inputp=NetworkBuffer.eNetworkAlloc)]
+cell tIPv4Input IPv4Input{
+    cFunctions = IPv4Functions.eFunctions;
+    cICMP4 = ICMP4.eICMP4;
+    cICMP4Error = ICMP4.eICMP4Error;
+    cUDPInput = UDPInput.eInput;
+    cTCPInput = TCPInput.eInput;
+};
+
+
+//LANコントローラの組み上げ記述
+[allocator(eNicDriver.start.outputp=NetworkBuffer.eNetworkAlloc,
+           eNicDriver.read.inputp=NetworkBuffer.eNetworkAlloc)]
+cell tLan9221Composite Lan9221Composite {
+
+    cNetworkTimer = NetworkTimer.eNetworkTimer[0];
+    
+    interruptNumber = (0x200);
+    interruptPriority = -8;
+    mac0 = 0x00;
+    mac1 = 0x0C;
+    mac2 = 0x7B;
+    mac3 = 0x2A;
+    mac4 = 0x01;
+    mac5 = 0x25;
+};
+
+
+
+cell tDataqueue DataqueueEthernet{
+    attribute = C_EXP("TA_NULL");
+    count = 1;
+    pdqmb = C_EXP("NULL");
+};
+[allocator(eRawOutput.ethernetRawOutput.outputp=NetworkBuffer.eNetworkAlloc)]
+cell tEthernetOutputTaskBody EthernetOutputTaskBody{
+    cNicDriver = Lan9221Composite.eNicDriver;
+    cSemaphoreSend = Lan9221Composite.eSemaphoreSend;
+    cSemTcppost = SemaphoreTcppost.eSemaphore;
+    cDataqueue = DataqueueEthernet.eDataqueue;
+};
+cell tTask EthernetOutputTask{
+
+    cBody = EthernetOutputTaskBody.eBody;
+    
+    taskAttribute = C_EXP("TA_NULL");
+    priority = 5;
+    stackSize = 1024;
+};
+
+//Arpの組み上げ宣言
+cell tSemaphore ArpSemaphore{
+    attribute = C_EXP("TA_TPRI");
+    count = 1;
+    max = 1;
+};
+[allocator(eArpInput.arpInput.inputp=NetworkBuffer.eNetworkAlloc,
+           eArpOutput.arpResolve.outputp=NetworkBuffer.eNetworkAlloc)]
+cell tArp Arp{
+
+    arpEntry = 10;
+    
+    cEthernetRawOutput = EthernetOutputTaskBody.eRawOutput;
+    cIPv4Functions = IPv4Functions.eFunctions;
+    
+    cNetworkTimer = NetworkTimer.eNetworkTimer[1];
+    cArpSemaphore = ArpSemaphore.eSemaphore;
+};
+ 
+
+//イーサレベルの組み上げ宣言
+[allocator(eEthernetOutput.ethernetOutput.outputp=NetworkBuffer.eNetworkAlloc)]
+cell tEthernetOutput EthernetOutput{
+    cNicDriver = Lan9221Composite.eNicDriver;
+    cArpOutput = Arp.eArpOutput;
+    cRawOutput = EthernetOutputTaskBody.eRawOutput;
+};
+   
+
+cell tEthernetInputTaskBody EthernetInputTaskBody {
+
+    cTaskNetworkTimer = NetTimerTask.eTask;
+    cTaskEthernetOutput = EthernetOutputTask.eTask;
+
+    cSemaphoreReceive = Lan9221Composite.eSemaphoreReceive;
+    cNicDriver = Lan9221Composite.eNicDriver;
+
+    cArpInput = Arp.eArpInput;
+    cIPv4Input = IPv4Input.eIPv4Input;
+
+};
+cell tTask EthernetInputTask{
+
+    cBody = EthernetInputTaskBody.eBody;
+    
+    taskAttribute = C_EXP("TA_ACT");
+    priority = 5;
+    stackSize = 1024;
+};
+
+
+
+
+[allocator(eOutput.IPv4Output.outputp=NetworkBuffer.eNetworkAlloc,
+           eOutput.IPv4Reply.outputp=NetworkBuffer.eNetworkAlloc)]
+cell tIPv4Output IPv4Output{
+    cEthernetOutput = EthernetOutput.eEthernetOutput;
+    cFunctions = IPv4Functions.eFunctions;
+    cRoutingTable = IPv4RoutingTable.eRoutingTable;
+    cIPv4CheckSum = IPv4Functions.eCheckSum;
+};
+
+cell tUDPOutput UDPOutput{
+    cIPv4Output = IPv4Output.eOutput;
+};
+
+[generate(RepeatPlugin ,"count = NUM_TCPCEP"),allocator(eTCPOutput.output.outputp=NetworkBuffer.eNetworkAlloc,
+                                               eTCPOutput.respond.outputp=NetworkBuffer.eNetworkAlloc)]
+cell tTCPOutputBody TCPOutputBody{
+    cTCPOutputStart[0] = TCPCEP_000.eTCPOutputStart;
+    cIPv4Output = IPv4Output.eOutput;
+    cIPv4CheckSum = IPv4Functions.eCheckSum;
+    cSemaphore = SemaphoreTcppost.eSemaphore;
+    cNetworkTimer = NetworkTimer.eNetworkTimer[3];
+    cTCPFunctions = TCPFunctions.eTCPFunctions;
+};
+cell tTask TCPTask{
+
+    cBody = TCPOutputBody.eBody;
+
+    taskAttribute = C_EXP("TA_NULL");
+    priority = 5;
+    stackSize = 1024;
+};
+
+
+
+//************************************************
+//            タイマ組み上げ宣言
+//************************************************
+cell tNetworkTimer NetworkTimer{
+    cTCPTask = TCPTask.eTask;
+
+    //有効なネットワークタイマ宣言
+    cCallTimerFunction[0] = Lan9221Composite.eWatchdogTimer;
+    cCallTimerFunction[1] = Arp.eArpTimer;
+    cCallTimerFunction[2] = IPv4RoutingTable.eRoutingTableTimer;
+    cCallTimerFunction[3] = TCPOutputBody.eCallTimerFunction;
+    
+    cSemaphoreNetworkTimer = SemaphoreNetworkTimer.eSemaphore;
+    ciSemaphoreNetworkTimer = SemaphoreNetworkTimer.eiSemaphore;
+    cSemaphoreCalloutLock = SemaphoreCalloutLock.eSemaphore;
+    
+
+};

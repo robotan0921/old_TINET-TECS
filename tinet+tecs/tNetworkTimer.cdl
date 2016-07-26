@@ -1,0 +1,59 @@
+
+
+
+//************************************************
+
+//           シグニチャ宣言
+
+//************************************************
+
+
+
+
+//シグニチャ
+signature sCallTimerFunction{
+    void callFunction(void);
+};
+
+
+//ネットワークタイマ操作関数
+signature sNetworkTimer{
+    ER Timeout([in]RELTIM timout);
+};
+
+
+
+
+
+/*タイマ機能が必要になったら有効にする
+cell tNetworkTimer NetworkTimer;
+
+
+cell tCyclicHandler NetTimerHandler{
+    ciBody = NetworkTimer.eiBody;
+    
+    attribute = C_EXP("TA_ACT");
+    cyclicTime = NET_TIMER_CYCLE;
+    cyclicPhase = 1;
+};
+
+cell tTask NetTimerTask{
+    cBody = NetworkTimer.eBody;
+
+    taskAttribute = C_EXP("TA_NULL");
+    priority = NET_TIMER_PRIORITY;
+    stackSize = 1024;
+};
+
+cell tSemaphore SemaphoreNetworkTimer{
+    attribute = C_EXP("TA_TPRI");
+    count = 0;
+    max = NUM_NETWORKTIMER;
+};
+
+cell tSemaphore SemaphoreCalloutLock{
+    attribute = C_EXP("TA_TPRI");
+    count = 1;
+    max = 1;
+};
+  */

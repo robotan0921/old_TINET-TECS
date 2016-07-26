@@ -1,0 +1,8 @@
+cell tUDPOutput UDPOutput;
+cell tIPv4Output IPv4Output;
+cell tSemaphore SemaphoreUDPCEP;
+cell tSemaphore SemaphoreTcppost;
+cell tSemaphore SemaphoreTcpcep;
+cell tTCPFunctions TCPFunctions;
+cell tTCPOutputBody TCPOutputBody;
+cell tTINET TINET;

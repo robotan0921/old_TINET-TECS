@@ -1,0 +1,85 @@
+//************************************************
+
+//            定義
+
+//************************************************
+
+//接続しているタイマー関数(多めでもOKが）
+const uint32_t NUM_NETWORKTIMER=5;
+
+//タイマの軌道周期
+const uint32_t NET_TIMER_CYCLE=100;
+
+//タイマタスクの優先度
+const int32_t NET_TIMER_PRIORITY=3;
+
+
+//************************************************
+
+//            セルタイプ宣言
+
+//************************************************
+
+
+[singleton]
+celltype tNetworkTimer{
+    /*attr{
+        [size_is(NUM_NETWORKTIMER)]int32_t *timeoutTemp;
+    };*/
+    var {
+        [size_is(NUM_NETWORKTIMER)]int32_t *timeout = {-1,-1,-1,-1};
+    };
+
+    [optional]call sCallTimerFunction cCallTimerFunction[NUM_NETWORKTIMER];
+
+    [optional]call sTask cTCPTask;
+
+    call sSemaphore cSemaphoreNetworkTimer;
+    call siSemaphore ciSemaphoreNetworkTimer;
+    call sSemaphore cSemaphoreCalloutLock;
+
+    entry sNetworkTimer eNetworkTimer[NUM_NETWORKTIMER];
+
+
+    entry sTaskBody eBody;
+    entry siHandlerBody eiBody;
+};
+
+
+//************************************************
+
+//            組み上げ宣言
+
+//************************************************
+
+
+cell tNetworkTimer NetworkTimer;
+
+
+cell tCyclicHandler NetTimerHandler{
+    ciBody = NetworkTimer.eiBody;
+    
+    attribute = C_EXP("TA_ACT");
+    cyclicTime = NET_TIMER_CYCLE;
+    cyclicPhase = 1;
+};
+
+cell tTask NetTimerTask{
+    cBody = NetworkTimer.eBody;
+
+    taskAttribute = C_EXP("TA_NULL");
+    priority = NET_TIMER_PRIORITY;
+    stackSize = 1024;
+};
+
+cell tSemaphore SemaphoreNetworkTimer{
+    attribute = C_EXP("TA_TPRI");
+    count = 0;
+    max = NUM_NETWORKTIMER;
+};
+
+cell tSemaphore SemaphoreCalloutLock{
+    attribute = C_EXP("TA_TPRI");
+    count = 1;
+    max = 1;
+};

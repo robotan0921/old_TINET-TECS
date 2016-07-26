@@ -1,0 +1,51 @@
+
+signature sTINET{
+    uint32_t netRand(void);
+    void netSrand([in]uint32_t speed);
+};
+    
+
+[singleton]
+celltype tTINET{
+    var{
+        uint32_t next = 1;
+    };
+
+    entry sTINET eTINET;
+};
+
+
+//ネットワーク用メモリアロケータの定義とセル化
+import ("tBuffer.cdl");
+
+//各層ごとのマクロ定義
+import_C ("tecsinet.h");
+import_C ("Ethernet_define.h");
+import_C("ipv4_define.h");
+import_C("ipv6_define.h");
+import_C("udp_define.h");
+import_C("tcp_define.h");
+
+
+//ネットワークタイマコンポーネントの定義
+import ("tNetworkTimer.cdl");
+
+
+
+//Lan9221用デバドラコンポーネントの定義
+import ("tLan9221.cdl");
+
+//Ethernetレイヤ用のコンポーネント定義部分
+import ("tEthernet.cdl");
+
+//IPv4レイヤ用のコンポーネント定義部分
+import ("tIPv4.cdl");
+
+//IPv6レイヤ用のコンポーネント定義部分
+import ("tIPv6.cdl");
+
+//UDPレイヤ用のコンポーネント定義部分
+import ("tUDP.cdl");
+
+//TCPレイヤ用のコンポーネント定義部分
+import ("tTCP.cdl");
