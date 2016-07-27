@@ -1,14 +1,14 @@
 typedef struct {
-	uint8_t tphdrlen; //ƒgƒ‰ƒ“ƒXƒ|[ƒg‘w‚Ìƒwƒbƒ_’·
-	uint8_t iphdrlen; //IP‘w‚Ìƒwƒbƒ_’·
-	uint16_t ipmss; //ip‘w‚ğl—¶‚µ‚½MSS
-	//uint8_t ipaddlen; //IPƒAƒhƒŒƒX’·
-	uint8_t ifhdrlen; //ƒf[ƒ^ƒŠƒ“ƒN‘w‚Ìƒwƒbƒ_’·
-	uint8_t ifmtu; //ƒf[ƒ^ƒŠƒ“ƒN‘w‚ğl—¶‚µ‚½MTU
-	uint8_t ifalign; //ƒf[ƒ^ƒŠƒ“ƒN‘w‚ÌƒAƒ‰ƒCƒƒ“ƒg•â³’l
+	uint8_t tphdrlen; //ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ãƒˆå±¤ã®ãƒ˜ãƒƒãƒ€é•·
+	uint8_t iphdrlen; //IPå±¤ã®ãƒ˜ãƒƒãƒ€é•·
+	uint16_t ipmss; //ipå±¤ã‚’è€ƒæ…®ã—ãŸMSS
+	//uint8_t ipaddlen; //IPã‚¢ãƒ‰ãƒ¬ã‚¹é•·
+	uint8_t ifhdrlen; //ãƒ‡ãƒ¼ã‚¿ãƒªãƒ³ã‚¯å±¤ã®ãƒ˜ãƒƒãƒ€é•·
+	uint8_t ifmtu; //ãƒ‡ãƒ¼ã‚¿ãƒªãƒ³ã‚¯å±¤ã‚’è€ƒæ…®ã—ãŸMTU
+	uint8_t ifalign; //ãƒ‡ãƒ¼ã‚¿ãƒªãƒ³ã‚¯å±¤ã®ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆè£œæ­£å€¤
 	uint8_t protocolflag; //protocolflag
-	uint16_t tphdrlenall; //ƒgƒ‰ƒ“ƒXƒ|[ƒg‘w‚Ìƒwƒbƒ_’·i“®“I•Ï‰»•ªŠÜ‚Şj
-	uint16_t iphdrlenall; //IP‘w‚Ìƒwƒbƒ_’·i“®“I•Ï‰»•ªŠÜ‚Şj
+	uint16_t tphdrlenall; //ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ãƒˆå±¤ã®ãƒ˜ãƒƒãƒ€é•·ï¼ˆå‹•çš„å¤‰åŒ–åˆ†å«ã‚€ï¼‰
+	uint16_t iphdrlenall; //IPå±¤ã®ãƒ˜ãƒƒãƒ€é•·ï¼ˆå‹•çš„å¤‰åŒ–åˆ†å«ã‚€ï¼‰
 }T_OFF_BUF;
 
 typedef struct {

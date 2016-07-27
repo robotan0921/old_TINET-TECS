@@ -1,13 +1,13 @@
 
-signature sTINET{
+signature sTINET {
     uint32_t netRand(void);
     void netSrand([in]uint32_t speed);
 };
     
 
 [singleton]
-celltype tTINET{
-    var{
+celltype tTINET {
+    var {
         uint32_t next = 1;
     };
 
@@ -15,37 +15,37 @@ celltype tTINET{
 };
 
 
-//ƒlƒbƒgƒ[ƒN—pƒƒ‚ƒŠƒAƒƒP[ƒ^‚Ì’è‹`‚ÆƒZƒ‹‰»
-import ("tBuffer.cdl");
+//ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ç”¨ãƒ¡ãƒ¢ãƒªã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã®å®šç¾©ã¨ã‚»ãƒ«åŒ–
+import("tBuffer.cdl");
 
-//Še‘w‚²‚Æ‚Ìƒ}ƒNƒ’è‹`
-import_C ("tecsinet.h");
-import_C ("Ethernet_define.h");
+//å„å±¤ã”ã¨ã®ãƒã‚¯ãƒ­å®šç¾©
+import_C("tecsinet.h");
+import_C("Ethernet_define.h");
 import_C("ipv4_define.h");
 import_C("ipv6_define.h");
 import_C("udp_define.h");
 import_C("tcp_define.h");
 
 
-//ƒlƒbƒgƒ[ƒNƒ^ƒCƒ}ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’è‹`
+//ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¿ã‚¤ãƒã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å®šç¾©
 import ("tNetworkTimer.cdl");
 
 
 
-//Lan9221—pƒfƒoƒhƒ‰ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì’è‹`
+//Lan9221ç”¨ãƒ‡ãƒãƒ‰ãƒ©ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å®šç¾©
 import ("tLan9221.cdl");
 
-//EthernetƒŒƒCƒ„—p‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg’è‹`•”•ª
+//Ethernetãƒ¬ã‚¤ãƒ¤ç”¨ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå®šç¾©éƒ¨åˆ†
 import ("tEthernet.cdl");
 
-//IPv4ƒŒƒCƒ„—p‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg’è‹`•”•ª
+//IPv4ãƒ¬ã‚¤ãƒ¤ç”¨ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå®šç¾©éƒ¨åˆ†
 import ("tIPv4.cdl");
 
-//IPv6ƒŒƒCƒ„—p‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg’è‹`•”•ª
+//IPv6ãƒ¬ã‚¤ãƒ¤ç”¨ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå®šç¾©éƒ¨åˆ†
 import ("tIPv6.cdl");
 
-//UDPƒŒƒCƒ„—p‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg’è‹`•”•ª
+//UDPãƒ¬ã‚¤ãƒ¤ç”¨ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå®šç¾©éƒ¨åˆ†
 import ("tUDP.cdl");
 
-//TCPƒŒƒCƒ„—p‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg’è‹`•”•ª
+//TCPãƒ¬ã‚¤ãƒ¤ç”¨ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå®šç¾©éƒ¨åˆ†
 import ("tTCP.cdl");

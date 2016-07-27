@@ -3,11 +3,11 @@
 # 
 
 #
-#		Makefile д╬е╫еэе╗е├е╡░═┬╕╔Їб╩SH34═╤б╦
+#		Makefile уБоуГЧуГнуВ╗уГГуВ╡ф╛ЭхнШщГия╝ИSH34чФия╝Й
 #
 
 #
-#  е│еєе╤едеыеке╫е╖ечеє
+#  уВ│уГ│уГСуВдуГлуВкуГЧуВ╖уГзуГ│
 #
 COPTS := $(COPTS)
 LDFLAGS := -nostdlib $(LDFLAGS) 
@@ -15,7 +15,7 @@ CDEFS := $(CDEFS) -DTOPPERS_LABEL_ASM
 LIBS := $(LIBS) -lgcc
 
 #
-#  е╫еэе╗е├е╡д╬╝я╬рд╦▒■д╕д┐е│еєе╤едеыеке╫е╖ечеє
+#  уГЧуГнуВ╗уГГуВ╡уБочиощбЮуБлх┐ЬуБШуБЯуВ│уГ│уГСуВдуГлуВкуГЧуВ╖уГзуГ│
 #
 ifeq ($(PRC_ARCH), SH3)
 	COPTS := $(COPTS) -m3
@@ -58,7 +58,7 @@ ifeq ($(PRC_ARCH), SH4A)
 endif
 
 #
-#  FPUдЄ╗╚═╤д╣ды╛ь╣ч
+#  FPUуВТф╜┐чФиуБЩуВЛха┤хРИ
 #
 ifeq ($(FPU_ENABLE),true)
 CDEFS := $(CDEFS) -DFPU_ENABLE
@@ -78,19 +78,20 @@ endif
 
 
 #
-#  елб╝е═еыд╦┤╪д╣ды─ъ╡┴
+#  уВлуГ╝уГНуГлуБлщЦвуБЩуВЛхоЪч╛й
 #
 KERNEL_DIR := $(KERNEL_DIR) $(SRCDIR)/arch/$(PRC)_$(TOOL)
 KERNEL_ASMOBJS := $(KERNEL_ASMOBJS) prc_support.o
 KERNEL_COBJS := $(KERNEL_COBJS) prc_config.o prc_timer.o
 
 #
-#  е│еєе╒егеоехеьб╝е┐┤╪╖╕д╬╩╤┐Їд╬─ъ╡┴
+#  уВ│уГ│уГХуВгуВоуГеуГмуГ╝уВ┐щЦвф┐ВуБохдЙцХ░уБохоЪч╛й
 #
-CFG_TABS := $(CFG_TABS) --cfg1-def-table $(SRCDIR)/arch/$(PRC)_$(TOOL)/prc_def.csv
+# CFG_TABS := $(CFG_TABS) --cfg1-def-table $(SRCDIR)/arch/$(PRC)_$(TOOL)/prc_def.csv
+CFG_TABS := $(CFG_TABS) --symval-table $(SRCDIR)/arch/$(PRC)_$(TOOL)/prc_sym.def
 
 #
-#  ░═┬╕┤╪╖╕д╬─ъ╡┴
+#  ф╛ЭхнШщЦвф┐ВуБохоЪч╛й
 #
 cfg1_out.c: $(SRCDIR)/arch/$(PRC)_$(TOOL)/prc_def.csv
 kernel_cfg.timestamp: $(SRCDIR)/arch/$(PRC)_$(TOOL)/prc.tf

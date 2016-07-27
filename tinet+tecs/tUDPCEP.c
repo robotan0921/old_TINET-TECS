@@ -116,8 +116,8 @@
 
 
 
-//temp “®“Iƒ^ƒXƒNŒ‹‡‚ğƒTƒ|[ƒg‚·‚éˆ—
-//–{“–‚ÍƒJ[ƒlƒ‹‚Ì‹@”\‚É‘g‚İ‚Ş‚ªmikan
+//temp å‹•çš„ã‚¿ã‚¹ã‚¯çµåˆã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹å‡¦ç†
+//æœ¬å½“ã¯ã‚«ãƒ¼ãƒãƒ«ã®æ©Ÿèƒ½ã«çµ„ã¿è¾¼ã‚€ãŒmikan
 
 extern ER		get_inf(intptr_t *p_exinf);
 
@@ -146,15 +146,15 @@ get_tTask_DES()
 
 
 
-#define tUDPCEP_cCallingSendTask_bind(p_that) \
+#define tUDPCEP_cCallingSendTask_bind(p_that) Â¥
   (p_that)->cCallingSendTask = get_tTask_DES()
 #define cCallingSendTask_bind() tUDPCEP_cCallingSendTask_bind(p_cellcb)
 
-#define tUDPCEP_cCallingReceiveTask_bind(p_that) \
+#define tUDPCEP_cCallingReceiveTask_bind(p_that) Â¥
   (p_that)->cCallingReceiveTask = get_tTask_DES()
 #define cCallingReceiveTask_bind() tUDPCEP_cCallingReceiveTask_bind(p_cellcb)
 
-//temp ‚±‚±‚Ü‚Å
+//temp ã“ã“ã¾ã§
 
 //keisoku----
 //#define cCallingSendTask_bind() 
@@ -164,7 +164,7 @@ get_tTask_DES()
 static uint16_t udp_port_auto = UDP_PORT_FIRST_AUTO;
 
 /*
- *  udp_alloc_auto_port -- ©“®Š„‚è“–‚Äƒ|[ƒg”Ô†‚ğİ’è‚·‚éB
+ *  udp_alloc_auto_port -- è‡ªå‹•å‰²ã‚Šå½“ã¦ãƒãƒ¼ãƒˆç•ªå·ã‚’è¨­å®šã™ã‚‹ã€‚
  */
 
 static ER
@@ -249,7 +249,7 @@ eInput_check(CELLIDX idx, const int8_t* dstaddr, int32_t len, uint16_t dstport)
 	} /* end if VALID_IDX(idx) */
 
 	/* Put statements here #_TEFB_# */
-	//v4‚Æv6‚ÅCEP‚ğ‹¤’Ê‚É‚·‚é‰Â”\«‚ğl—¶‚µ‚ÄIF•ª
+	//v4ã¨v6ã§CEPã‚’å…±é€šã«ã™ã‚‹å¯èƒ½æ€§ã‚’è€ƒæ…®ã—ã¦IFåˆ†
 	if(ATTR_ipLength == len){
 		if(dstport == VAR_myport){
 			if(len ==4){
@@ -313,13 +313,13 @@ eAPI_send(CELLIDX idx, const int8_t* data, int32_t len, const int8_t* dstaddr, i
 
 	/* Put statements here #_TEFB_# */
 
-	/* p_dstaddr ‚Ü‚½‚Í data ‚ª NULL ‚©Atmout ‚ª TMO_NBLK ‚È‚çƒGƒ‰[ */
+	/* p_dstaddr ã¾ãŸã¯ data ãŒ NULL ã‹ã€tmout ãŒ TMO_NBLK ãªã‚‰ã‚¨ãƒ©ãƒ¼ */
 	if (dstaddr == NULL || data == NULL || tmout == TMO_NBLK)
 		return E_PAR;
 
 	int ip_hdr_size,if_mtu;
 	
-	//—˜—p‚·‚é‰ºˆÊƒvƒƒgƒRƒ‹‚ğŒˆ’è‚·‚é//offmikan
+	//åˆ©ç”¨ã™ã‚‹ä¸‹ä½ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã‚’æ±ºå®šã™ã‚‹//offmikan
 	VAR_offset.protocolflag = FLAG_USE_UDP;
 	if(ATTR_ipLength == 4){
 		VAR_offset.protocolflag |= FLAG_USE_IPV4;
@@ -334,13 +334,13 @@ eAPI_send(CELLIDX idx, const int8_t* data, int32_t len, const int8_t* dstaddr, i
 	  if_mtu = ETHER_MTU;
 
 
-	/* ƒf[ƒ^’·‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* ãƒ‡ãƒ¼ã‚¿é•·ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (len < 0 || len + VAR_offset.iphdrlen + UDP_HDR_SIZE > if_mtu)
 		return E_PAR;
 
 
 	/*
-	 *  ©ƒ|[ƒg”Ô†‚ª UDP_PORTANY ‚È‚çA©“®‚ÅŠ„‚è“–‚Ä‚éB
+	 *  è‡ªãƒãƒ¼ãƒˆç•ªå·ãŒ UDP_PORTANY ãªã‚‰ã€è‡ªå‹•ã§å‰²ã‚Šå½“ã¦ã‚‹ã€‚
 	 */
 	if (VAR_myport == UDP_PORTANY) {
 		if ((error = udp_alloc_auto_port(idx)) != E_OK)
@@ -348,29 +348,29 @@ eAPI_send(CELLIDX idx, const int8_t* data, int32_t len, const int8_t* dstaddr, i
 	}
 	   
 	   
-	/* ’ÊM’[“_‚ğƒƒbƒN‚·‚éB*/
+	/* é€šä¿¡ç«¯ç‚¹ã‚’ãƒ­ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	cSemaphore_wait();
 
 	   
 	if (VAR_sendTaskID != TA_NULL) {
 
-		/* ”ñƒmƒ“ƒuƒƒbƒLƒ“ƒOƒR[ƒ‹‚Åƒyƒ“ƒfƒBƒ“ƒO’† */
+		/* éãƒãƒ³ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°ã‚³ãƒ¼ãƒ«ã§ãƒšãƒ³ãƒ‡ã‚£ãƒ³ã‚°ä¸­ */
 		error = E_QOVR;
 
-		/* ’ÊM’[“_‚ğƒƒbƒN‚ğ‰ğœ‚·‚éB*/
+		/* é€šä¿¡ç«¯ç‚¹ã‚’ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹ã€‚*/
 		cSemaphore_signal();
 	}
 	else {
-		/* Œ»İ‚Ìƒ^ƒXƒN¯•Êq‚ğ‹L˜^‚·‚éB*/
+		/* ç¾åœ¨ã®ã‚¿ã‚¹ã‚¯è­˜åˆ¥å­ã‚’è¨˜éŒ²ã™ã‚‹ã€‚*/
 		getTaskId(&VAR_sendTaskID);
 
-		/* ƒ^ƒXƒNƒZƒ‹‚Æ“®“IŒ‹‡‚·‚é */
+		/* ã‚¿ã‚¹ã‚¯ã‚»ãƒ«ã¨å‹•çš„çµåˆã™ã‚‹ */
 		cCallingSendTask_bind();
 
-		/* ’ÊM’[“_‚ğƒƒbƒN‚ğ‰ğœ‚·‚éB*/
+		/* é€šä¿¡ç«¯ç‚¹ã‚’ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹ã€‚*/
 		cSemaphore_signal();
 
-		/* ƒpƒPƒbƒg‚ğ‘—M‚·‚éB*/
+		/* ãƒ‘ã‚±ãƒƒãƒˆã‚’é€ä¿¡ã™ã‚‹ã€‚*/
 		error = cUDPOutput_UDPOutput(data, len,dstaddr,cGetAddress_getAddress(),addrlen,dstport,VAR_myport,VAR_offset,tmout );
 		VAR_sendTaskID = TA_NULL;
 
@@ -401,37 +401,37 @@ eAPI_receive(CELLIDX idx, int8_t* data, int32_t len, TMO tmout)
 	T_UDP_HDR	*udph;
 	uint32_t		ulen, uhoff;
 
-	/* p_dstaddr ‚Ü‚½‚Í data ‚ª NULL Alen < 0 ‚©Atmout ‚ª TMO_NBLK ‚È‚çƒGƒ‰[ */
-	//mikan ‚Æ‚è‚ ‚¦‚¸ƒmƒ“ƒuƒƒbƒLƒ“ƒOƒR[ƒ‹‚É‚Í‘Î‰‚µ‚È‚¢
+	/* p_dstaddr ã¾ãŸã¯ data ãŒ NULL ã€len < 0 ã‹ã€tmout ãŒ TMO_NBLK ãªã‚‰ã‚¨ãƒ©ãƒ¼ */
+	//mikan ã¨ã‚Šã‚ãˆãšãƒãƒ³ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°ã‚³ãƒ¼ãƒ«ã«ã¯å¯¾å¿œã—ãªã„
 	if (data == NULL || len < 0 || tmout == TMO_NBLK)
 		return E_PAR;
 	
-	/* ’ÊM’[“_‚ğƒƒbƒN‚·‚éB*/
+	/* é€šä¿¡ç«¯ç‚¹ã‚’ãƒ­ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	cSemaphore_wait();
 
 	if (VAR_receiveTaskID != TA_NULL) {
 
-		/* ”ñƒmƒ“ƒuƒƒbƒLƒ“ƒOƒR[ƒ‹‚Åƒyƒ“ƒfƒBƒ“ƒO’† */
+		/* éãƒãƒ³ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°ã‚³ãƒ¼ãƒ«ã§ãƒšãƒ³ãƒ‡ã‚£ãƒ³ã‚°ä¸­ */
 		error = E_QOVR;
 
-		/* ’ÊM’[“_‚ğƒƒbƒN‚ğ‰ğœ‚·‚éB*/
+		/* é€šä¿¡ç«¯ç‚¹ã‚’ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹ã€‚*/
 		cSemaphore_signal();
 	}
 	else {
 		getTaskId(&VAR_receiveTaskID);
 
-		/* ƒ^ƒXƒN‚ğ“®“IŒ‹‡‚·‚é */
+		/* ã‚¿ã‚¹ã‚¯ã‚’å‹•çš„çµåˆã™ã‚‹ */
 		cCallingReceiveTask_bind();
 
-		//’ÊM’[“_‚ÌƒƒbƒN‚ğ‰ğœ‚·‚é
+		//é€šä¿¡ç«¯ç‚¹ã®ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹
 		cSemaphore_signal();
 
 		if(VAR_cb_netbuf != NULL) {
 
 			/*
-			 *  ‚±‚±‚É‚­‚éê‡‚ÍAƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì’†‚©‚ç
-			 *  udp_rcv_dat ‚ğŒÄ‚Ño‚µ‚Ä‚¢‚é‚±‚Æ‚É‚È‚èA
-			 *  ‚·‚Å‚É“ü—ÍÏ‚İ‚Å‚ ‚éB
+			 *  ã“ã“ã«ãã‚‹å ´åˆã¯ã€ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®ä¸­ã‹ã‚‰
+			 *  udp_rcv_dat ã‚’å‘¼ã³å‡ºã—ã¦ã„ã‚‹ã“ã¨ã«ãªã‚Šã€
+			 *  ã™ã§ã«å…¥åŠ›æ¸ˆã¿ã§ã‚ã‚‹ã€‚
 			 */
 			input = VAR_cb_netbuf;
 			VAR_cb_netbuf = NULL;
@@ -446,8 +446,8 @@ eAPI_receive(CELLIDX idx, int8_t* data, int32_t len, TMO tmout)
 		if(!(VAR_offset.protocolflag & FLAG_USE_UDP))
 			VAR_offset = input->off;
 
-		//mikan ˆ¶æIP‚Æƒ|[ƒg”Ô†‚Í–¢À‘•
-		/* ƒf[ƒ^‚ğƒoƒbƒtƒ@‚ÉˆÚ‚·B*/
+		//mikan å®›å…ˆIPã¨ãƒãƒ¼ãƒˆç•ªå·ã¯æœªå®Ÿè£…
+		/* ãƒ‡ãƒ¼ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«ç§»ã™ã€‚*/
 		udph = GET_UDP_HDR(input,input->off.ifhdrlen+input->off.iphdrlenall);
 		ulen = ntohs(udph->ulen);
 		if (ulen - UDP_HDR_SIZE > len)
@@ -552,7 +552,7 @@ eCallback_callback(CELLIDX idx, FN fncd, ER_UINT error)
 
 	/* Put statements here #_TEFB_# */
 
-	//TEV_UDP_RCV_DAT‚ÌƒP[ƒX‚Å‚Í•K‚¸ƒƒ‚ƒŠ‚ğ‰ğ•ú‚·‚é
+	//TEV_UDP_RCV_DATã®ã‚±ãƒ¼ã‚¹ã§ã¯å¿…ãšãƒ¡ãƒ¢ãƒªã‚’è§£æ”¾ã™ã‚‹
 
 }
 

@@ -81,7 +81,7 @@ extern ER		dly_tsk(RELTIM dlytim);
 #define	E_ID	(-18)	/* illegal ID */
 #endif
 
-#define DEFAULT_MAC_H	0x00000100				/* ƒfƒtƒHƒ‹ƒgMACƒAƒhƒŒƒX */
+#define DEFAULT_MAC_H	0x00000100				/* ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆMACã‚¢ãƒ‰ãƒ¬ã‚¹ */
 #define DEFAULT_MAC_L	0x2A7B0C00				/* 00-0C-7B-2A-00-01     */
 
 
@@ -206,7 +206,7 @@ static int lan9221_phy_reset(CELLCB *p_cellcb)
 	unsigned long val;
 
 	val = lan9221_reg_read(LAN9221_PMT_CTRL);
-	val &= ~0xFFFFF030;
+	val &= â€¾0xFFFFF030;
 	val |= LAN9221_PMT_CTRL_PHY_RST;
 	lan9221_reg_write(LAN9221_PMT_CTRL, val);
 
@@ -262,7 +262,7 @@ static void lan9221_enable(CELLCB *p_cellcb)
 				LAN9221_MAC_CR_HBDIS);
 
 
-	//Š„‚è‚İ”­¶‚ğ—LŒø‚É‚·‚é
+	//å‰²ã‚Šè¾¼ã¿ç™ºç”Ÿã‚’æœ‰åŠ¹ã«ã™ã‚‹
 
 	lan9221_reg_write(LAN9221_INT_CFG,LAN9221_INT_CFG_IRQ_EN | LAN9221_INT_CFG_IRQ_POL |
 					  LAN9221_INT_CFG_IRQ_TYPE);
@@ -270,7 +270,7 @@ static void lan9221_enable(CELLCB *p_cellcb)
 	
 	//lan9221_reg_write(LAN9221_FIFO_INT,0x00000001);
 	
-//	lan9221_reg_write(LAN9221_INT_CFG,LAN9221_INT_CFG_INT_DEAS);//Š„‚è‚İ—P—\ŠÔ‚ğ—LŒø‚É
+//	lan9221_reg_write(LAN9221_INT_CFG,LAN9221_INT_CFG_INT_DEAS);//å‰²ã‚Šè¾¼ã¿çŒ¶äºˆæ™‚é–“ã‚’æœ‰åŠ¹ã«
 	
 	
 }
@@ -288,7 +288,7 @@ static int lan9221_open(CELLCB *p_cellcb)
 	lan9221_handle_mac_address(p_cellcb);
 	lan9221_enable(p_cellcb);
 
-	//Ú‘±Šm—§‚Ü‚ÅƒfƒBƒŒƒC‚ğæ‚?
+	//æ¥ç¶šç¢ºç«‹ã¾ã§ãƒ‡ã‚£ãƒ¬ã‚¤ã‚’è¬”?
 	delay(2000);
 
 	return 0;
@@ -297,21 +297,21 @@ static int lan9221_open(CELLCB *p_cellcb)
 
 
 /*
- *  ed_inter_init -- ƒ^[ƒQƒbƒgˆË‘¶•”‚ÌŠ„‚İ‚Ì‰Šú‰»
+ *  ed_inter_init -- ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä¾å­˜éƒ¨ã®å‰²è¾¼ã¿ã®åˆæœŸåŒ–
  */
 
 static void
 ed_inter_init (CELLCB *p_cellcb)
 {
 
-	//ICR0‚ÌIRLMƒrƒbƒg‚ğ—§‚Ä‚ÄAŠ„‚è‚İó•t‰Â”\‚È‚æ‚¤‚É‚·‚é
+	//ICR0ã®IRLMãƒ“ãƒƒãƒˆã‚’ç«‹ã¦ã¦ã€å‰²ã‚Šè¾¼ã¿å—ä»˜å¯èƒ½ãªã‚ˆã†ã«ã™ã‚‹
 	//while((sil_reh_mem((void *)ICR0) & ICR0_ENABLE) != ICR0_ENABLE)
 	sil_wrw_mem((void *)ICR0,ICR0_ENABLE);
 	sil_wrw_mem((void *)ICR1, 0xC0000000);
 	//sil_wrw_mem((void *)ICR1, 0x40000000);
-	//Š„‚è‚İ—Dæ“xŒˆ’è
+	//å‰²ã‚Šè¾¼ã¿å„ªå…ˆåº¦æ±ºå®š
 	sil_wrw_mem((void *)INTPRI, 0x80000000);
-	//Š„‚è‚İƒ}ƒXƒNƒNƒŠƒA
+	//å‰²ã‚Šè¾¼ã¿ãƒã‚¹ã‚¯ã‚¯ãƒªã‚¢
 	sil_wrw_mem((void *)C0INTMSKCLR0,0x80000000);
 	
 }
@@ -344,12 +344,12 @@ eWatchdogTimer_callFunction(CELLIDX idx)
 	if(VAR_Timer > 0){
 		VAR_Timer--;
 		if(VAR_Timer == 0){
-		  //MIB‚Ì‹@”\‚ğ‚â‚Á‚Ä‚©‚ç
+		  //MIBã®æ©Ÿèƒ½ã‚’ã‚„ã£ã¦ã‹ã‚‰
 		  lan9221_reset(p_cellcb);
 		}
 	}
 
-	cNetworkTimer_Timeout(10);//1sŠÔŠu‚ÅŒÄ‚Ño‚³‚ê‚é
+	cNetworkTimer_Timeout(10);//1sé–“éš”ã§å‘¼ã³å‡ºã•ã‚Œã‚‹
 	
 }
 
@@ -417,7 +417,7 @@ eNicDriver_start(CELLIDX idx,int8_t* outputp, int32_t size,uint8_t align)
 
 	T_NET_BUF *output = (T_NET_BUF*)outputp;
 	unsigned char *tmp = (unsigned char *)(output->buf);
-	tmp += align;//ƒAƒ‰ƒCƒ“‚ª•K—v‚Èê‡‚Í
+	tmp += align;//ã‚¢ãƒ©ã‚¤ãƒ³ãŒå¿…è¦ãªå ´åˆã¯
 	size = output->len;
 	
 	union utmp data;
@@ -503,7 +503,7 @@ eNicDriver_read(CELLIDX idx, int8_t** inputp, int32_t *size,uint8_t align)
 			*size = pktlen + sizeof(T_NET_BUF)-4+align;
 
 			tmp = (unsigned char *)(((T_NET_BUF *)(*inputp))->buf);
-			tmp += align;//ƒAƒ‰ƒCƒ“‚ª•K—v‚Èê‡‚Í
+			tmp += align;//ã‚¢ãƒ©ã‚¤ãƒ³ãŒå¿…è¦ãªå ´åˆã¯
 
 
 			tmplen = (pktlen + 3) / 4;
@@ -524,7 +524,7 @@ eNicDriver_read(CELLIDX idx, int8_t** inputp, int32_t *size,uint8_t align)
 			//eNicDriver_nic_reset();
 		}
 
-		/* NIC ‚©‚ç‚ÌŠ„‚è‚İ‚ğ‹–‰Â‚·‚éB*/
+		/* NIC ã‹ã‚‰ã®å‰²ã‚Šè¾¼ã¿ã‚’è¨±å¯ã™ã‚‹ã€‚*/
 		cConfigInterrupt_enable();
 		return;
 	}
@@ -549,7 +549,7 @@ eNicDriver_getMac(CELLIDX idx, uint8_t* macaddress)
 	} /* end if VALID_IDX(idx) */
 
 	/* Put statements here #_TEFB_# */
-	//mikan‚¿‚á‚ñ‚Æƒn[ƒhƒEƒFƒA‚©‚ç‚Æ‚Á‚Ä‚­‚é‚×‚«
+	//mikanã¡ã‚ƒã‚“ã¨ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢ã‹ã‚‰ã¨ã£ã¦ãã‚‹ã¹ã
 	macaddress[0] = ATTR_macaddr0;
 	macaddress[1] = ATTR_macaddr1;
 	macaddress[2] = ATTR_macaddr2;
@@ -583,10 +583,10 @@ eiBody_main(CELLIDX idx)
 
 	/* Put statements here #_TEFB_# */	
 	ciSemaphoreReceive_signal();
-	//Š„‚è‚İ—Dæ“xŒˆ’è
+	//å‰²ã‚Šè¾¼ã¿å„ªå…ˆåº¦æ±ºå®š
 	sil_wrw_mem((void *)INTPRI, 0x00000000);
 	//syslog(LOG_EMERG,"%x",	sil_rew_mem(INTREQ));//debug
-	//syslog(LOG_EMERG,"%x",	lan9221_reg_read(LAN9221_RX_FIFO_INF));//debug FIFO‚Ìg—p—Ê
+	//syslog(LOG_EMERG,"%x",	lan9221_reg_read(LAN9221_RX_FIFO_INF));//debug FIFOã®ä½¿ç”¨é‡
 	lan9221_reg_write(LAN9221_INT_STS,LAN9221_INT_STS_RSFL);
 }
 

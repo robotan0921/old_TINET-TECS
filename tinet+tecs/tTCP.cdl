@@ -1,4 +1,4 @@
-signature sTCPCEPAPI4{
+signature sTCPCEPAPI4 {
     ER accept([in]intptr_t sREP4,[out]T_IPV4EP *dstep4,[in]TMO tmout);
     ER connect([in]T_IN4_ADDR myaddr,[in]uint16_t myport,[in]T_IN4_ADDR dstaddr,[in]uint16_t dstport,[in]TMO tmout);
     ER_UINT send([in,size_is(len)]const int8_t *data,[in]int32_t len,[in]TMO tmout);
@@ -8,7 +8,7 @@ signature sTCPCEPAPI4{
     ER shutdown(void);
 };
 
-signature sTCPCEPAPI{
+signature sTCPCEPAPI {
     ER accept([in]intptr_t sREP4,[out]uint16_t *dstport,[in]TMO tmout);
     ER connect([in,size_is(addrlen)]const int8_t *myaddr,[in]uint16_t myport,[in,size_is(addrlen)]const int8_t *dstaddr,[in]uint16_t dstport,
                [in]int32_t addrlen,[in]TMO tmout);
@@ -19,20 +19,20 @@ signature sTCPCEPAPI{
     ER shutdown(void);
 };
 
-signature sTCPCEPInput{
+signature sTCPCEPInput {
     ER check([in,size_is(len)]const int8_t *dstaddr,[in,size_is(len)]const int8_t *srcaddr,[in]int32_t len,[in]uint16_t dstport,[in]uint16_t srcport);
     ER input([send(sNetworkAlloc),size_is(size)]int8_t *inputp,[in]int32_t size);
     void notify([in]ER error);
 };
 
-signature sGetAddress2{
+signature sGetAddress2 {
     int8_t* getMyAddress(void);
     int8_t* getDstAddress(void);
     void setMy4Address([in]T_IN4_ADDR addr);
     void setDst4Address([in]T_IN4_ADDR addr);
 };
 
-signature sTCPFunctions{
+signature sTCPFunctions {
     T_TCP_SEQ getTcpIss(void);
     void setTcpIss([in]T_TCP_SEQ iss);
     T_TCP_SEQ initTcpIss(void);
@@ -41,12 +41,12 @@ signature sTCPFunctions{
 };
 
 
-signature sTCPOutputStart{
+signature sTCPOutputStart {
     ER outputStart(void);
     ER timerFunction(void);
 };
 
-signature sTCPOutput{
+signature sTCPOutput {
     ER output([send(sNetworkAlloc),size_is(size)] int8_t *outputp,[in]int32_t size,
                [in,size_is(addrlen)]const int8_t *dstaddr,[in,size_is(addrlen)]const int8_t *srcaddr,[in]int32_t addrlen);
     ER getOffset([inout]T_OFF_BUF *offset);
@@ -58,7 +58,7 @@ signature sTCPOutput{
                        [in]T_TCP_SEQ ack,[in]T_TCP_SEQ seq,[in]uint32_t rbfree,[in]uint8_t flags,[in]T_OFF_BUF offset);
 };
 
-signature sCopySave{
+signature sCopySave {
     void tcpWriteRwbuf([inout]T_TCP_CEP *cep,[inout,size_is(size)]int8_t *inputp,[in]int32_t size,
                        [in]uint8_t thoff,[inout,size_is(len)]int8_t *rbuf,[in]int32_t len);
     void tcpReadSwbuf([inout]T_TCP_CEP *cep,[inout,size_is(size)]int8_t *outputp,[in]int32_t size,
@@ -75,7 +75,7 @@ signature sCopySave{
 };
 
 
-signature sREP4{
+signature sREP4 {
     T_IPV4EP getEndpoint(void);
     ER 		signal(void);
     ER 		wait(void);
@@ -88,8 +88,8 @@ signature sREP4{
 
 
 [singleton]
-celltype tTCPFunctions{
-    var{
+celltype tTCPFunctions {
+    var {
         T_TCP_SEQ tcpIss = 0;
     };
 
@@ -101,7 +101,7 @@ celltype tTCPFunctions{
 
 
 [singleton]
-celltype tTCPInput{
+celltype tTCPInput {
     call sTCPCEPInput cCEPInput[];
     call sTCPOutput cTCPRespond;
     [optional]call sIPv4CheckSum cIPv4CheckSum;
@@ -111,7 +111,7 @@ celltype tTCPInput{
 
 
 
-celltype tTCPOutputBody{
+celltype tTCPOutputBody {
 
     require tTINET.eTINET;
     
@@ -129,9 +129,9 @@ celltype tTCPOutputBody{
     entry sCallTimerFunction eCallTimerFunction;
 };
 
-/*//mikan TECS‚ÅŒÄ‚ÑŒû”z—ñ‚ð•¡‡ƒZƒ‹‚É‘Î‰ž‚µ‚Ä‚¢‚È‚¢HTCP‚ðcomposite‚Å‚«‚È‚¢
+/*//mikan TECSã§å‘¼ã³å£é…åˆ—ã‚’è¤‡åˆã‚»ãƒ«ã«å¯¾å¿œã—ã¦ã„ãªã„ï¼ŸTCPã‚’compositeã§ããªã„
 [singleton]
-composite tTCP{
+composite tTCP {
     [optional]call sIPv4Output cIPv4Output;
     [optional]call sIPv4CheckSum cIPv4CheckSum;
     call sTCPOutputStart cTCPOutputStart[];
@@ -144,22 +144,22 @@ composite tTCP{
     entry sSemaphore eSemaphoreTcpcep;
     entry sSemaphore eSemaphoreTcppost;
     
-    cell tSemaphore SemaphoreTcpcep{
+    cell tSemaphore SemaphoreTcpcep {
         attribute = C_EXP("TA_TPRI");
         count = 1;
         max = 1;
     };
     
-    cell tSemaphore SemaphoreTcppost{
+    cell tSemaphore SemaphoreTcppost {
         attribute = C_EXP("TA_TPRI");
         count = 0;
         max = 1;
     };
 
-    cell tTCPFunctions TCPFunctions{
+    cell tTCPFunctions TCPFunctions { 
     };        
 
-    cell tTCPOutputBody TCPOutputBody{
+    cell tTCPOutputBody TCPOutputBody {
         cTCPOutputStart[] = composite.cTCPOutputStart[];
         cIPv4Output = composite.cIPv4Output;
         cIPv4CheckSum = composite.cIPv4CheckSum;
@@ -167,7 +167,7 @@ composite tTCP{
         cNetworkTimer = composite.cNetworkTimer;
         cTCPFunctions = TCPFunctions.eTCPFunctions;
     };
-    cell tTCPInput TCPInput{
+    cell tTCPInput TCPInput {
         cCEPInput[] => composite.cCEPInput[];
         cIPv4CheckSum =>composite.cIPv4CheckSum;
         cTCPRespond = TCPOutputBody.eTCPOutput;
@@ -181,8 +181,8 @@ composite tTCP{
     composite.eSemaphoreTcppost =>SemaphoreTcppost.eSemaphore;
 };*/
 
-celltype tTCPCEPwrapper4{
-    var{
+celltype tTCPCEPwrapper4 {
+    var {
         T_IN4_ADDR myaddr;
         T_IN4_ADDR dstaddr;
     };
@@ -194,7 +194,7 @@ celltype tTCPCEPwrapper4{
 
 };
 
-celltype tCopySave{
+celltype tCopySave {
 
     call sSemaphore cSemaphore;
     call sSemaphore cSemTcppost;
@@ -206,15 +206,15 @@ celltype tCopySave{
 };
     
 
-celltype tTCPCEP{
+celltype tTCPCEP {
 
-    attr{
+    attr {
         int32_t sbufSizeInit;
         int32_t rbufSizeInit;
         int8_t ipLength;
     };
 
-    var{
+    var {
         T_OFF_BUF offset;
         uint16_t myport;
         uint16_t dstport;
@@ -222,8 +222,8 @@ celltype tTCPCEP{
         int32_t rbufSize = rbufSizeInit;
         [size_is(sbufSizeInit)]int8_t *sbuf;
         [size_is(rbufSizeInit)]int8_t *rbuf;
-        uint32_t	flags = C_EXP("TCP_CEP_FLG_VALID");		/* ’ÊM’[“_ƒtƒ‰ƒO		*/
-        T_TCP_CEP cep;     /*’ÊM’[“_ŠÇ—ƒuƒƒbƒN*/
+        uint32_t	flags = C_EXP("TCP_CEP_FLG_VALID");		/* é€šä¿¡ç«¯ç‚¹ãƒ•ãƒ©ã‚°		*/
+        T_TCP_CEP cep;     /*é€šä¿¡ç«¯ç‚¹ç®¡ç†ãƒ–ãƒ­ãƒƒã‚¯*/
     };
 
     require tKernel.eKernel;
@@ -239,7 +239,7 @@ celltype tTCPCEP{
     call sEventflag cSendFlag;
     call sEventflag cRcvFlag;
     call sEventflag cEstFlag;
-    [optional]call sREP4 cREP4;//mikan v4ŒÀ’è‚É‚È‚Á‚Ä‚é‚µƒzƒ“ƒg‚Ídynamic‚Æ‹Lq‚µ‚½‚¢
+    [optional]call sREP4 cREP4;//mikan v4é™å®šã«ãªã£ã¦ã‚‹ã—ãƒ›ãƒ³ãƒˆã¯dynamicã¨è¨˜è¿°ã—ãŸã„
     [optional]call sTask cCallingSendTask;
     [optional]call sTask cCallingReceiveTask;
     
@@ -247,14 +247,14 @@ celltype tTCPCEP{
     entry sTCPOutputStart eTCPOutputStart;
     entry sTCPCEPInput eInput;
     entry sTCPCEPAPI eAPI;
-    entry sInitializeRoutineBody eInitializeBody;//mikan \‘¢‘Ì‰Šú‰»‚ª‚Å‚«‚È‚¢‚½‚ß
+    entry sRoutineBody eInitializeRoutineBody;//mikan æ§‹é€ ä½“åˆæœŸåŒ–ãŒã§ããªã„ãŸã‚
     
 };
 
 [active]
 composite tTCPCEP4 {
 
-    attr{
+    attr {
         int32_t sbufSize;
         int32_t rbufSize;
     };
@@ -268,27 +268,27 @@ composite tTCPCEP4 {
     entry sTCPCEPAPI4 eAPI;
     entry sTCPOutputStart eTCPOutputStart;
 
-    cell tSemaphore Semaphore{
+    cell tSemaphore Semaphore {
         attribute = C_EXP("TA_TPRI");
-        count = 1;
-        max=1;
+        initialCount = 1;
+        maxCount = 1;
     };
 
-    cell tEventflag SendFlag{
+    cell tEventflag SendFlag {
         attribute = C_EXP("TA_TFIFO|TA_WSGL");
         flagPattern = C_EXP("TCP_CEP_EVT_SWBUF_READY");
     };
-    cell tEventflag RcvFlag{
+    cell tEventflag RcvFlag {
         attribute = C_EXP("TA_TFIFO|TA_WSGL");
         flagPattern = 0;
     };
-    cell tEventflag EstFlag{
+    cell tEventflag EstFlag {
         attribute = C_EXP("TA_TFIFO|TA_WSGL");
         flagPattern = C_EXP("TCP_CEP_EVT_CLOSED");
     };
 
 
-    cell tCopySave CopySave{
+    cell tCopySave CopySave {
         cSemTcppost => composite.cSemTcppost;
         cSemaphore = Semaphore.eSemaphore;
         cSendFlag = SendFlag.eEventflag;
@@ -297,7 +297,7 @@ composite tTCPCEP4 {
 
     cell tTCPCEPwrapper4 TCPCEPwrapper4;
 
-    cell tTCPCEP TCPCEP{
+    cell tTCPCEP TCPCEP {
         ipLength = 4;
         sbufSizeInit = composite.sbufSize;
         rbufSizeInit = composite.rbufSize;
@@ -314,12 +314,12 @@ composite tTCPCEP4 {
         cTCPOutput =>composite.cTCPOutput;
     };
 
-    cell tTCPCEPwrapper4 TCPCEPwrapper4{
+    cell tTCPCEPwrapper4 TCPCEPwrapper4 {
         cAPI = TCPCEP.eAPI;
     };
 
-    cell tInitializeRoutine InitializeRoutine{
-        cInitializeRoutine = TCPCEP.eInitializeBody;
+    cell tInitializeRoutine InitializeRoutine {
+        cInitializeRoutineBody = TCPCEP.eInitializeRoutineBody;
     };
     
     composite.eInput => TCPCEP.eInput;
@@ -328,8 +328,8 @@ composite tTCPCEP4 {
     
 };
 
-celltype tREP4sub{
-    attr{
+celltype tREP4sub {
+    attr {
         ATR repatr = 0;
         T_IN4_ADDR myaddr;
         uint16_t myport;
@@ -341,21 +341,21 @@ celltype tREP4sub{
     
 };
 
-composite tREP4{
-    attr{
+composite tREP4 {
+    attr {
         T_IN4_ADDR myaddr;
         uint16_t myport;
     };
 
     entry sREP4 eREP4;
 
-    cell tSemaphore Semaphore{
+    cell tSemaphore Semaphore {
         attribute = C_EXP("TA_TPRI");
-        count = 1;
-        max = 1;
+        initialCount = 1;
+        maxCount = 1;
     };
 
-    cell tREP4sub REP4sub{
+    cell tREP4sub REP4sub {
         myaddr = composite.myaddr;
         myport = composite.myport;
         cSemaphore = Semaphore.eSemaphore;
@@ -364,4 +364,3 @@ composite tREP4{
     composite.eREP4 => REP4sub.eREP4;
 
 };
-        

@@ -1,13 +1,13 @@
 
 
-//UDP“ü—Í—p‚ÌƒVƒOƒjƒ`ƒƒ
+//UDPå…¥åŠ›ç”¨ã®ã‚·ã‚°ãƒ‹ãƒãƒ£
 signature sUDPCEPInput{
     ID receiveTaskID(void);
     ER check([in,size_is(len)]const int8_t *dstaddr,[in]int32_t len,[in]uint16_t dstport);
     ER sendData([send(sNetworkAlloc),size_is(size)]int8_t *input,[in]int32_t size);
 };
 
-//UDPCEP‚Ö‚ÌƒR[ƒ‹ƒoƒbƒN—pƒVƒOƒjƒ`ƒƒ
+//UDPCEPã¸ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ç”¨ã‚·ã‚°ãƒ‹ãƒãƒ£
 signature sUDPCallback {
     void callback([in]FN fncd,[in]ER_UINT error);
 };
@@ -26,7 +26,7 @@ celltype tUDPInput{
 
 
 
-//CEP‚©‚çUDPo—Í—p‚ÌƒVƒOƒjƒ`ƒƒ
+//CEPã‹ã‚‰UDPå‡ºåŠ›ç”¨ã®ã‚·ã‚°ãƒ‹ãƒãƒ£
 signature sUDPOutput{
     ER UDPOutput([in,size_is(size)]const int8_t *outputp,[in]int32_t size,[in,size_is(addrlen)]const int8_t *dstaddr,
                  [in,size_is(addrlen)]const int8_t *srcaddr,[in]int32_t addrlen,[in]uint16_t dstport,[in]uint16_t myport,[in]T_OFF_BUF offset,[in]TMO tmout);
@@ -47,7 +47,7 @@ celltype tUDPOutput{
 
 
 
-//UDPAPIv4wrapper—p‚ÌƒVƒOƒjƒ`ƒƒ
+//UDPAPIv4wrapperç”¨ã®ã‚·ã‚°ãƒ‹ãƒãƒ£
 signature sUDPCEPAPI4{
     ER_UINT send([in,size_is(len)]const int8_t *data,[in]int32_t len,[in]T_IN4_ADDR dstaddr,
                  [in]uint16_t dstport,[in]TMO tmout);
@@ -56,7 +56,7 @@ signature sUDPCEPAPI4{
     ER cancelReceive([in]ER error);
 };
 
-//UDPAPI—p‚ÌƒVƒOƒjƒ`ƒƒ
+//UDPAPIç”¨ã®ã‚·ã‚°ãƒ‹ãƒãƒ£
 signature sUDPCEPAPI{
     ER_UINT send([in,size_is(len)]const int8_t *data,[in]int32_t len,[in,size_is(addrlen)]const int8_t *dstaddr,
                 [in]int32_t addrlen,[in]uint16_t dstport,[in]TMO tmout);
@@ -103,7 +103,7 @@ celltype tUDPCEP{
         uint16_t flags=C_EXP("UDP_CEP_FLG_VALID");
         ID sendTaskID=C_EXP("TA_NULL");
         ID receiveTaskID=C_EXP("TA_NULL");
-        T_NET_BUF *cb_netbuf=C_EXP("NULL");	/* ƒR[ƒ‹ƒoƒbƒN—póMƒlƒbƒgƒ[ƒNƒoƒbƒtƒ@*/
+        T_NET_BUF *cb_netbuf=C_EXP("NULL");	/* ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ç”¨å—ä¿¡ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒƒãƒ•ã‚¡*/
     };
 
     require tKernel.eKernel;
@@ -114,9 +114,9 @@ celltype tUDPCEP{
     call sDataqueue cDataqueue;
     call sSemaphore cSemaphore;
 
-    call sSemaphore cSemaphoreAllCEP; //UDPCPE‘S‘Ì‚Å—˜—p‚µ‚Ä‚¢‚éƒZƒ}ƒtƒH
+    call sSemaphore cSemaphoreAllCEP; //UDPCPEå…¨ä½“ã§åˆ©ç”¨ã—ã¦ã„ã‚‹ã‚»ãƒãƒ•ã‚©
 
-    [optional]call sTask cCallingSendTask;//mikan“®“IŒ‹‡—p dynamic
+    [optional]call sTask cCallingSendTask;//mikanå‹•çš„çµåˆç”¨ dynamic
     [optional]call sTask cCallingReceiveTask;
 
     
@@ -127,7 +127,7 @@ celltype tUDPCEP{
 };
 
 
-//UDPCEPv4•¡‡ƒRƒ“ƒ|[ƒlƒ“ƒg
+//UDPCEPv4è¤‡åˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 composite tUDPCEP4{
 
     attr{
@@ -144,14 +144,14 @@ composite tUDPCEP4{
 
     cell tSemaphore Semaphore{
         attribute = C_EXP("TA_TPRI");
-        count =1;
-        max =1;
+        initialCount =1;
+        maxCount =1;
     };
 
     cell tDataqueue Dataqueue{
         attribute = C_EXP("TA_NULL");
-        count = 1;
-        pdqmb = C_EXP("NULL");
+        dataCount = 1;
+        dataqueueManagementBuffer = C_EXP("NULL");
     };
 
     cell tUDPCEPwrapper4 UDPCEPwrapper4;

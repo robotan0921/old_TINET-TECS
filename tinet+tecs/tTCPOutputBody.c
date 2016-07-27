@@ -103,18 +103,18 @@ eBody_main(CELLIDX idx)
 
 	syslog(LOG_EMERG, "[[[[[[[TCP OUTPUT started.]]]]]]]");
 
-	cNetworkTimer_Timeout(5);//500msŠÔŠu‚ÅŒÄ‚Ño‚³‚ê‚éƒ^ƒCƒ}ŠÖ”
+	cNetworkTimer_Timeout(5);//500msé–“éš”ã§å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚¿ã‚¤ãƒé–¢æ•°
 
 #if 0// SUPPORT_INET6
 
-	/* IPv6 ‚ÌƒXƒe[ƒgƒŒƒXEƒAƒhƒŒƒX©“®İ’è‚ğÀs‚·‚éB*/
+	/* IPv6 ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¬ã‚¹ãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹è‡ªå‹•è¨­å®šã‚’å®Ÿè¡Œã™ã‚‹ã€‚*/
 	in6_if_up(IF_GET_IFNET());
 
 #endif	/* of #ifdef SUPPORT_INET6 */
 
 	while (true) {
 
-		/* o—Í‚ªƒ|ƒXƒg‚³‚ê‚é‚Ü‚Å‘Ò‚ÂB*/
+		/* å‡ºåŠ›ãŒãƒã‚¹ãƒˆã•ã‚Œã‚‹ã¾ã§å¾…ã¤ã€‚*/
 		cSemaphore_wait();
 
 		syslog(LOG_EMERG, "----------------TCP OUTPUT -------------");
@@ -130,7 +130,7 @@ eBody_main(CELLIDX idx)
 			  ix = 0;
 			} while (ix != last_ix);
 
-		/* Ÿ‰ñ‚ÍAˆ—‚µ‚½’ÊM’[“_‚ğŒã‰ñ‚µ‚É‚·‚éB*/
+		/* æ¬¡å›ã¯ã€å‡¦ç†ã—ãŸé€šä¿¡ç«¯ç‚¹ã‚’å¾Œå›ã—ã«ã™ã‚‹ã€‚*/
 		last_ix = sel_ix;
 		syslog(LOG_EMERG, "---------------waiting next-------------");
 	}
@@ -249,8 +249,8 @@ eTCPOutput_respond(CELLIDX idx, int8_t* outputp, int32_t size, T_TCP_CEP* cep, T
 		win = rbfree;
 
 	/*
-	 *  output ‚ª NULL ‚Å‚È‚¯‚ê‚ÎA‚±‚ê‚Í“ü—Í‚µ‚½ƒZƒOƒƒ“ƒg‚Ì
-	 *  net_buf ‚ÅA‚»‚Ì‚Ü‚ÜÄ—˜—p‚·‚éB
+	 *  output ãŒ NULL ã§ãªã‘ã‚Œã°ã€ã“ã‚Œã¯å…¥åŠ›ã—ãŸã‚»ã‚°ãƒ¡ãƒ³ãƒˆã®
+	 *  net_buf ã§ã€ãã®ã¾ã¾å†åˆ©ç”¨ã™ã‚‹ã€‚
 	 */
 	T_IN4_ADDR	ipaddr;
 	uint16_t		portno;
@@ -259,8 +259,8 @@ eTCPOutput_respond(CELLIDX idx, int8_t* outputp, int32_t size, T_TCP_CEP* cep, T
 	if (cep == NULL)
 	  return;
 	/*
-	 * IPv4 ‚Å‚ÍAIP ƒwƒbƒ_‚ÌƒIƒvƒVƒ‡ƒ“‚ğíœ‚·‚éB
-	 * IPv6 ‚Å‚ÍAŠg’£ƒwƒbƒ_‚ğíœ‚·‚éB
+	 * IPv4 ã§ã¯ã€IP ãƒ˜ãƒƒãƒ€ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å‰Šé™¤ã™ã‚‹ã€‚
+	 * IPv6 ã§ã¯ã€æ‹¡å¼µãƒ˜ãƒƒãƒ€ã‚’å‰Šé™¤ã™ã‚‹ã€‚
 	 */
 	if(output->off.protocolflag & FLAG_USE_IPV4){
 		
@@ -275,24 +275,24 @@ eTCPOutput_respond(CELLIDX idx, int8_t* outputp, int32_t size, T_TCP_CEP* cep, T
 		}
 		output->off.iphdrlenall = IP4_HDR_SIZE;
 		
-		/* IP ƒAƒhƒŒƒX‚ğŒğŠ·‚·‚éB*/
+		/* IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’äº¤æ›ã™ã‚‹ã€‚*/
 		ipaddr = iph->src;
 		iph->src = iph->dst;
 		iph->dst = ipaddr;
 		
 		
-		/* TCP SDU ’·‚ğ 0 ‚É‚·‚éB*/
+		/* TCP SDU é•·ã‚’ 0 ã«ã™ã‚‹ã€‚*/
 		SET_IP4_SDU_SIZE(iph, TCP_HDR_SIZE);
 	}
 	
 	tcph = GET_TCP_HDR(output, output->off.ifhdrlen + output->off.iphdrlen);
 	
-	/* ƒ|[ƒg”Ô†‚ğŒğŠ·‚·‚éB*/
+	/* ãƒãƒ¼ãƒˆç•ªå·ã‚’äº¤æ›ã™ã‚‹ã€‚*/
 	portno = tcph->sport;
 	tcph->sport = tcph->dport;
 	tcph->dport = portno;
 	
-	/* TCP ƒwƒbƒ_‚Éî•ñ‚ğİ’è‚·‚éB*/
+	/* TCP ãƒ˜ãƒƒãƒ€ã«æƒ…å ±ã‚’è¨­å®šã™ã‚‹ã€‚*/
 	tcph->doff = TCP_MAKE_DATA_OFF(TCP_HDR_SIZE);
 	output->off.tphdrlenall = TCP_HDR_SIZE;
 	   
@@ -303,18 +303,18 @@ eTCPOutput_respond(CELLIDX idx, int8_t* outputp, int32_t size, T_TCP_CEP* cep, T
 	tcph->urp   = tcph->sum = 0;
 
 	/*
-	 *  ƒ`ƒFƒbƒNƒTƒ€‚ğİ’è‚·‚éB
+	 *  ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’è¨­å®šã™ã‚‹ã€‚
 	 */
 	if(output->off.protocolflag & FLAG_USE_IPV4){
 
 		iph  = GET_IP4_HDR(output, output->off.ifhdrlen);
 		
-		/* ƒlƒbƒgƒ[ƒNƒoƒbƒtƒ@’·‚ğ’²®‚·‚éB*/
+		/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒƒãƒ•ã‚¡é•·ã‚’èª¿æ•´ã™ã‚‹ã€‚*/
 		output->len = output->off.ifhdrlen -output->off.ifalign+ GET_IP4_HDR_SIZE(iph)  + GET_TCP_HDR_SIZE2(output,output->off.ifhdrlen + output->off.iphdrlen);
 		
 		tcph->sum = cIPv4CheckSum_ipv4CheckSum( outputp,size,  output->off.ifhdrlen + output->off.iphdrlen, IPPROTO_TCP);
 
-		/* ƒlƒbƒgƒ[ƒN‘w (IP) ‚Ìo—ÍŠÖ”‚ğŒÄ‚Ño‚·B*/
+		/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å±¤ (IP) ã®å‡ºåŠ›é–¢æ•°ã‚’å‘¼ã³å‡ºã™ã€‚*/
 		if(is_cIPv4Output_joined())
 		  return cIPv4Output_IPv4Reply(outputp,size,TMO_TCP_OUTPUT);
 	}
@@ -354,14 +354,14 @@ eTCPOutput_allocAndRespond(CELLIDX idx, const int8_t *dstaddr,const int8_t *srca
 	if(cIPv4Output_IPv4Output_outputp_alloc( (void**)&output, TCP_HDR_SIZE,TMO_TCP_GET_NET_BUF ) != E_OK)
 	  return E_ID;
 	
-	//offsetî•ñ‚ÌƒZƒbƒg
+	//offsetæƒ…å ±ã®ã‚»ãƒƒãƒˆ
 	output->off = offset;
 	output->off.iphdrlenall = output->off.tphdrlenall = 0;
 	
 	tcph = GET_TCP_HDR(output, ipoff);
 	flags |= TCP_FLG_ACK;
 
-	/* TCP ƒwƒbƒ_‚Éî•ñ‚ğİ’è‚·‚éB*/
+	/* TCP ãƒ˜ãƒƒãƒ€ã«æƒ…å ±ã‚’è¨­å®šã™ã‚‹ã€‚*/
 	tcph->sport	= htons(srcport);
 	tcph->dport	= htons(dstport);
 	tcph->doff	= TCP_MAKE_DATA_OFF(TCP_HDR_SIZE);
@@ -373,13 +373,13 @@ eTCPOutput_allocAndRespond(CELLIDX idx, const int8_t *dstaddr,const int8_t *srca
 	tcph->urp   = tcph->sum = 0;
 
 	/*
-	 *  ƒ`ƒFƒbƒNƒTƒ€‚ğİ’è‚·‚éB
+	 *  ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’è¨­å®šã™ã‚‹ã€‚
 	 */
 	if((offset.protocolflag & FLAG_USE_IPV4) && is_cIPv4Output_joined()) {
 
 		iph  = GET_IP4_HDR(output,offset.ifhdrlen);
 		
-		/* ƒlƒbƒgƒ[ƒNƒoƒbƒtƒ@’·‚ğ’²®‚·‚éB*/
+		/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒƒãƒ•ã‚¡é•·ã‚’èª¿æ•´ã™ã‚‹ã€‚*/
 		output->len = ipoff -output->off.ifalign +  GET_TCP_HDR_SIZE2(output,ipoff);
 		int32_t len = output->len+sizeof(T_NET_BUF) -4 + output->off.ifalign;
 
@@ -389,7 +389,7 @@ eTCPOutput_allocAndRespond(CELLIDX idx, const int8_t *dstaddr,const int8_t *srca
 		
 		tcph->sum = cIPv4CheckSum_ipv4CheckSum( output,len, ipoff, IPPROTO_TCP );
 		
-		/* ƒlƒbƒgƒ[ƒN‘w (IP) ‚Ìo—ÍŠÖ”‚ğŒÄ‚Ño‚·B*/
+		/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å±¤ (IP) ã®å‡ºåŠ›é–¢æ•°ã‚’å‘¼ã³å‡ºã™ã€‚*/
 		return cIPv4Output_IPv4Output(output,len,TMO_TCP_OUTPUT );
 	}
 	
@@ -432,7 +432,7 @@ eCallTimerFunction_callFunction(CELLIDX idx)
 		cTCPFunctions_setTcpIss(iss + ((T_TCP_SEQ)122*1024 + (((T_TCP_SEQ)netRand() >> 14) & 0x3ffff)) / TCP_SLOW_HZ);
 	}
 	
-	cNetworkTimer_Timeout(5);//500msŠÔŠu‚ÅŒÄ‚Ño‚³‚ê‚éƒ^ƒCƒ}ŠÖ”
+	cNetworkTimer_Timeout(5);//500msé–“éš”ã§å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚¿ã‚¤ãƒé–¢æ•°
 
 }
 

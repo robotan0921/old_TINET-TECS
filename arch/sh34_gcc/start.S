@@ -8,46 +8,46 @@
  *  Copyright (C) 2007      by Embedded and Real-Time Systems Laboratory
  *              Graduate School of Information Science, Nagoya Univ., JAPAN
  * 
- *  �嵭����Ԥϡ��ʲ���(1)��(4)�ξ������������˸¤ꡤ�ܥ��եȥ���
- *  �����ܥ��եȥ���������Ѥ�����Τ�ޤࡥ�ʲ�Ʊ���ˤ���ѡ�ʣ������
- *  �ѡ������ۡʰʲ������ѤȸƤ֡ˤ��뤳�Ȥ�̵���ǵ������롥
- *  (1) �ܥ��եȥ������򥽡��������ɤη������Ѥ�����ˤϡ��嵭������
- *      ��ɽ�����������Ѿ�浪��Ӳ�����̵�ݾڵ��꤬�����Τޤޤη��ǥ���
- *      ����������˴ޤޤ�Ƥ��뤳�ȡ�
- *  (2) �ܥ��եȥ������򡤥饤�֥������ʤɡ�¾�Υ��եȥ�������ȯ�˻�
- *      �ѤǤ�����Ǻ����ۤ�����ˤϡ������ۤ�ȼ���ɥ�����ȡ�����
- *      �ԥޥ˥奢��ʤɡˤˡ��嵭�����ɽ�����������Ѿ�浪��Ӳ���
- *      ��̵�ݾڵ����Ǻܤ��뤳�ȡ�
- *  (3) �ܥ��եȥ������򡤵�����Ȥ߹���ʤɡ�¾�Υ��եȥ�������ȯ�˻�
- *      �ѤǤ��ʤ����Ǻ����ۤ�����ˤϡ����Τ����줫�ξ�����������
- *      �ȡ�
- *    (a) �����ۤ�ȼ���ɥ�����ȡ����Ѽԥޥ˥奢��ʤɡˤˡ��嵭����
- *        �ɽ�����������Ѿ�浪��Ӳ�����̵�ݾڵ����Ǻܤ��뤳�ȡ�
- *    (b) �����ۤη��֤��̤�������ˡ�ˤ�äơ�TOPPERS�ץ��������Ȥ�
- *        ��𤹤뤳�ȡ�
- *  (4) �ܥ��եȥ����������Ѥˤ��ľ��Ū�ޤ��ϴ���Ū�������뤤���ʤ�»
- *      ������⡤�嵭����Ԥ����TOPPERS�ץ��������Ȥ����դ��뤳�ȡ�
- *      �ޤ����ܥ��եȥ������Υ桼���ޤ��ϥ���ɥ桼������Τ����ʤ���
- *      ͳ�˴�Ť����ᤫ��⡤�嵭����Ԥ����TOPPERS�ץ��������Ȥ�
- *      ���դ��뤳�ȡ�
+ *  上記著作権者は，以下の(1)〜(4)の条件を満たす場合に限り，本ソフトウェ
+ *  ア（本ソフトウェアを改変したものを含む．以下同じ）を使用・複製・改
+ *  変・再配布（以下，利用と呼ぶ）することを無償で許諾する．
+ *  (1) 本ソフトウェアをソースコードの形で利用する場合には，上記の著作
+ *      権表示，この利用条件および下記の無保証規定が，そのままの形でソー
+ *      スコード中に含まれていること．
+ *  (2) 本ソフトウェアを，ライブラリ形式など，他のソフトウェア開発に使
+ *      用できる形で再配布する場合には，再配布に伴うドキュメント（利用
+ *      者マニュアルなど）に，上記の著作権表示，この利用条件および下記
+ *      の無保証規定を掲載すること．
+ *  (3) 本ソフトウェアを，機器に組み込むなど，他のソフトウェア開発に使
+ *      用できない形で再配布する場合には，次のいずれかの条件を満たすこ
+ *      と．
+ *    (a) 再配布に伴うドキュメント（利用者マニュアルなど）に，上記の著
+ *        作権表示，この利用条件および下記の無保証規定を掲載すること．
+ *    (b) 再配布の形態を，別に定める方法によって，TOPPERSプロジェクトに
+ *        報告すること．
+ *  (4) 本ソフトウェアの利用により直接的または間接的に生じるいかなる損
+ *      害からも，上記著作権者およびTOPPERSプロジェクトを免責すること．
+ *      また，本ソフトウェアのユーザまたはエンドユーザからのいかなる理
+ *      由に基づく請求からも，上記著作権者およびTOPPERSプロジェクトを
+ *      免責すること．
  * 
- *  �ܥ��եȥ������ϡ�̵�ݾڤ��󶡤���Ƥ����ΤǤ��롥�嵭����Ԥ�
- *  ���TOPPERS�ץ��������Ȥϡ��ܥ��եȥ������˴ؤ��ơ�����λ�����Ū
- *  ���Ф���Ŭ������ޤ�ơ������ʤ��ݾڤ�Ԥ�ʤ����ޤ����ܥ��եȥ���
- *  �������Ѥˤ��ľ��Ū�ޤ��ϴ���Ū�������������ʤ�»���˴ؤ��Ƥ⡤��
- *  ����Ǥ�����ʤ���
+ *  本ソフトウェアは，無保証で提供されているものである．上記著作権者お
+ *  よびTOPPERSプロジェクトは，本ソフトウェアに関して，特定の使用目的
+ *  に対する適合性も含めて，いかなる保証も行わない．また，本ソフトウェ
+ *  アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
+ *  の責任を負わない．
  *
  *  @(#) $Id: start.S 1663 2009-11-04 00:32:24Z ertl-honda $
  */
         
 /*
- *  �����ͥ��б��Υ������ȥ��åץ⥸�塼��(SH34��)
+ *  カーネル対応のスタートアップモジュール(SH34用)
  */
 
 #define TOPPERS_MACRO_ONLY
-#define UINT_C(val)		(val)		/* uint_t�����������ޥ��� */
-#define ULONG_C(val)	(val)		/* ulong_t�����������ޥ��� */
-#define CAST(type, val)	(val)		/* �����㥹�Ȥ�Ԥ��ޥ��� */
+#define UINT_C(val)		(val)		/* uint_t型の定数を作るマクロ */
+#define ULONG_C(val)	(val)		/* ulong_t型の定数を作るマクロ */
+#define CAST(type, val)	(val)		/* 型キャストを行うマクロ */
 #include "kernel_impl.h"
 
     .text
@@ -55,29 +55,29 @@
     .align  2
 _start:
     /*
-     *  SR���������롣
-     *  MD=1, RB=0, BL=0, I3��I0=f(�������ߥޥ���)
+     *  SRを初期化する。
+     *  MD=1, RB=0, BL=0, I3〜I0=f(全割り込みマスク)
      */
     mov.l _init_sr, r0
     ldc   r0, sr
 
     /*
-     *  R7_BANK1��1�ˤ����󥿥�������ƥ����ȤȤ���
+     *  R7_BANK1を1にして非タスクコンテキストとする
      */
     mov   #0x01, r0
     ldc   r0, r7_bank
 
     /*
-     *  �󥿥�������ƥ������ѤΥ����å��ν����
+     *  非タスクコンテキスト用のスタックの初期化
      */
     mov.l  _kernel_istkpt_p, r1
     mov.l  @r1, r15
 
     /*
-     *  _hardware_init_hook ��ƤӽФ���(0�Ǥʤ����)
+     *  _hardware_init_hook を呼び出す。(0でない場合)
      *
-     *  �������åȥϡ��ɥ������˰�¸����ɬ�פʽ����������������ϡ�
-     *  hardware_init_hook�Ȥ����ؿ����Ѱդ��롥
+     *  ターゲットハードウェアに依存して必要な初期化処理がある場合は，
+     *  hardware_init_hookという関数を用意する．
      */
 start_0:
     mov.l  _hardware_init_hook_p, r0
@@ -87,7 +87,7 @@ start_0:
      or     r0, r0
     
     /*
-     * bss���������򥯥ꥢ
+     * bssセクションをクリア
      */
 start_1:        
     mov.l  _bss_start_p, r0
@@ -102,10 +102,10 @@ start_2:
     bt     start_2
 
     /*
-     *  data�������������������ROM���б��ˡ�
+     *  dataセクションを初期化する（ROM化対応）．
      *
-     *  __idata_start ���� __idata_end �ޤǤ�__data_start �ʹߤ�
-     *  ���ԡ����롥
+     *  __idata_start から __idata_end までを，__data_start 以降に
+     *  コピーする．
      */
 start_3:
     mov.l  __idata_start_p, r1
@@ -122,11 +122,11 @@ start_4:
 
         
     /*
-     *  _software_init_hook ��ƤӽФ���0 �Ǥʤ����ˡ�
+     *  _software_init_hook を呼び出す（0 でない場合）．
      *
-     *  ���եȥ������Ķ����ä˥饤�֥��ˤ˰�¸����ɬ�פʽ������
-     *  ����������ϡ�software_init_hook �Ȥ����ؿ����Ѱդ����
-     *  �褤��
+     *  ソフトウェア環境（特にライブラリ）に依存して必要な初期化処
+     *  理がある場合は，software_init_hook という関数を用意すれば
+     *  よい．
      */
 start_5:    
     mov.l  _software_init_hook_p, r0
@@ -138,11 +138,11 @@ start_5:
 start_6:
 
 	/*
-	 *  FPU�ν����
+	 *  FPUの初期化
 	 */
 #ifdef FPU_ENABLE
 	/*
-	 *  gcc���Ѥ���ǡ�����___fpscr_values�ˤ�����
+	 *  gccが用いるデータ（___fpscr_values）を初期化
 	 */
 	mov.l _set_fpscr_p, r1
     mov.l _fpscr_init_p, r4
@@ -150,7 +150,7 @@ start_6:
      nop
 	lds   r3, fpscr 
 	/*
-	 *  FPU��ͭ����
+	 *  FPUを有効に
 	 */
 	stc   sr, r0
 	mov.l _sr_fpu_enable, r1
@@ -159,7 +159,7 @@ start_6:
 #endif /* FPU_ENABLE */
 
     /*    
-     *  �����ͥ��ư����
+     *  カーネルを起動する
      */
     mov.l  _sta_ker_p, r0
     jsr    @r0

@@ -1,12 +1,12 @@
 /*
- *  ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^ƒtƒF[ƒX—pƒ^ƒCƒ}‚Ì’è‹`
+ *  ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ç”¨ã‚¿ã‚¤ãƒžã®å®šç¾©
  */
 
-#define IF_TIMER_HZ		1		/* ƒ^ƒCƒ}‚ÌŽü”g”A1 [s]	*/
+#define IF_TIMER_HZ		1		/* ã‚¿ã‚¤ãƒžã®å‘¨æ³¢æ•°ã€1 [s]	*/
 
 /*
- *  ƒlƒbƒgƒ[ƒNƒCƒ“ƒ^ƒtƒF[ƒX‚Ìƒtƒ‰ƒO
+ *  ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã®ãƒ•ãƒ©ã‚°
  */
 
-#define IFF_UP			UINT_C(0x0001)	/* ‹N“®Ï‚Ý		*/
-#define IFF_RUNNING		UINT_C(0x0002)	/* “®ì’†		*/
+#define IFF_UP			UINT_C(0x0001)	/* èµ·å‹•æ¸ˆã¿		*/
+#define IFF_RUNNING		UINT_C(0x0002)	/* å‹•ä½œä¸­		*/

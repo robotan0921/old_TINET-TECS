@@ -61,7 +61,7 @@ eAPI4_accept(CELLIDX idx,sREP4_des sREP4, T_IPV4EP* dstep4, TMO tmout)
 	/* Put statements here #_TEFB_# */
 	uint16_t dstport;
 
-	/* p_dstaddr ‚ª NULL ‚©Atmout ‚ª TMO_NBLK ‚È‚çƒGƒ‰[ */
+	/* p_dstaddr ãŒ NULL ã‹ã€tmout ãŒ TMO_NBLK ãªã‚‰ã‚¨ãƒ©ãƒ¼ */
 	if (dstep4 == NULL || tmout == TMO_NBLK)
 	  return E_PAR;
 	

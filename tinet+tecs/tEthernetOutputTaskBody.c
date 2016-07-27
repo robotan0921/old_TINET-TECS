@@ -117,7 +117,7 @@ eRawOutput_ethernetRawOutput(CELLIDX idx, int8_t* outputp, int32_t size,TMO tmou
 	/* Put statements here #_TEFB_# */
 	if((ercd = cDataqueue_sendTimeout((intptr_t)outputp,tmout)) != E_OK){
 		eRawOutput_ethernetRawOutput_outputp_dealloc((void*)outputp);
-		//mikan NICƒŠƒZƒbƒg‚ğ‚©‚¯‚é
+		//mikan NICãƒªã‚»ãƒƒãƒˆã‚’ã‹ã‘ã‚‹
 	}
 	return(ercd);
 }
@@ -150,7 +150,7 @@ eBody_main(CELLIDX idx)
 	int32_t size;
 
 	getTaskId(&tskid);
-	syslog(LOG_EMERG, "\n++++++++Ethernet Output Task Start:%d+++++++++++ \n", tskid);
+	syslog(LOG_EMERG, "Â¥n++++++++Ethernet Output Task Start:%d+++++++++++ Â¥n", tskid);
 
 	while (true) {
 		while (cDataqueue_receive((intptr_t*)&output) == E_OK) {

@@ -6,44 +6,44 @@
  *  Copyright (C) 2007-2008 by Embedded and Real-Time Systems Laboratory
  *              Graduate School of Information Science, Nagoya Univ., JAPAN
  * 
- *  �嵭����Ԥϡ��ʲ���(1)��(4)�ξ������������˸¤ꡤ�ܥ��եȥ���
- *  �����ܥ��եȥ���������Ѥ�����Τ�ޤࡥ�ʲ�Ʊ���ˤ���ѡ�ʣ������
- *  �ѡ������ۡʰʲ������ѤȸƤ֡ˤ��뤳�Ȥ�̵���ǵ������롥
- *  (1) �ܥ��եȥ������򥽡��������ɤη������Ѥ�����ˤϡ��嵭������
- *      ��ɽ�����������Ѿ�浪��Ӳ�����̵�ݾڵ��꤬�����Τޤޤη��ǥ���
- *      ����������˴ޤޤ�Ƥ��뤳�ȡ�
- *  (2) �ܥ��եȥ������򡤥饤�֥������ʤɡ�¾�Υ��եȥ�������ȯ�˻�
- *      �ѤǤ�����Ǻ����ۤ�����ˤϡ������ۤ�ȼ���ɥ�����ȡ�����
- *      �ԥޥ˥奢��ʤɡˤˡ��嵭�����ɽ�����������Ѿ�浪��Ӳ���
- *      ��̵�ݾڵ����Ǻܤ��뤳�ȡ�
- *  (3) �ܥ��եȥ������򡤵�����Ȥ߹���ʤɡ�¾�Υ��եȥ�������ȯ�˻�
- *      �ѤǤ��ʤ����Ǻ����ۤ�����ˤϡ����Τ����줫�ξ�����������
- *      �ȡ�
- *    (a) �����ۤ�ȼ���ɥ�����ȡ����Ѽԥޥ˥奢��ʤɡˤˡ��嵭����
- *        �ɽ�����������Ѿ�浪��Ӳ�����̵�ݾڵ����Ǻܤ��뤳�ȡ�
- *    (b) �����ۤη��֤��̤�������ˡ�ˤ�äơ�TOPPERS�ץ��������Ȥ�
- *        ��𤹤뤳�ȡ�
- *  (4) �ܥ��եȥ����������Ѥˤ��ľ��Ū�ޤ��ϴ���Ū�������뤤���ʤ�»
- *      ������⡤�嵭����Ԥ����TOPPERS�ץ��������Ȥ����դ��뤳�ȡ�
- *      �ޤ����ܥ��եȥ������Υ桼���ޤ��ϥ���ɥ桼������Τ����ʤ���
- *      ͳ�˴�Ť����ᤫ��⡤�嵭����Ԥ����TOPPERS�ץ��������Ȥ�
- *      ���դ��뤳�ȡ�
+ *  上記著作権者は，以下の(1)〜(4)の条件を満たす場合に限り，本ソフトウェ
+ *  ア（本ソフトウェアを改変したものを含む．以下同じ）を使用・複製・改
+ *  変・再配布（以下，利用と呼ぶ）することを無償で許諾する．
+ *  (1) 本ソフトウェアをソースコードの形で利用する場合には，上記の著作
+ *      権表示，この利用条件および下記の無保証規定が，そのままの形でソー
+ *      スコード中に含まれていること．
+ *  (2) 本ソフトウェアを，ライブラリ形式など，他のソフトウェア開発に使
+ *      用できる形で再配布する場合には，再配布に伴うドキュメント（利用
+ *      者マニュアルなど）に，上記の著作権表示，この利用条件および下記
+ *      の無保証規定を掲載すること．
+ *  (3) 本ソフトウェアを，機器に組み込むなど，他のソフトウェア開発に使
+ *      用できない形で再配布する場合には，次のいずれかの条件を満たすこ
+ *      と．
+ *    (a) 再配布に伴うドキュメント（利用者マニュアルなど）に，上記の著
+ *        作権表示，この利用条件および下記の無保証規定を掲載すること．
+ *    (b) 再配布の形態を，別に定める方法によって，TOPPERSプロジェクトに
+ *        報告すること．
+ *  (4) 本ソフトウェアの利用により直接的または間接的に生じるいかなる損
+ *      害からも，上記著作権者およびTOPPERSプロジェクトを免責すること．
+ *      また，本ソフトウェアのユーザまたはエンドユーザからのいかなる理
+ *      由に基づく請求からも，上記著作権者およびTOPPERSプロジェクトを
+ *      免責すること．
  * 
- *  �ܥ��եȥ������ϡ�̵�ݾڤ��󶡤���Ƥ����ΤǤ��롥�嵭����Ԥ�
- *  ���TOPPERS�ץ��������Ȥϡ��ܥ��եȥ������˴ؤ��ơ�����λ�����Ū
- *  ���Ф���Ŭ������ޤ�ơ������ʤ��ݾڤ�Ԥ�ʤ����ޤ����ܥ��եȥ���
- *  �������Ѥˤ��ľ��Ū�ޤ��ϴ���Ū�������������ʤ�»���˴ؤ��Ƥ⡤��
- *  ����Ǥ�����ʤ���
+ *  本ソフトウェアは，無保証で提供されているものである．上記著作権者お
+ *  よびTOPPERSプロジェクトは，本ソフトウェアに関して，特定の使用目的
+ *  に対する適合性も含めて，いかなる保証も行わない．また，本ソフトウェ
+ *  アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
+ *  の責任を負わない．
  * 
  *  @(#) $Id: prc_config.h 1662 2009-11-04 00:26:05Z ertl-honda $
  */
 
 /*
- *		�ץ����å���¸�⥸�塼���SH34�ѡ�
+ *		プロセッサ依存モジュール（SH34用）
  *
- *  ���Υ��󥯥롼�ɥե�����ϡ�target_config.h�ʤޤ��ϡ��������饤��
- *  �롼�ɤ����ե�����ˤΤߤ��饤�󥯥롼�ɤ���롥¾�Υե����뤫��
- *  ľ�ܥ��󥯥롼�ɤ��ƤϤʤ�ʤ���
+ *  このインクルードファイルは，target_config.h（または，そこからインク
+ *  ルードされるファイル）のみからインクルードされる．他のファイルから
+ *  直接インクルードしてはならない．
  */
 
 #ifndef TOPPERS_PRC_CONFIG_H
@@ -52,49 +52,49 @@
 #ifndef TOPPERS_MACRO_ONLY
 
 /*
- *  �ץ����å����ü�̿��Υ���饤��ؿ����
+ *  プロセッサの特殊命令のインライン関数定義
  */
 #include "prc_insn.h"
 
 /*
- *  �󥿥�������ƥ������ѤΥ����å������
+ *  非タスクコンテキスト用のスタック初期値
  */
 #define TOPPERS_ISTKPT(istk, istksz) ((STK_T *)((char_t *)(istk) + (istksz)))
 
 /*
- *  ����������ƥ����ȥ֥��å������
+ *  タスクコンテキストブロックの定義
  */
 typedef struct task_context_block {
-	void	*sp;		/* �����å��ݥ��� */
-	FP		pc;			/* �ץ�����५���� */
+	void	*sp;		/* スタックポインタ */
+	FP		pc;			/* プログラムカウンタ */
 } CTXB;
 
 #endif /* TOPPERS_MACRO_ONLY */
 
 /*
- *  �����ͥ���٥ޥ������饤�֥��
+ *  割込み優先度マスク操作ライブラリ
  *  
- *  SH34�Ǥϡ����ơ������쥸������SR�ˤ�4��7�ӥåȤ��4�ӥåȤ˳����ͥ����
- *  �ޥ����ʥϡ��ɥ������γ����ͥ���٥ޥ�����IPM�ˤ��֤���Ƥ��롥IPM����
- *  ¸���Ƥ�������ˡ������ͥ���٤γ���ɽ����-1����Ϣ³��������͡ˤ�Ȥ�
- *  ���Ȥ��ǽ�Ǥ��뤬��;�פʺ����ӥåȥ��եȤ����ȿž��ɬ�פˤʤ롥����
- *  ���򤱤뤿��ˡ�IPM����¸������ˤϡ�SR��4��7�ӥåȤ����Ф�����
- *  ��Ȥ����Ȥˤ��롥�����ͤ�����ͥ���٥ޥ���������ɽ���ȸƤӡ�IIPM�Ƚ�
- *  �����Ȥˤ��롥
+ *  SH34では，ステータスレジスタ（SR）の4〜7ビットめの4ビットに割込み優先度
+ *  マスク（ハードウェアの割込み優先度マスク，IPM）が置かれている．IPMを保
+ *  存しておくために，割込み優先度の外部表現（-1から連続した負の値）を使う
+ *  ことも可能であるが，余計な左右ビットシフトと符号反転が必要になる．これ
+ *  を避けるために，IPMを保存する場合には，SRの4〜7ビットめを取り出した値
+ *  を使うことにする．この値を割込み優先度マスクの内部表現と呼び，IIPMと書
+ *  くことにする．
  */
 
 /*
- *  �����ͥ���٥ޥ����γ���ɽ��������ɽ�����Ѵ�
+ *  割込み優先度マスクの外部表現と内部表現の変換
  *
- *  ������֥����Υ������ե����뤫�饤�󥯥롼�ɤ�����Τ���ˡ�CAST�����
+ *  アセンブリ言語のソースファイルからインクルードする場合のために，CASTを使用
  */
-#define EXT_IPM(iipm)    (-CAST(PRI,(iipm) >> 4))       /* ����ɽ������ɽ���� */
-#define INT_IPM(ipm)     (CAST(uint16_t, -(ipm)) << 4)  /* ����ɽ��������ɽ���� */
+#define EXT_IPM(iipm)    (-CAST(PRI,(iipm) >> 4))       /* 内部表現を外部表現に */
+#define INT_IPM(ipm)     (CAST(uint16_t, -(ipm)) << 4)  /* 外部表現を内部表現に */
 
 #ifndef TOPPERS_MACRO_ONLY
 
 /*
- *  IPM�ʥϡ��ɥ������γ����ͥ���٥ޥ���������ɽ���ˤθ����ͤ��ɽФ�
+ *  IPM（ハードウェアの割込み優先度マスク，内部表現）の現在値の読出し
  */
 Inline uint8_t
 current_iipm(void)
@@ -103,7 +103,7 @@ current_iipm(void)
 }
 
 /*
- *  IPM�ʥϡ��ɥ������γ����ͥ���٥ޥ���������ɽ���ˤθ����ͤ�����
+ *  IPM（ハードウェアの割込み優先度マスク，内部表現）の現在値の設定
  */
 Inline void
 set_iipm(uint8_t iipm)
@@ -112,30 +112,30 @@ set_iipm(uint8_t iipm)
 }
 
 /*
- *  TOPPERSɸ�����߽�����ǥ�μ¸�
+ *  TOPPERS標準割込み処理モデルの実現
  *
- *  SH34�ϥ��ơ������쥸����(SR)��˳����ͥ���٥ޥ���(IPM)����äƤ��롥
- *  CPU���å��ե饰��������ǽ������ʤ������Τ��ᡤ����Ū��CPU���å���
- *  �饰��¸����롥
+ *  SH34はステータスレジスタ(SR)内に割込み優先度マスク(IPM)を持っている．
+ *  CPUロックフラグに相当機能を持たない．そのため，擬似的にCPUロックフ
+ *  ラグを実現する．
  *
- *  �ޤ���CPU���å����֤������������ѿ�(lock_flag)���Ѱդ��롥
+ *  まず，CPUロック状態を管理すための変数(lock_flag)を用意する．
  *
- *  CPU���å��ե饰�����ꥢ����Ƥ���֤ϡ�IPM���ǥ��γ����ͥ����
- *  �ޥ������ͤ����ꤹ�롥���δ֤ϡ���ǥ��γ����ͥ���٥ޥ����ϡ�
- *  IPM���Ѥ��롥
+ *  CPUロックフラグがクリアされている間は，IPMをモデル上の割込み優先度
+ *  マスクの値に設定する．この間は，モデル上の割込み優先度マスクは，
+ *  IPMを用いる．
  * 
- *  ������Ф���CPU���å��ե饰�����åȤ��줤��֤ϡ�IPM�򡤥����ͥ��
- *  �����Τ�Τ�������٤Ƥγ�����׵��ޥ���������(TIPM_LOCK)�ȡ����
- *  ���γ����ͥ���٥ޥ����Ȥι⤤�������ꤹ�롥���δ֤Υ�ǥ��γ�
- *  ����ͥ���٥ޥ����ϡ����Τ�����ѿ�(saved_iipm, ����ɽ�����ݻ�)����
- *  �դ����ݻ����롥
+ *  それに対してCPUロックフラグがセットされいる間は，IPMを，カーネル管
+ *  理外のものを除くすべての割込み要求をマスクする値(TIPM_LOCK)と，モデ
+ *  ル上の割込み優先度マスクとの高い方に設定する．この間のモデル上の割
+ *  込み優先度マスクは，そのための変数(saved_iipm, 内部表現で保持)を用
+ *  意して保持する．
  */
 
 /*
- *  ����ƥ����Ȥλ���
+ *  コンテキストの参照
  *
- *  SH34�Ǥϡ�����ƥ����Ȥ�Ƚ��ˡ�����ߤΥͥ��Ȳ�����������
- *  R7_BANK1���Ѥ��롥
+ *  SH34では，コンテキストの判定に，割込みのネスト回数を管理する
+ *  R7_BANK1を用いる．
  * 
  */
 Inline bool_t
@@ -150,48 +150,48 @@ sense_context(void)
 #endif /* TOPPERS_MACRO_ONLY */
 
 /*
- *  CPU���å����֤Ǥγ����ͥ���٥ޥ���
+ *  CPUロック状態での割込み優先度マスク
  *
- *  TIPM_LOCK�ϡ�CPU���å����֤Ǥγ����ͥ���٥ޥ��������ʤ����������
- *  ��������Τ�Τ�������٤Ƥγ���ߤ�ޥ��������ͤ�������롥
+ *  TIPM_LOCKは，CPUロック状態での割込み優先度マスク，すなわち，カーネ
+ *  ル管理外のものを除くすべての割込みをマスクする値に定義する．
  */
 #define TIPM_LOCK    TMIN_INTPRI
 
 /*
- *  CPU���å����֤Ǥγ����ͥ���٥ޥ���������ɽ��
+ *  CPUロック状態での割込み優先度マスクの内部表現
  */
 #define IIPM_LOCK    INT_IPM(TIPM_LOCK)
 
 /*
- *  TIPM_ENAALL�ʳ����ͥ���٥ޥ���������ˤ�����ɽ��
+ *  TIPM_ENAALL（割込み優先度マスク全解除）の内部表現
  */
 #define IIPM_ENAALL  INT_IPM(TIPM_ENAALL)
 
 #ifndef TOPPERS_MACRO_ONLY
 
 /*
- *  CPU���å��ե饰�¸��Τ�����ѿ�
+ *  CPUロックフラグ実現のための変数
  * 
- *  �������ѿ��ϡ�CPU���å����֤λ��Τ߽񤭴����Ƥ�褤�Ȥ��롥
- *  ����饤��ؿ���ǡ����������ν�����Ѳ����ʤ��褦��volatile ����ꡥ 
+ *  これらの変数は，CPUロック状態の時のみ書き換えてもよいとする．
+ *  インライン関数中で，アクセスの順序が変化しないよう，volatile を指定． 
  */
-extern volatile bool_t    lock_flag;   /* CPU���å��ե饰���ͤ��ݻ������ѿ� */
-extern volatile uint8_t saved_iipm;  /* �����ͥ���٤�ޥ��������ѿ� */
+extern volatile bool_t    lock_flag;   /* CPUロックフラグの値を保持する変数 */
+extern volatile uint8_t saved_iipm;  /* 割込み優先度をマスクする変数 */
 
 /*
- *  CPU���å����֤ؤΰܹ�
+ *  CPUロック状態への移行
  *
- *  IPM�ʥϡ��ɥ������γ����ͥ���٥ޥ����ˤ�saved_iipm����¸��������
- *  �ͥ�������Τ�Τ�������٤Ƥγ���ߤ�ޥ��������͡�TIPM_LOCK�ˤ���
- *  �ꤹ�롥�ޤ���lock_flag��true�ˤ��롥
+ *  IPM（ハードウェアの割込み優先度マスク）を，saved_iipmに保存し，カー
+ *  ネル管理外のものを除くすべての割込みをマスクする値（TIPM_LOCK）に設
+ *  定する．また，lock_flagをtrueにする．
  *
- *  IPM�����ǽ餫��TIPM_LOCK��Ʊ����������⤤���ˤϡ������
- *  saved_iipm����¸����Τߤǡ�TIPM_LOCK�ˤ����ꤷ�ʤ�������ϡ���ǥ�
- *  ��γ����ͥ���٥ޥ�������TIPM_LOCK��Ʊ����������⤤��٥������
- *  ����Ƥ�����֤ˤ����롥
+ *  IPMが，最初からTIPM_LOCKと同じかそれより高い場合には，それを
+ *  saved_iipmに保存するのみで，TIPM_LOCKには設定しない．これは，モデル
+ *  上の割込み優先度マスクが，TIPM_LOCKと同じかそれより高いレベルに設定
+ *  されている状態にあたる．
  *
- *  ���δؿ��ϡ�CPU���å����֡�lock_flag��true�ξ��֡ˤǸƤФ�뤳�Ȥ�
- *  �ʤ���Τ����ꤷ�Ƥ��롥
+ *  この関数は，CPUロック状態（lock_flagがtrueの状態）で呼ばれることは
+ *  ないものと想定している．
  */
 Inline void
 x_lock_cpu(void)
@@ -199,10 +199,10 @@ x_lock_cpu(void)
     uint8_t iipm;
 
     /*
-     *  current_iipm()���֤��ͤ�ľ��saved_iipm����¸����������ѿ�iipm
-     *  ���Ѥ��Ƥ���Τϡ�current_iipm()��Ƥ��ľ��˳���ߤ�ȯ������
-     *  ��ư���줿����߽�����saved_iipm���ѹ�������ǽ�������뤿���
-     *  ���롥
+     *  current_iipm()の返り値を直接saved_iipmに保存せず，一時変数iipm
+     *  を用いているのは，current_iipm()を呼んだ直後に割込みが発生し，
+     *  起動された割込み処理でsaved_iipmが変更される可能性があるためで
+     *  ある．
      */
     iipm = current_iipm();
     if (IIPM_LOCK > iipm) {
@@ -210,7 +210,7 @@ x_lock_cpu(void)
     }
     saved_iipm = iipm;
     lock_flag = true;
-    /* ����ƥ����륻������������ǥ��꤬�񤭴�����ǽ�������� */
+    /* クリティカルセクションの前後でメモリが書き換わる可能性がある */
     Asm("":::"memory");
 }
 
@@ -218,18 +218,18 @@ x_lock_cpu(void)
 #define i_lock_cpu()    x_lock_cpu()
 
 /*
- *  CPU���å����֤β��
+ *  CPUロック状態の解除
  *
- *  lock_flag��false�ˤ���IPM�ʥϡ��ɥ������γ����ͥ���٥ޥ����ˤ�
- *  saved_iipm����¸�����ͤ��᤹��
+ *  lock_flagをfalseにし，IPM（ハードウェアの割込み優先度マスク）を，
+ *  saved_iipmに保存した値に戻す．
  *
- *  ���δؿ��ϡ�CPU���å����֡�lock_flag��true�ξ��֡ˤǤΤ߸ƤФ���
- *  �Τ����ꤷ�Ƥ��롥
+ *  この関数は，CPUロック状態（lock_flagがtrueの状態）でのみ呼ばれるも
+ *  のと想定している．
  */
 Inline void
 x_unlock_cpu(void)
 {
-    /* ����ƥ����륻������������ǥ��꤬�񤭴�����ǽ�������� */
+    /* クリティカルセクションの前後でメモリが書き換わる可能性がある */
     Asm("":::"memory");
     lock_flag = false;
     set_iipm(saved_iipm);
@@ -239,7 +239,7 @@ x_unlock_cpu(void)
 #define i_unlock_cpu()    x_unlock_cpu()
 
 /*
- *  CPU���å����֤λ���
+ *  CPUロック状態の参照
  */
 Inline bool_t
 x_sense_lock(void)
@@ -251,21 +251,21 @@ x_sense_lock(void)
 #define i_sense_lock()    x_sense_lock()
 
 /*
- *  chg_ipm��ͭ���ʳ����ͥ���٤��ϰϤ�Ƚ��
+ *  chg_ipmで有効な割込み優先度の範囲の判定
  *
- *  TMIN_INTPRI���ͤˤ�餺��chg_ipm�Ǥϡ�-15��TIPM_ENAALL�ʡ�0�ˤ��ϰ�
- *  ������Ǥ��뤳�ȤȤ���ʥ������å�����γ�ĥ�ˡ�
+ *  TMIN_INTPRIの値によらず，chg_ipmでは，-15〜TIPM_ENAALL（＝0）の範囲
+ *  に設定できることとする（ターゲット定義の拡張）．
  */
 #define VALID_INTPRI_CHGIPM(intpri) \
 				((-15 <= (intpri) && (intpri) <= TIPM_ENAALL))
 
 /*
- * �ʥ�ǥ��Ρ˳����ͥ���٥ޥ���������
+ * （モデル上の）割込み優先度マスクの設定
  *
- *  CPU���å��ե饰�����ꥢ����Ƥ�����ϡ��ϡ��ɥ������γ����ͥ���٥�
- *  ���������ꤹ�롥CPU���å��ե饰�����åȤ���Ƥ�����ϡ�saved_iipm
- *  �����ꤷ������ˡ��ϡ��ɥ������γ����ͥ���٥ޥ��������ꤷ�褦��
- *  �����ʥ�ǥ��Ρ˳����ͥ���٥ޥ�����TIPM_LOCK�ι⤤�������ꤹ�롥
+ *  CPUロックフラグがクリアされている時は，ハードウェアの割込み優先度マ
+ *  スクを設定する．CPUロックフラグがセットされている時は，saved_iipm
+ *  を設定し，さらに，ハードウェアの割込み優先度マスクを，設定しようと
+ *  した（モデル上の）割込み優先度マスクとTIPM_LOCKの高い方に設定する．
  */
 Inline void
 x_set_ipm(PRI intpri)
@@ -279,8 +279,8 @@ x_set_ipm(PRI intpri)
         saved_iipm = iipm;
 #if TIPM_LOCK == -15
         /*
-         *  TIPM_LOCK��-15�ξ��ˤϡ����λ����ǥϡ��ɥ������γ����ͥ��
-         *  �٥ޥ�����ɬ��15�����ꤵ��Ƥ��뤿�ᡤ���ꤷ�ʤ���ɬ�פ��ʤ���
+         *  TIPM_LOCKが-15の場合には，この時点でハードウェアの割込み優先
+         *  度マスクが必ず15に設定されているため，設定しなおす必要がない．
          */
 #else /* TIPM_LOCK == -15 */
         set_iipm(iipm > IIPM_LOCK ? iipm : IIPM_LOCK);
@@ -292,10 +292,10 @@ x_set_ipm(PRI intpri)
 #define i_set_ipm(intpri)    x_set_ipm(intpri)
 
 /*
- * �ʥ�ǥ��Ρ˳����ͥ���٥ޥ����λ���
+ * （モデル上の）割込み優先度マスクの参照
  *
- *  CPU���å��ե饰�����ꥢ����Ƥ�����ϥϡ��ɥ������γ����ͥ���٥�
- *  �����򡤥��åȤ���Ƥ������saved_iipm�򻲾Ȥ��롥
+ *  CPUロックフラグがクリアされている時はハードウェアの割込み優先度マ
+ *  スクを，セットされている時はsaved_iipmを参照する．
  */
 Inline PRI
 x_get_ipm(void)
@@ -315,50 +315,50 @@ x_get_ipm(void)
 #define i_get_ipm()    x_get_ipm()
 
 /*
- *  �ǹ�ͥ���̥������ؤΥǥ����ѥå���prc_support.S��
+ *  最高優先順位タスクへのディスパッチ（prc_support.S）
  *
- *  dispatch�ϡ�����������ƥ����Ȥ���ƤӽФ��줿�����ӥ������������
- *  ��ƤӽФ��٤���Τǡ�����������ƥ����ȡ�CPU���å����֡��ǥ����ѥ�
- *  �����ľ��֡��ʥ�ǥ��Ρ˳����ͥ���٥ޥ�����������֤ǸƤӽФ���
- *  ����Фʤ�ʤ���
+ *  dispatchは，タスクコンテキストから呼び出されたサービスコール処理か
+ *  ら呼び出すべきもので，タスクコンテキスト・CPUロック状態・ディスパッ
+ *  チ許可状態・（モデル上の）割込み優先度マスク全解除状態で呼び出さな
+ *  ければならない．
  */
 extern void dispatch(void);
 
 /*
- *  �ǥ����ѥå����ư��ϡ�prc_support.S��
+ *  ディスパッチャの動作開始（prc_support.S）
  *
- *  start_dispatch�ϡ������ͥ뵯ư���˸ƤӽФ��٤���Τǡ����٤Ƥγ��
- *  �ߤ�ػߤ������֡ʳ���ߥ��å����֤�Ʊ���ξ��֡ˤǸƤӽФ��ʤ����
- *  �ʤ�ʤ���
+ *  start_dispatchは，カーネル起動時に呼び出すべきもので，すべての割込
+ *  みを禁止した状態（割込みロック状態と同等の状態）で呼び出さなければ
+ *  ならない．
  */
 extern void start_dispatch(void) NoReturn;
 
 /*
- *  ���ߤΥ���ƥ����Ȥ�ΤƤƥǥ����ѥå���prc_support.S��
+ *  現在のコンテキストを捨ててディスパッチ（prc_support.S）
  *
- *  exit_and_dispatch�ϡ�ext_tsk����ƤӽФ��٤���Τǡ�����������ƥ�
- *  ���ȡ�CPU���å����֡��ǥ����ѥå����ľ��֡��ʥ�ǥ��Ρ˳����ͥ��
- *  �٥ޥ�����������֤ǸƤӽФ��ʤ���Фʤ�ʤ���
+ *  exit_and_dispatchは，ext_tskから呼び出すべきもので，タスクコンテキ
+ *  スト・CPUロック状態・ディスパッチ許可状態・（モデル上の）割込み優先
+ *  度マスク全解除状態で呼び出さなければならない．
  */
 extern void exit_and_dispatch(void) NoReturn;
 
 /*
- *  �����ͥ�ν�λ�����θƽФ���prc_support.S��
+ *  カーネルの終了処理の呼出し（prc_support.S）
  *
- *  call_exit_kernel�ϡ������ͥ�ν�λ���˸ƤӽФ��٤���Τǡ��󥿥���
- *  ����ƥ����Ȥ��ڤ괹���ơ������ͥ�ν�λ������exit_kernel�ˤ�Ƥӽ�
- *  ����
+ *  call_exit_kernelは，カーネルの終了時に呼び出すべきもので，非タスク
+ *  コンテキストに切り換えて，カーネルの終了処理（exit_kernel）を呼び出
+ *  す．
  */
 extern void call_exit_kernel(void) NoReturn;
 
 /*
- *  ����������ƥ����Ȥν����
+ *  タスクコンテキストの初期化
  *
- *  ���������ٻ߾��֤���¹ԤǤ�����֤˰ܹԤ�����˸ƤФ�롥���λ���
- *  �ǥ����å��ΰ��ȤäƤϤʤ�ʤ���
+ *  タスクが休止状態から実行できる状態に移行する時に呼ばれる．この時点
+ *  でスタック領域を使ってはならない．
  *
- *  activate_context�򡤥���饤��ؿ��ǤϤʤ��ޥ�������Ȥ��Ƥ���Τϡ�
- *  ���λ����Ǥ�TCB���������Ƥ��ʤ�����Ǥ��롥
+ *  activate_contextを，インライン関数ではなくマクロ定義としているのは，
+ *  この時点ではTCBが定義されていないためである．
  */
 extern void    start_r(void);
 
@@ -370,17 +370,17 @@ extern void    start_r(void);
 }
 
 /*
- *  calltex�ϻ��Ѥ��ʤ�
+ *  calltexは使用しない
  */
 #define OMIT_CALLTEX
 
 /*
- * �������å����¸���˴ޤޤ��ɸ����㳰������ǽ�ν�����������Ѥ��ʤ�
+ * ターゲット非依存部に含まれる標準の例外管理機能の初期化処理を用いない
  */
 #define OMIT_INITIALIZE_EXCEPTION
 
 /*
- * CPU�㳰�ϥ�ɥ�ν����
+ * CPU例外ハンドラの初期化
  */
 Inline void
 initialize_exception(void)
@@ -388,90 +388,90 @@ initialize_exception(void)
 }
      
 /*
- *  SH34�γ���ߥ������ƥ�����ȳ���߽�����ǥ�μ¸�
+ *  SH34の割込みアーキテクチャと割込み処理モデルの実現
  * 
- *  SH34�γ���ߤϡ��������ե⥸�塼�����ߡ�IRQ�����, PINT����ߤ�ʬ
- *  ��Ǥ������줾�찷�����ۤʤ롥���Τ��ᡤ����ߥϥ�ɥ��ֹ椫�顤��
- *  �γ���ߤ�ʬ�ह�뤿��Υޥ������Ѱդ��롥
+ *  SH34の割込みは，内部周辺モジュール割込み，IRQ割込み, PINT割込みに分
+ *  類でき，それぞれ扱いが異なる．そのため，割込みハンドラ番号から，ど
+ *  の割込みに分類するためのマクロを用意する．
  * 
- *  PINT����ߤ�15bit�Υץ����å��ؤγ�����׵�饤��Ǽ¸�����Ƥ��뤬��
- *  IRC�ؤγ�����׵�饤���PINT0��PINT7��PINT0��PINT7�Ȥ��ä�2�ܤˤʤ�
- *  �Ƥ��롥���Τ��ᡤ�����ͥ�Ǥ���̤ˤϰ��鷺��2�ܤγ���ߤȤ��ư�����
- *  PINT�ϡ����̤�PINTER�쥸�����ˤ����Ķػ߲�ǽ�Ǥ��뤬�������ͥ��
- *  �ϡ�PINTER�쥸����������ϼ�갷��ʤ������Τ��ᡤPINTER�쥸������
- *  ����ϡ��桼�����ץ������ǹԤ�ɬ�פ����롥Ʊ�ͤ�PINT���׵��٥�
- *  �����ꤹ��ICR2�������桼�����ץ������ǹԤ�ɬ�פ����롥�ʤ�������
- *  ������ߤ����ꤷ���ݤγ���ߥϥ�ɥ��������Ǥ�IRR0�Υ��ꥢ��
- *  i_begin_int()�ǹԤ���PINT����ߤ��ɤ�����Ƚ�ꤹ��ޥ������Ѱդ��롥
+ *  PINT割込みは15bitのプロセッサへの割込み要求ラインで実現されているが，
+ *  IRCへの割込み要求ラインはPINT0〜PINT7とPINT0〜PINT7といった2本になっ
+ *  ている．そのため，カーネルでも個別には扱わず，2本の割込みとして扱う．
+ *  PINTは，個別にPINTERレジスタにより許可禁止可能であるが，カーネルで
+ *  は，PINTERレジスタの設定は取り扱わない．そのため，PINTERレジスタの
+ *  設定は，ユーザープログラムで行う必要がある．同様にPINTの要求レベル
+ *  を設定するICR2の設定もユーザープログラムで行う必要がある．なお，エッ
+ *  ジ割込みに設定した際の割込みハンドラの入り口でのIRR0のクリアは
+ *  i_begin_int()で行う．PINT割込みかどうかを判定するマクロを用意する．
  *
- *  Ʊ�ͤ�IRQ����ߤ���Ƚ�ꤹ��ޥ������Ѱդ��롥
+ *  同様にIRQ割込みかを判定するマクロを用意する．
  */
 
 /*
- *  PINT����ߤ��ɤ�����Ƚ�ꤹ�뤿��Υޥ���
+ *  PINT割込みかどうかを判定するためのマクロ
  */
 #define INTNO_PINT(intno) ((0x700 == (intno)) || (0x720 == (intno)))
 #define INTNO_PINT_OFFSET(intno) (((intno) - 0x700) >> 5)
 
 /*
- *  IRQ����ߤ��ɤ�����Ƚ�ꤹ�뤿��Υޥ���
+ *  IRQ割込みかどうかを判定するためのマクロ
  */
 #define INTNO_IRQ(intno) ((0x600 <= (intno)) && ((intno) <= 0x6A0))
 #define INTNO_IRQ_OFFSET(intno) (((intno) - 0x600) >> 5)
      
 /*
- *  �����ͥ����
+ *  割込み優先度
  *
- *  �Ƴ���ߤγ����ͥ���٤ϳ����ͥ�������쥸����(IPRXX)�ˤ�ä���
- *  �ꤹ�롥�������ե⥸�塼��ξ�硤���ե⥸�塼����������ǽ�Ǥ��롥
- *  �㤨��SCIF�ϡ�ERI2, RXI2, BRI2, TXI2�Ȥ���4�Ĥγ�����׵�饤���
- *  �ݡ��Ȥ��뤬�����Ƥγ�����׵�饤����Ф���Ʊ���ͥ���٤��������
- *  ���ʤ������Τ��ᡤ�Ƴ�����׵�饤����ˤɤγ����ͥ�������쥸��
- *  �������ꤹ�뤫����������ơ��֥���Ѱդ��롥�ޤ���������ֹ��Ϣ³
- *  ���Ƥ����ᡤ���ݡ��Ȥ��Ƥ��ʤ��ֹ�ˤϡ�number��-1�����ꤹ�롥�ơ�
- *  �֥�
+ *  各割込みの割込み優先度は割込み優先順設定レジスタ(IPRXX)によって設
+ *  定する．内部周辺モジュールの場合，周辺モジュール毎に設定可能である．
+ *  例えばSCIFは，ERI2, RXI2, BRI2, TXI2という4つの割込み要求ラインをサ
+ *  ポートするが，全ての割込み要求ラインに対して同一の優先度しか設定で
+ *  きない．そのため，各割込み要求ライン毎にどの割込み優先順設定レジス
+ *  タを設定するかを定義したテーブルを用意する．また，割込み番号は連続
+ *  していため，サポートしていない番号には，numberに-1を設定する．テー
+ *  ブル
  */
 
 /*
- *  �Ƴ�����ֹ�������ꤹ��IPR�ξ�������Τ���ι�¤��  
+ *  各割込み番号毎の設定するIPRの情報管理のための構造体  
  */
 typedef struct {
     /* IPRA:0, IPRB:1, IPRC:2, IPRD:3, IPRE:4, IPRF:5, IPRG:6 */
     uint32_t address; 
-    /* bit5��12:3, bit11��8:2, bit7��4:1, bit3��0:0 */
+    /* bit5〜12:3, bit11〜8:2, bit7〜4:1, bit3〜0:0 */
     uint8_t  offset;
 } IPR_INFO;
 
 /*
- *  �Ƴ�����ֹ����IPR�ξ�������ơ��֥�
+ *  各割込み番号毎のIPRの情報管理テーブル
  */
 extern const IPR_INFO ipr_info_tbl[TNUM_INH];
     
 /*
- *  ������ֹ桦����ߥϥ�ɥ��ֹ�
+ *  割込み番号・割込みハンドラ番号
  *
- *  ����ߥϥ�ɥ��ֹ�(inhno)�ȳ�����ֹ�(intno)�ϡ������ȯ�����˳��
- *  �߻��ݥ쥸���������ꤵ����ͤ��Ѥ��롥����߻��ݥ쥸�����ϡ�INTEVT
- *  ��INTEVT2��2���ब���ꡤ���줾�����ꤵ����ͤ��ۤʤ롥�����SH34��
- *  ��INTEVT����Ѥ��Ƥ����������ߤ�INTEVT2���Ѥ��롥���Τ��ᡤ�ץ���
- *  �å��η����������ե�������Ѱդ��ơ��ɤ���Υ쥸�������Ѥ��뤬��
- *  �ꤹ�뤳�ȤȤ��롥�ޤ������ݡ��Ȥ������ߤκ������ۤʤ뤿�ᡤ
- *  �����ͤ�ץ����å��η����������ե������������롥
+ *  割込みハンドラ番号(inhno)と割込み番号(intno)は，割込み発生時に割込
+ *  み事象レジスタに設定される値を用いる．割込み事象レジスタは，INTEVT
+ *  とINTEVT2の2種類があり，それぞれ設定される値が異なる．初期のSH34で
+ *  はINTEVTを使用していたが，現在はINTEVT2を用いる．そのため，プロセ
+ *  ッサの型番毎の定義ファイルを用意して，どちらのレジスタを用いるが設
+ *  定することとする．また，サポートする割込みの最大数も異なるため，
+ *  最大値もプロセッサの型番毎の定義ファイルに定義する．
  *
- *  INTENT�����ꤵ����ͤϥ��ѡ������ͤǤ��뤿�ᡤ���Τޤޤ��ͤ�ͥ����
- *  �������Υơ��֥�Υ���ǥå������Ѥ���ȡ�̵�̤��ΰ褬ȯ�����롥��
- *  �Τ��ᡤ�����ͥ������Ǥϡ�INTENT�����ꤵ����ͤ򥷥եȤ����ͤ��Ѥ�
- *  �롥���եȤ����ͤ�ץ����å���˰ۤʤ뤿��ץ����å��η���������
- *  �ե������������롥
+ *  INTENTに設定される値はスパースな値であるため，そのままの値を優先度
+ *  管理等のテーブルのインデックスに用いると，無駄な領域が発生する．そ
+ *  のため，カーネル内部では，INTENTに設定される値をシフトした値を用い
+ *  る．シフトする値もプロセッサ毎に異なるためプロセッサの型番毎の定義
+ *  ファイルに定義する．
  *
- *  ����ɽ����̾���ϡ�iintno,iinhno�Ȥ��롥
+ *  内部表現の名前は，iintno,iinhnoとする．
  */
 
 /*
- *  ������ֹ���ϰϤ�Ƚ��
+ *  割込み番号の範囲の判定
  * 
- *  TMIN_INTNO��TMAX_INTNO���ϰϤǤ��äƤ�ͭ�����ֹ�Ǥʤ���礬���뤿
- *  �ᡤipr_info_tbl[]��ͭ�����ֹ椫������å�����
+ *  TMIN_INTNOとTMAX_INTNOの範囲であっても有効な番号でない場合があるた
+ *  め，ipr_info_tbl[]で有効な番号かをチェックする
  */
 #define VALID_INTNO(intno) \
         ((TMIN_INTNO <= (intno)) && ((intno) <= TMAX_INTNO) && (ipr_info_tbl[INT_INTNO(intno)].address != 0U))
@@ -479,31 +479,31 @@ extern const IPR_INFO ipr_info_tbl[TNUM_INH];
 #define VALID_INTNO_CFGINT(intno)    VALID_INTNO(intno)
 
 /*
- *  CPU�㳰�ϥ�ɥ��ֹ�
+ *  CPU例外ハンドラ番号
  *
- *  CPU�㳰�ϥ�ɥ��ֹ�Ȥ��Ƥϡ��㳰���ݥ쥸���������ꤹ���㳰�����ɤ�
- *  �Ѥ��롥���ݡ��Ȥ���CPU�㳰�ϥ�ɥ���ϥץ����å��η�����˰ۤʤ��
- *  �ǡ��ץ����å��η����������ե������������롥
+ *  CPU例外ハンドラ番号としては，例外事象レジスタに設定する例外コードを
+ *  用いる．サポートするCPU例外ハンドラ数はプロセッサの型番毎に異なるの
+ *  で，プロセッサの型番毎の定義ファイルに定義する．
  *
- *  ����ߥϥ�ɥ��ֹ��Ʊ������CPU�㳰�ϥ�ɥ��ֹ�⥹�ѡ����Ǥ��뤿�ᡤ
- *  �����ͥ������Ǥ��ͤ򥷥եȤ�������ɽ�����Ѥ��롥 
+ *  割込みハンドラ番号と同じく，CPU例外ハンドラ番号もスパースであるため，
+ *  カーネル内部では値をシフトした内部表現を用いる． 
  */
 #define VALID_EXCNO_DEFEXC(excno) \
         (TMIN_EXCNO <= (excno) && (excno) <= TMAX_EXCNO)
 
 /*
- *  ����ߥϥ�ɥ�
+ *  割込みハンドラ
  *
- *  ����ߥϥ�ɥ����Ͽ���롥����ߥϥ�ɥ�ơ��֥���Τϥ���ե�����
- *  �졼������Ū����������
+ *  割込みハンドラを登録する．割込みハンドラテーブル実体はコンフィギュ
+ *  レータで静的に生成する
  */ 
 extern const FP inh_tbl[TNUM_INH];
 
 /*
- *  ����ߥϥ�ɥ������
+ *  割込みハンドラの設定
  *
- *  �٥��ȥ��ֹ�inhno�γ���ߥϥ�ɥ�ε�ư����int_entry�����ꤹ�롥�����
- *  �ϥ�ɥ�ơ��֥�
+ *  ベクトル番号inhnoの割込みハンドラの起動番地int_entryに設定する．割込み
+ *  ハンドラテーブル
  */
 Inline void
 x_define_inh(INHNO inhno, FP int_entry)
@@ -511,35 +511,35 @@ x_define_inh(INHNO inhno, FP int_entry)
 }
 
 /*
- *  ����ߥϥ�ɥ�ν����������������ޥ���
+ *  割込みハンドラの出入口処理の生成マクロ
  *
  */
 #define INT_ENTRY(inhno, inthdr)    inthdr
 #define INTHDR_ENTRY(inhno, inhno_num, inthdr) extern void inthdr(void);
 
 /*
- *  ������׵�ػߥե饰
+ *  割込み要求禁止フラグ
  *
- *  SH34��IRC�ϳ�����׵�ػߥե饰������ʤ�������ߤ�ػߤ�����ϡ�
- *  �����ͥ�������쥸����(IPRXX)��0�����ꤹ��ɬ�פ����롥�����ͥ
- *  �������쥸������0�ˤ��뤳�Ȥǳ�����׵�ػߥե饰��¸�����Ȥ���
- *  �֡������ͥ���٤򵭲����Ƥ����ΰ褬ɬ�פȤʤ롥����ե�����졼��
- *  �Ǥ��Υơ��֥���Ѱդ��롥�ʤ������Υơ��֥�ϳ���ߤ�������ǳ��
- *  ���װ��˱�����SR�����ꤹ��ɬ�פ����뤿�ᡤ����ɽ���Ȥ��롥�ޤ�����
- *  ���ߥϥ�ɥ��������Ǥ��������Τ��ᡤIPM�����ǤϤʤ�������ߥϥ��
- *  ��¹Ի���SR�������Ʊ���˻��ġ����Τ��ᡤIPM���ͤΤߤ������������
- *  ��ϡ�����8bit�Τߤ򻲾Ȥ���ɬ�פ����롥���Ƥϥ���ե�����졼����
- *  ��Ū���������롥
+ *  SH34のIRCは割込み要求禁止フラグを持たない．割込みを禁止する場合は，
+ *  割込み優先順設定レジスタ(IPRXX)を0に設定する必要がある．割込み優
+ *  先順設定レジスタを0にすることで割込み要求禁止フラグを実現するとその
+ *  間，割込み優先度を記憶しておく領域が必要となる．コンフィギュレータ
+ *  でこのテーブルを用意する．なお，このテーブルは割込みの入り口で割込
+ *  み要因に応じてSRに設定する必要があるため，内部表現とする．また，割
+ *  込みハンドラの入り口での利便性のため，IPMだけではなく，割込みハンド
+ *  ラ実行時のSRの設定も同時に持つ．そのため，IPMの値のみを取得したい場
+ *  合は，下位8bitのみを参照する必要がある．内容はコンフィギュレータで
+ *  静的に生成する．
  */
 extern const uint32_t int_iipm_tbl[TNUM_INT];
 
 /*
- *  ������׵�ػߥե饰�Υ��å�
+ *  割込み要求禁止フラグのセット
  *
- *  �����ͥ�������쥸����(IPRA��G)��0�����ꤹ�롥
+ *  割込み優先順設定レジスタ(IPRA〜G)を0に設定する．
  *
- *  �����°�������ꤵ��Ƥ��ʤ�������׵�饤����Ф��Ƴ�����׵�ػ�
- *  �ե饰�򥯥ꥢ���褦�Ȥ������ˤϡ�false���֤���
+ *  割込み属性が設定されていない割込み要求ラインに対して割込み要求禁止
+ *  フラグをクリアしようとした場合には，falseを返す．
  */
 Inline bool_t
 x_disable_int(INTNO intno)
@@ -550,14 +550,14 @@ x_disable_int(INTNO intno)
     uint32_t iipm    = int_iipm_tbl[iintno];
 
     /*
-     *  �����°�������ꤵ��Ƥ��ʤ����
+     *  割込み属性が設定されていない場合
      */
     if ((iipm & 0x01U) != 0) {
         return(false);
     }
     
     /* 
-     *  ������ֹ���б�����IPR���ͤ�0�ˤ��롥
+     *  割込み番号に対応したIPRの値を0にする．
      */
     set_irc_ipr(address, offset, 0x00);
 
@@ -568,12 +568,12 @@ x_disable_int(INTNO intno)
 #define i_disable_int(intno) x_disable_int(intno)
 
 /*
- *  ������׵�ػߥե饰�β��
+ *  割込み要求禁止フラグの解除
  *
- *  �����ͥ�������쥸����(IPRA��G)�򸵤��ͤ��᤹��
+ *  割込み優先順設定レジスタ(IPRA〜G)を元の値に戻す．
  *
- *  �����°�������ꤵ��Ƥ��ʤ�������׵�饤����Ф��Ƴ�����׵�ػ�
- *  �ե饰�򥯥ꥢ���褦�Ȥ������ˤϡ�false���֤���
+ *  割込み属性が設定されていない割込み要求ラインに対して割込み要求禁止
+ *  フラグをクリアしようとした場合には，falseを返す．
  */
 Inline bool_t
 x_enable_int(INTNO intno)
@@ -584,14 +584,14 @@ x_enable_int(INTNO intno)
     uint32_t iipm    = int_iipm_tbl[iintno];
 
     /*
-     *  �����°�������ꤵ��Ƥ��ʤ����
+     *  割込み属性が設定されていない場合
      */
     if ((iipm & 0x01U) != 0) {
         return(false);
     }
 
     /* 
-     *  ������ֹ���б�����IPR���ͤ򥻥åȤ���
+     *  割込み番号に対応したIPRの値をセットする
      */
     set_irc_ipr(address, offset, (-EXT_IPM(iipm & 0xF0U)));
     
@@ -602,18 +602,18 @@ x_enable_int(INTNO intno)
 #define i_enable_int(intno) x_enable_int(intno)
 
 /*
- *  ������׵�饤���°��������
+ *  割込み要求ラインの属性の設定
  *
- *  SH34�Ǥϡ������ͥ�ǰ���������ͥ���٤�16�ʳ��Ǥ��뤿�ᡤintpri
- *  �Ȥ���Ϳ���뤳�Ȥ��Ǥ����ͤ�-15��-1��ɸ��Ǥ��롥
+ *  SH34では，カーネルで扱える割込み優先度は16段階であるため，intpri
+ *  として与えることができる値は-15〜-1が標準である．
  */
 extern void    x_config_int(INTNO intno, ATR intatr, PRI intpri);
 
 /*
- *  ����ߥϥ�ɥ�������ɬ�פ�IRC���
+ *  割込みハンドラ入口で必要なIRC操作
  *
- *  PINT��IRQ����ߤǤ��ġ����å��ȥꥬ�ξ��ϳ�����׵�򥯥ꥢ���롥
- *  ���å��ȥꥬ��Ƚ�Ǥ���Τ����ݤʤΤǡ���˥��ꥢ���롥
+ *  PINT・IRQ割込みでかつ，エッジトリガの場合は割込み要求をクリアする．
+ *  エッジトリガか判断するのが面倒なので，常にクリアする．
  */
 Inline void
 i_begin_int(INTNO intno)
@@ -633,7 +633,7 @@ i_begin_int(INTNO intno)
 }
 
 /*
- *  ����ߥϥ�ɥ�νи���ɬ�פ�IRC���
+ *  割込みハンドラの出口で必要なIRC操作
  */
 Inline void
 i_end_int(INTNO intno)
@@ -641,19 +641,19 @@ i_end_int(INTNO intno)
 }
 
 /*
- *  ̤����γ���ߥϥ�ɥ�(default_int_handler())�ΰ��� p_excinf
- *  ����Ƽ�������Ф�����Υޥ���
+ *  未定義の割込みハンドラ(default_int_handler())の引数 p_excinf
+ *  から各種情報を取り出すためのマクロ
  */
 #define P_EXCINF_INT_OFFSET_SSR     (13U)
 #define P_EXCINF_INT_OFFSET_SPC     (15U)
 #define P_EXCINF_INT_OFFSET_PR      (14U)
 
 /*
- *  CPU�㳰�ϥ�ɥ�ط�
+ *  CPU例外ハンドラ関係
  */ 
 
 /*
- *  �㳰�ϥ�ɥ���� p_excinf ����Ƽ�������Ф�����Υޥ���
+ *  例外ハンドラ引数 p_excinf から各種情報を取り出すためのマクロ
  */
 #ifdef FPU_ENABLE
 
@@ -683,12 +683,12 @@ i_end_int(INTNO intno)
 #endif /* FPU_ENABLE */
 
 /*
- *  CPU�㳰�ϥ�ɥ����Ͽ�ѥơ��֥�
+ *  CPU例外ハンドラの登録用テーブル
  */
 extern const FP exch_tbl[TNUM_EXC];
 
 /*
- *  CPU�㳰�ϥ�ɥ������
+ *  CPU例外ハンドラの設定
  */
 Inline void
 x_define_exc(EXCNO excno, FP exc_entry)
@@ -696,16 +696,16 @@ x_define_exc(EXCNO excno, FP exc_entry)
 }
 
 /*
- *  CPU�㳰�ϥ�ɥ�����������������ޥ���
+ *  CPU例外ハンドラの入口処理の生成マクロ
  */
 #define EXC_ENTRY(excno, exchdr)    exchdr
 #define EXCHDR_ENTRY(excno, excno_num, exchdr) extern void exchdr(void *p_excinf);
 
 /*
- *  CPU�㳰��ȯ���������Υ���ƥ����Ȥλ���
+ *  CPU例外の発生した時のコンテキストの参照
  *
- *  CPU�㳰��ȯ���������Υ���ƥ����Ȥ�������������ƥ����Ȥλ���false��
- *  �����Ǥʤ�����true���֤���
+ *  CPU例外の発生した時のコンテキストが，タスクコンテキストの時にfalse，
+ *  そうでない時にtrueを返す．
  */
 Inline bool_t
 exc_sense_context(void *p_excinf)
@@ -717,8 +717,8 @@ exc_sense_context(void *p_excinf)
 }
 
 /*
- *  CPU�㳰��ȯ����������IPM�ʥϡ��ɥ������γ����ͥ���٥ޥ���������ɽ
- *  ���ˤλ���
+ *  CPU例外の発生した時のIPM（ハードウェアの割込み優先度マスク，内部表
+ *  現）の参照
  */
 Inline uint16_t
 exc_get_iipm(void *p_excinf)
@@ -727,20 +727,20 @@ exc_get_iipm(void *p_excinf)
 }
 
 /*
- *  CPU�㳰��ȯ���������Υ���ƥ����Ȥȳ���ߤΥޥ������֤λ���
+ *  CPU例外の発生した時のコンテキストと割込みのマスク状態の参照
  *
- *  CPU�㳰��ȯ���������Υ����ƥ���֤��������ͥ�¹���Ǥʤ�����������
- *  ��ƥ����ȤǤ��ꡤ����ߥ��å����֤Ǥʤ���CPU���å����֤Ǥʤ����ʥ�
- *  �ǥ��Ρ˳����ͥ���٥ޥ�����������֤Ǥ������true�������Ǥʤ���
- *  ��false���֤���CPU�㳰�������ͥ�������γ���߽������ȯ���������
- *  �ˤ�false���֤��ˡ�
+ *  CPU例外の発生した時のシステム状態が，カーネル実行中でなく，タスクコ
+ *  ンテキストであり，割込みロック状態でなく，CPUロック状態でなく，（モ
+ *  デル上の）割込み優先度マスク全解除状態である時にtrue，そうでない時
+ *  にfalseを返す（CPU例外がカーネル管理外の割込み処理中で発生した場合
+ *  にもfalseを返す）．
  *
- *  SH�Ǥϡ�CPU�㳰��ȯ����������IPM�ʥϡ��ɥ������γ����ͥ���٥ޥ�����
- *  �����٤Ƥγ���ߤ���Ĥ�����֤Ǥ��뤳�Ȥ�����å����뤳�Ȥǡ�����
- *  �ͥ�¹���Ǥʤ����ȡ�����ߥ��å����֤Ǥʤ����ȡ�CPU���å����֤Ǥ�
- *  �����ȡ��ʥ�ǥ��Ρ˳����ͥ���٥ޥ�����������֤Ǥ��뤳�Ȥ�4�Ĥ�
- *  ��������å����뤳�Ȥ��Ǥ����CPU�㳰��ȯ����������lock_flag��
- *  �Ȥ���ɬ�פϤʤ��ˡ�
+ *  SHでは，CPU例外の発生した時のIPM（ハードウェアの割込み優先度マスク）
+ *  がすべての割込みを許可する状態であることをチェックすることで，カー
+ *  ネル実行中でないこと，割込みロック状態でないこと，CPUロック状態でな
+ *  いこと，（モデル上の）割込み優先度マスク全解除状態であることの4つの
+ *  条件をチェックすることができる（CPU例外が発生した時のlock_flagを参
+ *  照する必要はない）．
  */
 Inline bool_t
 exc_sense_intmask(void *p_excinf)
@@ -750,20 +750,20 @@ exc_sense_intmask(void *p_excinf)
 }
 
 /*
- *  CPU�㳰��ȯ���������Υ���ƥ����Ȥȳ���ߡ�CPU���å����֤λ���
+ *  CPU例外の発生した時のコンテキストと割込み／CPUロック状態の参照
  *
- *  CPU�㳰��ȯ���������Υ����ƥ���֤��������ͥ�¹���Ǥʤ�����������
- *  ��ƥ����ȤǤ��ꡤ����ߥ��å����֤Ǥʤ���CPU���å����֤Ǥʤ�����
- *  true�������Ǥʤ�����false���֤���CPU�㳰�������ͥ�������γ���߽�
- *  �����ȯ���������ˤ�false���֤��ˡ�
+ *  CPU例外の発生した時のシステム状態が，カーネル実行中でなく，タスクコ
+ *  ンテキストであり，割込みロック状態でなく，CPUロック状態でない時に
+ *  true，そうでない時にfalseを返す（CPU例外がカーネル管理外の割込み処
+ *  理中で発生した場合にもfalseを返す）．
  *
- *  SH34�Ǥϡ�CPU�㳰��ȯ����������IPM�ʥϡ��ɥ������γ����ͥ���٥�
- *  �����ˤ�TIPM_LOCK����㤤���Ȥ�����å����뤳�Ȥǡ������ͥ�¹����
- *  �ʤ����ȡ�����ߥ��å����֤Ǥʤ����ȡ�CPU���å����֤Ǥʤ����Ȥ�3��
- *  �ξ�������å����Ƥ����CPU�㳰��ȯ����������lock_flag�ϻ��Ȥ���
- *  ���ʤ��ˡ�����ˤ�ꡤ�ʥ�ǥ��Ρ˳����ͥ���٥ޥ�����TIPM_LOCK��
- *  ������ꤷ�ƥ�������¹Ԥ��Ƥ�����ˤ�false���֤äƤ��ޤ�����Ƚ�Ǥ�
- *  ���Τˤ��뤿��Υ����Хإåɤ��礭�����Ȥ��顤���Ƥ��뤳�Ȥˤ��롥
+ *  SH34では，CPU例外の発生した時のIPM（ハードウェアの割込み優先度マ
+ *  スク）がTIPM_LOCKより低いことをチェックすることで，カーネル実行中で
+ *  ないこと，割込みロック状態でないこと，CPUロック状態でないことの3つ
+ *  の条件をチェックしている（CPU例外が発生した時のlock_flagは参照して
+ *  いない）．これにより，（モデル上の）割込み優先度マスクをTIPM_LOCK以
+ *  上に設定してタスクを実行している時にもfalseが返ってしまうが，判断を
+ *  正確にするためのオーバヘッドが大きいことから，許容することにする．
  */
 Inline bool_t
 exc_sense_unlock(void *p_excinf)
@@ -773,22 +773,22 @@ exc_sense_unlock(void *p_excinf)
 }
 
 /*
- * Trapa�ʳ����㳰����Ͽ����Ƥ��ʤ��㳰��ȯ������ȸƤӽФ����
+ * Trapa以外の例外で登録されていない例外が発生すると呼び出される
  */
 extern void default_exc_handler(void *p_excinf);
 
 /*
- * ̤��Ͽ�γ���ߤ�ȯ���������˸ƤӽФ����
+ * 未登録の割込みが発生した場合に呼び出される
  */
 extern void default_int_handler(void *p_excinf);
 
 /*
- *  �ץ����å���¸�ν����
+ *  プロセッサ依存の初期化
  */
 extern void prc_initialize(void);
 
 /*
- *  �ץ����å���¸�ν�λ������
+ *  プロセッサ依存の終了時処理
  */
 extern void prc_terminate(void);
 

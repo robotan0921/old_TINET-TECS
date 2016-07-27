@@ -86,18 +86,18 @@ eOutput_UDPOutput(const int8_t* outputp, int32_t size, const int8_t* dstaddr, co
 
 
 	int32_t off = offset.ifhdrlen + offset.iphdrlen;
-	/* ƒf[ƒ^’·‚ğ 4 ƒIƒNƒeƒbƒg‹«ŠE‚É’²®‚·‚éB*/
+	/* ãƒ‡ãƒ¼ã‚¿é•·ã‚’ 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå¢ƒç•Œã«èª¿æ•´ã™ã‚‹ã€‚*/
 	int32_t align;
 	align = (size + 3) >> 2 << 2;
 
-	/* IP ƒf[ƒ^ƒOƒ‰ƒ€Š„‚è“–‚Ä‚ÌŠÔ‚ğ tmout ‚©‚çŒ¸‚¸‚éB*/
+	/* IP ãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ å‰²ã‚Šå½“ã¦ã®æ™‚é–“ã‚’ tmout ã‹ã‚‰æ¸›ãšã‚‹ã€‚*/
 	if (!(tmout == TMO_POL || tmout == TMO_FEVR))
 	  getTime(&before);
 
 	if((ercd = cIPv4Output_IPv4Output_outputp_alloc( (void**)&output, align+off+UDP_HDR_SIZE-offset.ifalign, tmout )) != E_OK)
 		return ercd;
 
-	/* IP ƒf[ƒ^ƒOƒ‰ƒ€Š„‚è“–‚Ä‚ÌŠÔ‚ğ tmout ‚©‚çŒ¸‚¸‚éB*/
+	/* IP ãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ å‰²ã‚Šå½“ã¦ã®æ™‚é–“ã‚’ tmout ã‹ã‚‰æ¸›ãšã‚‹ã€‚*/
 	if (!(tmout == TMO_POL || tmout == TMO_FEVR)) {
 		getTime(&after);
 		if (after - before > tmout) {
@@ -108,23 +108,23 @@ eOutput_UDPOutput(const int8_t* outputp, int32_t size, const int8_t* dstaddr, co
 		tmout -= (TMO)(after - before);
 	}
 	
-	/* UDP ƒwƒbƒ_‚Éî•ñ‚ğİ’è‚·‚éB*/
+	/* UDP ãƒ˜ãƒƒãƒ€ã«æƒ…å ±ã‚’è¨­å®šã™ã‚‹ã€‚*/
 	udph		= GET_UDP_HDR(output, off);
 	udph->sport	= htons(myport);
 	udph->dport	= htons(dstport);
 	udph->ulen	= htons(UDP_HDR_SIZE + size);
 	udph->sum	= 0;
 
-	/* ƒf[ƒ^‚ğƒRƒs[‚·‚éB*/
+	/* ãƒ‡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ã€‚*/
 	memcpy((void*)GET_UDP_SDU(output, off), outputp, (size_t)size);
 
-	//ƒpƒfƒBƒ“ƒO‚Å–„‚ß‚é
+	//ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°ã§åŸ‹ã‚ã‚‹
 	align = (size + 3) >> 2 << 2;
 	if (align > size)
 		memset((GET_UDP_SDU(output,off) + size), 0, (size_t)(align - size));
 
 	output->off = offset;
-	/* ƒlƒbƒgƒ[ƒNƒoƒbƒtƒ@’·‚ğ’²®‚·‚éB*/
+	/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒƒãƒ•ã‚¡é•·ã‚’èª¿æ•´ã™ã‚‹ã€‚*/
 	output->len = (uint16_t)(off + UDP_HDR_SIZE + size - offset.ifalign);
 	len = output->len + sizeof(T_NET_BUF) - 4 + offset.ifalign;
 	
@@ -136,13 +136,13 @@ eOutput_UDPOutput(const int8_t* outputp, int32_t size, const int8_t* dstaddr, co
 			uint16_t	sum;
 			sum = cIPv4CheckSum_ipv4CheckSum(output,len,off,IPPROTO_UDP );
 
-			/* ŒvZ‚µ‚½ƒ`ƒFƒbƒNƒTƒ€‚Ì’l‚ª 0 ‚È‚ç 0xffff ‚ğ“ü‚ê‚éB*/
+			/* è¨ˆç®—ã—ãŸãƒã‚§ãƒƒã‚¯ã‚µãƒ ã®å€¤ãŒ 0 ãªã‚‰ 0xffff ã‚’å…¥ã‚Œã‚‹ã€‚*/
 			if (sum == 0)
 			  sum = 0xffff;
 			udph->sum = sum;
 		}
 		
-		/* ƒlƒbƒgƒ[ƒN‘w (IP) ‚Ìo—ÍŠÖ”‚ğŒÄ‚Ño‚·B*/		
+		/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å±¤ (IP) ã®å‡ºåŠ›é–¢æ•°ã‚’å‘¼ã³å‡ºã™ã€‚*/		
 		if ((ercd = cIPv4Output_IPv4Output((int8_t*)output,len,tmout )) == E_OK) {
 			return size;
 		}

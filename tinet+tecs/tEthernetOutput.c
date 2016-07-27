@@ -87,7 +87,7 @@ eEthernetOutput_ethernetOutput(CELLIDX idx, int8_t* outputp, int32_t size, T_IN4
 	uint8_t mymac[6];
 	cNicDriver_getMac(mymac);
 
-	/*ヘッダのセット */
+	/*繝倥ャ繝縺ｮ繧ｻ繝�繝� */
 	memcpy(GET_ETHER_HDR(output)->shost, mymac, 6);
 
 	if(output->off.protocolflag & FLAG_USE_IPV4){

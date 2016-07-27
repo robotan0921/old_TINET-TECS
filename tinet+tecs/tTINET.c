@@ -61,10 +61,10 @@ eTINET_netSrand(uint32_t speed)
 #ifdef SIL_ENDIAN_LITTLE
 
 /*
- *  rev_memcpy_word -- ���]�������R�s�[�i4 �o�C�g�j
+ *  rev_memcpy_word -- 反転メモリコピー（4 バイト）
  *
- *    �o�C�g�P�ʂɃA�N�Z�X���鎖�ɂ��A
- *    ���E�ւ̃A���C���̖�����������B
+ *    バイト単位にアクセスする事により、
+ *    境界へのアラインの問題を解決する。
  */
 
 void
@@ -77,10 +77,10 @@ rev_memcpy_word (uint8_t *dst, uint8_t *src)
 	}
 
 /*
- *  rev_memcmp_word -- ���]��������r�i4 �o�C�g�j
+ *  rev_memcmp_word -- 反転メモリ比較（4 バイト）
  *
- *    �o�C�g�P�ʂɃA�N�Z�X���鎖�ɂ��A
- *    ���E�ւ̃A���C���̖�����������B
+ *    バイト単位にアクセスする事により、
+ *    境界へのアラインの問題を解決する。
  */
 
 int_t

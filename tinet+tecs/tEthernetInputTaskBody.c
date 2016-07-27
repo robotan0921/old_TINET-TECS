@@ -113,15 +113,15 @@ eBody_main(CELLIDX idx)
 	/* Put statements here #_TEFB_# */
 	cNicDriver_init();
 	
-	/* Ethernet o—Íƒ^ƒXƒN‚ğ‹N“®‚·‚é */
+	/* Ethernet å‡ºåŠ›ã‚¿ã‚¹ã‚¯ã‚’èµ·å‹•ã™ã‚‹ */
 	if(is_cTaskEthernetOutput_joined())
 	  cTaskEthernetOutput_activate( );
 
-	/* ƒlƒbƒgƒ[ƒNƒ^ƒCƒ}ƒ^ƒXƒN‚ğ‹N“®‚·‚é */
+	/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¿ã‚¤ãƒã‚¿ã‚¹ã‚¯ã‚’èµ·å‹•ã™ã‚‹ */
 	cTaskNetworkTimer_activate();
 
 	
-	/* ARP ‚ğ‰Šú‰»‚·‚éB*/
+	/* ARP ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚*/
 	if(is_cArpInput_joined())
 	  cArpInput_arpInitialize();
 	

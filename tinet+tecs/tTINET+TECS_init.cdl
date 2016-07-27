@@ -3,33 +3,33 @@ cell tTINET TINET{
 
 
 //
-//******************ƒ^ƒCƒ}‚Ì‘g‚İã‚°‚Í­‚µ‚í‚©‚è‚É‚­‚¢
+//******************ã‚¿ã‚¤ãƒã®çµ„ã¿ä¸Šã’ã¯å°‘ã—ã‚ã‹ã‚Šã«ãã„
 import("tNetworkTimer_inst.cdl");
 
 cell tSemaphore SemaphoreUDPCEP{
     attribute = C_EXP("TA_TPRI");
-    count = 1;
-    max = 1;
+    initialCount = 1;
+    maxCount = 1;
 };
 
 cell tSemaphore SemaphoreTcpcep{
     attribute = C_EXP("TA_TPRI");
-    count = 1;
-    max = 1;
+    initialCount = 1;
+    maxCount = 1;
 };
 
 cell tSemaphore SemaphoreTcppost{
     attribute = C_EXP("TA_TPRI");
-    count = 0;
-    max = 1;
+    initialCount = 0;
+    maxCount = 1;
 };
 cell tTCPFunctions TCPFunctions{
 };
 
 
 
-//UDP‚Ì‘g‚İã‚°‹Lq
-[allocator(eInput.UDPInput.inputp=NetworkBuffer.eNetworkAlloc),generate(RepeatPlugin ,"count = NUM_UDPCEP")]//‹tƒŠƒNƒƒCƒAsend‚ªg‚¦‚È‚¢‚½‚ß‚Æ‚è‚ ‚¦‚¸
+//UDPã®çµ„ã¿ä¸Šã’è¨˜è¿°
+[allocator(eInput.UDPInput.inputp=NetworkBuffer.eNetworkAlloc),generate(RepeatPlugin ,"count = NUM_UDPCEP")]//é€†ãƒªã‚¯ãƒ¯ã‚¤ã‚¢sendãŒä½¿ãˆãªã„ãŸã‚ã¨ã‚Šã‚ãˆãš
 cell tUDPInput UDPInput{
     cCEPInput[0] = UDPCEP_000.eInput;
     cCallback[0] = UDPCEP_000.eCallback;
@@ -38,8 +38,8 @@ cell tUDPInput UDPInput{
 
 cell tIPv4Functions IPv4Functions;
 
-//TCP‚Ì‘g‚İã‚°‹Lq
-[allocator(eInput.TCPInput.inputp=NetworkBuffer.eNetworkAlloc),generate(RepeatPlugin ,"count = NUM_TCPCEP")]//‹tƒŠƒNƒƒCƒAsend‚ªg‚¦‚È‚¢‚½‚ß‚Æ‚è‚ ‚¦‚¸
+//TCPã®çµ„ã¿ä¸Šã’è¨˜è¿°
+[allocator(eInput.TCPInput.inputp=NetworkBuffer.eNetworkAlloc),generate(RepeatPlugin ,"count = NUM_TCPCEP")]//é€†ãƒªã‚¯ãƒ¯ã‚¤ã‚¢sendãŒä½¿ãˆãªã„ãŸã‚ã¨ã‚Šã‚ãˆãš
 cell tTCPInput TCPInput{
     cCEPInput[0] = TCPCEP_000.eInput;
     cIPv4CheckSum = IPv4Functions.eCheckSum;
@@ -54,8 +54,8 @@ const T_IN4_ADDR MYIP4GATAWAY=C_EXP("MAKE_IPV4_ADDR(192,168,1,1)");
 
 cell tSemaphore SemaphoreIPv4Routing{
     attribute = C_EXP("TA_TPRI");
-    count = 1;
-    max = 1;
+    initialCount = 1;
+    maxCount = 1;
 };
 cell tIPv4RoutingTable IPv4RoutingTable{
     numStaticEntry = 3;
@@ -89,7 +89,7 @@ cell tIPv4Input IPv4Input{
 };
 
 
-//LANƒRƒ“ƒgƒ[ƒ‰‚Ì‘g‚İã‚°‹Lq
+//LANã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã®çµ„ã¿ä¸Šã’è¨˜è¿°
 [allocator(eNicDriver.start.outputp=NetworkBuffer.eNetworkAlloc,
            eNicDriver.read.inputp=NetworkBuffer.eNetworkAlloc)]
 cell tLan9221Composite Lan9221Composite {
@@ -110,8 +110,8 @@ cell tLan9221Composite Lan9221Composite {
 
 cell tDataqueue DataqueueEthernet{
     attribute = C_EXP("TA_NULL");
-    count = 1;
-    pdqmb = C_EXP("NULL");
+    dataCount = 1;
+    dataqueueManagementBuffer = C_EXP("NULL");
 };
 [allocator(eRawOutput.ethernetRawOutput.outputp=NetworkBuffer.eNetworkAlloc)]
 cell tEthernetOutputTaskBody EthernetOutputTaskBody{
@@ -122,18 +122,18 @@ cell tEthernetOutputTaskBody EthernetOutputTaskBody{
 };
 cell tTask EthernetOutputTask{
 
-    cBody = EthernetOutputTaskBody.eBody;
+    cTaskBody = EthernetOutputTaskBody.eBody;
     
-    taskAttribute = C_EXP("TA_NULL");
+    attribute = C_EXP("TA_NULL");
     priority = 5;
     stackSize = 1024;
 };
 
-//Arp‚Ì‘g‚İã‚°éŒ¾
+//Arpã®çµ„ã¿ä¸Šã’å®£è¨€
 cell tSemaphore ArpSemaphore{
     attribute = C_EXP("TA_TPRI");
-    count = 1;
-    max = 1;
+    initialCount = 1;
+    maxCount = 1;
 };
 [allocator(eArpInput.arpInput.inputp=NetworkBuffer.eNetworkAlloc,
            eArpOutput.arpResolve.outputp=NetworkBuffer.eNetworkAlloc)]
@@ -149,7 +149,7 @@ cell tArp Arp{
 };
  
 
-//ƒC[ƒTƒŒƒxƒ‹‚Ì‘g‚İã‚°éŒ¾
+//ã‚¤ãƒ¼ã‚µãƒ¬ãƒ™ãƒ«ã®çµ„ã¿ä¸Šã’å®£è¨€
 [allocator(eEthernetOutput.ethernetOutput.outputp=NetworkBuffer.eNetworkAlloc)]
 cell tEthernetOutput EthernetOutput{
     cNicDriver = Lan9221Composite.eNicDriver;
@@ -172,9 +172,9 @@ cell tEthernetInputTaskBody EthernetInputTaskBody {
 };
 cell tTask EthernetInputTask{
 
-    cBody = EthernetInputTaskBody.eBody;
+    cTaskBody = EthernetInputTaskBody.eBody;
     
-    taskAttribute = C_EXP("TA_ACT");
+    attribute = C_EXP("TA_ACT");
     priority = 5;
     stackSize = 1024;
 };
@@ -207,9 +207,9 @@ cell tTCPOutputBody TCPOutputBody{
 };
 cell tTask TCPTask{
 
-    cBody = TCPOutputBody.eBody;
+    cTaskBody = TCPOutputBody.eBody;
 
-    taskAttribute = C_EXP("TA_NULL");
+    attribute = C_EXP("TA_NULL");
     priority = 5;
     stackSize = 1024;
 };
@@ -217,12 +217,12 @@ cell tTask TCPTask{
 
 
 //************************************************
-//            ƒ^ƒCƒ}‘g‚İã‚°éŒ¾
+//            ã‚¿ã‚¤ãƒçµ„ã¿ä¸Šã’å®£è¨€
 //************************************************
 cell tNetworkTimer NetworkTimer{
     cTCPTask = TCPTask.eTask;
 
-    //—LŒø‚Èƒlƒbƒgƒ[ƒNƒ^ƒCƒ}éŒ¾
+    //æœ‰åŠ¹ãªãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¿ã‚¤ãƒå®£è¨€
     cCallTimerFunction[0] = Lan9221Composite.eWatchdogTimer;
     cCallTimerFunction[1] = Arp.eArpTimer;
     cCallTimerFunction[2] = IPv4RoutingTable.eRoutingTableTimer;

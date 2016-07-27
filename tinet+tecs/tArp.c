@@ -65,9 +65,9 @@ const uint8_t ether_broad_cast_addr[6] = {
   };
 
 /*
- *  arp_lookup -- ARP ƒLƒƒƒbƒVƒ…‚Ì’Tõ‚Æ“o˜^
+ *  arp_lookup -- ARP ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®æ¢ç´¢ã¨ç™»éŒ²
  *
- *    ’ˆÓ: SEM_ARP_CACHE_LOCK ‚ğŠl“¾‚µ‚½ó‘Ô‚ÅŒÄo‚·‚±‚Æ
+ *    æ³¨æ„: SEM_ARP_CACHE_LOCK ã‚’ç²å¾—ã—ãŸçŠ¶æ…‹ã§å‘¼å‡ºã™ã“ã¨
  */
 
 static T_ARP_ENTRY *
@@ -81,10 +81,10 @@ arp_lookup (CELLCB	*p_cellcb,T_IN4_ADDR addr, bool_t create)
 			return &VAR_arp_cache[ix];
 	}
 
-	/* create ‚ª^‚È‚çAV‚½‚ÈƒGƒ“ƒgƒŠ‚ğ“o˜^‚·‚éB*/
+	/* create ãŒçœŸãªã‚‰ã€æ–°ãŸãªã‚¨ãƒ³ãƒˆãƒªã‚’ç™»éŒ²ã™ã‚‹ã€‚*/
 	if (create) {
 
-		/* ‚Ü‚¸A‹ó‚«‚ª‚ ‚ê‚ÎA‚»‚Ì‹ó‚«‚ğ—˜—p‚·‚éB*/
+		/* ã¾ãšã€ç©ºããŒã‚ã‚Œã°ã€ãã®ç©ºãã‚’åˆ©ç”¨ã™ã‚‹ã€‚*/
 		for (ix = ATTR_arpEntry; ix -- > 0; ) {
 			if (VAR_arp_cache[ix].expire == 0) {
 				VAR_arp_cache[ix].ip_addr = addr;
@@ -93,8 +93,8 @@ arp_lookup (CELLCB	*p_cellcb,T_IN4_ADDR addr, bool_t create)
 			}
 
 		/*
-		 *  ‹ó‚«‚ª‚È‚¯‚ê‚ÎAƒ^ƒCƒ€ƒAƒEƒg‚Ü‚ÅŠÔ‚ªÅ’Z‚Ì
-		 *  ƒGƒ“ƒgƒŠ[‚ğ”jŠü‚µ‚Ä—˜—p‚·‚éB
+		 *  ç©ºããŒãªã‘ã‚Œã°ã€ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã¾ã§æ™‚é–“ãŒæœ€çŸ­ã®
+		 *  ã‚¨ãƒ³ãƒˆãƒªãƒ¼ã‚’ç ´æ£„ã—ã¦åˆ©ç”¨ã™ã‚‹ã€‚
 		 */
 		syslog(LOG_EMERG, "[ARP] cache busy, size=%d", ATTR_arpEntry);
 		min = 0xffff;
@@ -111,7 +111,7 @@ arp_lookup (CELLCB	*p_cellcb,T_IN4_ADDR addr, bool_t create)
 	  return NULL;
 }
 /*
- *  arp_request -- MAC ƒAƒhƒŒƒX‰ğŒˆ—v‹
+ *  arp_request -- MAC ã‚¢ãƒ‰ãƒ¬ã‚¹è§£æ±ºè¦æ±‚
  */
 
 static ER
@@ -131,13 +131,13 @@ arp_request (CELLCB	*p_cellcb,const uint8_t *macaddress, T_IN4_ADDR dst)
 	
 	if ((error = cEthernetRawOutput_ethernetRawOutput_outputp_alloc((void **)&arp_req, IF_ARP_ETHER_HDR_SIZE, TMO_ARP_GET_NET_BUF)) == E_OK) {
 
-		/* ƒC[ƒTƒlƒbƒgƒwƒbƒ_‚ğİ’è‚·‚éB*/
+		/* ã‚¤ãƒ¼ã‚µãƒãƒƒãƒˆãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã™ã‚‹ã€‚*/
 		eth     = GET_ETHER_HDR(arp_req);
 		memcpy(eth->dhost, ether_broad_cast_addr, 6);
 		memcpy(eth->shost, macaddress,        6);
 		eth->type = htons(ETHER_TYPE_ARP);
 
-		/* ARP ƒwƒbƒ_‚ğİ’è‚·‚éB*/
+		/* ARP ãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã™ã‚‹ã€‚*/
 		arph    = GET_ARP_HDR(arp_req);
 		arph->hrd_addr  = htons(ARPHRD_ETHER);
 		arph->proto     = htons(ETHER_TYPE_IP);
@@ -145,7 +145,7 @@ arp_request (CELLCB	*p_cellcb,const uint8_t *macaddress, T_IN4_ADDR dst)
 		arph->proto_len = sizeof(et_arph->sproto);
 		arph->opcode    = htons(ARPOP_REQUEST);
 
-		/* ƒC[ƒTƒlƒbƒg ARP ƒwƒbƒ_‚ğİ’è‚·‚éB*/
+		/* ã‚¤ãƒ¼ã‚µãƒãƒƒãƒˆ ARP ãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã™ã‚‹ã€‚*/
 		et_arph = GET_ETHER_ARP_HDR(arp_req);
 		src     = cIPv4Functions_getIPv4Address();
 		memcpy(et_arph->shost, macaddress, 6);
@@ -153,7 +153,7 @@ arp_request (CELLCB	*p_cellcb,const uint8_t *macaddress, T_IN4_ADDR dst)
 		ahtonl(et_arph->sproto, src);
 		ahtonl(et_arph->tproto, dst);
 
-		/* ‘—M‚·‚éB*/
+		/* é€ä¿¡ã™ã‚‹ã€‚*/
 		error = cEthernetRawOutput_ethernetRawOutput((int8_t*)arp_req,GET_IF_ARP_HDR_SIZE(input), TMO_ARP_OUTPUT);
 	}
 	if (error != E_OK)
@@ -165,7 +165,7 @@ arp_request (CELLCB	*p_cellcb,const uint8_t *macaddress, T_IN4_ADDR dst)
 
 
 /*
- *  in_arpinput -- TCP/IP —p ARP ‚Ì“ü—ÍŠÖ”
+ *  in_arpinput -- TCP/IP ç”¨ ARP ã®å…¥åŠ›é–¢æ•°
  */
 
 static void
@@ -178,13 +178,13 @@ in_arpinput (CELLCB	*p_cellcb,const uint8_t *macaddress, T_NET_BUF *input)
 	
 	et_arph = GET_ETHER_ARP_HDR(input);
 
-	ntoahl(saddr, et_arph->sproto);		/* ‘—MŒ³ IP ƒAƒhƒŒƒX	*/
-	ntoahl(taddr, et_arph->tproto);		/* ‰ğŒˆ‘ÎÛ IP ƒAƒhƒŒƒX	*/
+	ntoahl(saddr, et_arph->sproto);		/* é€ä¿¡å…ƒ IP ã‚¢ãƒ‰ãƒ¬ã‚¹	*/
+	ntoahl(taddr, et_arph->tproto);		/* è§£æ±ºå¯¾è±¡ IP ã‚¢ãƒ‰ãƒ¬ã‚¹	*/
 
 	/*
-	 *  ˆÈ‰º‚Ìê‡‚ÍƒGƒ‰[
-	 *    E‘—MƒzƒXƒg‚Ì•¨—ƒAƒhƒŒƒX‚ª©•ª
-	 *    E‘—MƒzƒXƒg‚Ì•¨—ƒAƒhƒŒƒX‚ªƒuƒ[ƒhƒLƒƒƒXƒg
+	 *  ä»¥ä¸‹ã®å ´åˆã¯ã‚¨ãƒ©ãƒ¼
+	 *    ãƒ»é€ä¿¡ãƒ›ã‚¹ãƒˆã®ç‰©ç†ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒè‡ªåˆ†
+	 *    ãƒ»é€ä¿¡ãƒ›ã‚¹ãƒˆã®ç‰©ç†ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆ
 	 */
 
 	if (memcmp(et_arph->shost, macaddress,6) == 0 ||
@@ -193,30 +193,30 @@ in_arpinput (CELLCB	*p_cellcb,const uint8_t *macaddress, T_NET_BUF *input)
 
 	T_IN4_ADDR myaddr = cIPv4Functions_getIPv4Address();
 
-	//ARP‘—MŒ³‚ÌƒAƒhƒŒƒX‚Æ©•ª‚ÌƒAƒhƒŒƒX‚ª‚©‚Ô‚Á‚Ä‚¢‚½ê‡
-	//ARP‚Æ‚µ‚Ä‚Í“¯‚¶IPƒAƒhƒŒƒX‚É‚Q‚Â‚ÌMACƒAƒhƒŒƒX‚ğ“o˜^‚·‚é‚±‚Æ‚É‚È‚é‚Ì‚Å
-	//mikanARPd•¡‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”
+	//ARPé€ä¿¡å…ƒã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã¨è‡ªåˆ†ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒã‹ã¶ã£ã¦ã„ãŸå ´åˆ
+	//ARPã¨ã—ã¦ã¯åŒã˜IPã‚¢ãƒ‰ãƒ¬ã‚¹ã«ï¼’ã¤ã®MACã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ç™»éŒ²ã™ã‚‹ã“ã¨ã«ãªã‚‹ã®ã§
+	//mikanARPé‡è¤‡ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	if(saddr == myaddr){
-		syslog(LOG_EMERG,"ARP IP address duplicated %x\n",saddr);
+		syslog(LOG_EMERG,"ARP IP address duplicated %xÂ¥n",saddr);
 		taddr = saddr;
 		goto reply;
 	}
 
 
 	/*
-	 *  ˆÈ‰º‚Ìê‡‚Í‰½‚à‚µ‚È‚¢B
-	 *    E‰ğŒˆ‘ÎÛ IP ƒAƒhƒŒƒX‚ª©•ª‚Å‚Í‚È‚¢A’: Œ³‚Ì FreeBSD ‚Ì
-	 *      À‘•‚Å‚ÍAARP PROXY “™‚Ì‚½‚ßA©•ªˆÈŠO‚Ì IP ƒAƒhƒŒƒX‚Ì
-	 *      ‰ğŒˆ‚às‚Á‚Ä‚¢‚é‚ªA–{À‘•‚Å‚ÍA©•ªˆÈŠO‚Ì IP
-	 *      ƒAƒhƒŒƒX‚Ì‰ğŒˆ‚Ís‚í‚È‚¢B
+	 *  ä»¥ä¸‹ã®å ´åˆã¯ä½•ã‚‚ã—ãªã„ã€‚
+	 *    ãƒ»è§£æ±ºå¯¾è±¡ IP ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒè‡ªåˆ†ã§ã¯ãªã„ã€æ³¨: å…ƒã® FreeBSD ã®
+	 *      å®Ÿè£…ã§ã¯ã€ARP PROXY ç­‰ã®ãŸã‚ã€è‡ªåˆ†ä»¥å¤–ã® IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã®
+	 *      è§£æ±ºã‚‚è¡Œã£ã¦ã„ã‚‹ãŒã€æœ¬å®Ÿè£…ã§ã¯ã€è‡ªåˆ†ä»¥å¤–ã® IP
+	 *      ã‚¢ãƒ‰ãƒ¬ã‚¹ã®è§£æ±ºã¯è¡Œã‚ãªã„ã€‚
 	 */
 	if (taddr != myaddr)
 		goto buf_rel;
 
 
 	/*
-	 *  ‘—MŒ³ IP ƒAƒhƒŒƒX‚ª ARP ƒLƒƒƒbƒVƒ…‚É‚ ‚é‚©’²‚×‚éB
-	 *  ƒLƒƒƒbƒVƒ…‚É‚È‚¯‚ê‚ÎAV‚½‚ÉƒGƒ“ƒgƒŠ‚ğ“o˜^‚·‚éB
+	 *  é€ä¿¡å…ƒ IP ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒ ARP ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ã‚ã‚‹ã‹èª¿ã¹ã‚‹ã€‚
+	 *  ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ãªã‘ã‚Œã°ã€æ–°ãŸã«ã‚¨ãƒ³ãƒˆãƒªã‚’ç™»éŒ²ã™ã‚‹ã€‚
 	 */
 	T_ARP_ENTRY *ent;
 	cArpSemaphore_wait();
@@ -226,11 +226,11 @@ in_arpinput (CELLCB	*p_cellcb,const uint8_t *macaddress, T_NET_BUF *input)
 	ent->expire = ARP_CACHE_KEEP;
 
 	/*
-	 *  ‘—M‚ªƒyƒ“ƒfƒ“ƒO‚³‚ê‚Ä‚¢‚éƒtƒŒ[ƒ€‚ª‚ ‚ê‚Î‘—M‚·‚éB
+	 *  é€ä¿¡ãŒãƒšãƒ³ãƒ‡ãƒ³ã‚°ã•ã‚Œã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ãŒã‚ã‚Œã°é€ä¿¡ã™ã‚‹ã€‚
 	 */
 	if (ent->hold) {
 
-		/* ƒtƒŒ[ƒ€‚Ì Ethernet ƒwƒbƒ_‚ğİ’è‚·‚éB*/
+		/* ãƒ•ãƒ¬ãƒ¼ãƒ ã® Ethernet ãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã™ã‚‹ã€‚*/
 		memcpy(GET_ETHER_HDR(ent->hold)->dhost, ent->mac_addr, 6);
 
 		T_NET_BUF *pending;
@@ -239,7 +239,7 @@ in_arpinput (CELLCB	*p_cellcb,const uint8_t *macaddress, T_NET_BUF *input)
 		ent->hold = NULL;
 		cArpSemaphore_signal();
 
-		/* ƒyƒ“ƒfƒBƒ“ƒO‚³‚ê‚Ä‚¢‚éƒtƒŒ[ƒ€‚ğ‘—M‚·‚éB*/
+		/* ãƒšãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã•ã‚Œã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’é€ä¿¡ã™ã‚‹ã€‚*/
 		//IF_RAW_OUTPUT(pending, TMO_FEVR);mikan
 
 		}else{
@@ -248,30 +248,30 @@ in_arpinput (CELLCB	*p_cellcb,const uint8_t *macaddress, T_NET_BUF *input)
 
   reply:
 
-	/* ƒAƒhƒŒƒX‰ğŒˆ—v‹‚Å‚È‚¯‚ê‚ÎI—¹ */
+	/* ã‚¢ãƒ‰ãƒ¬ã‚¹è§£æ±ºè¦æ±‚ã§ãªã‘ã‚Œã°çµ‚äº† */
 	if (ntohs(arph->opcode) != ARPOP_REQUEST)
 		goto buf_rel;
 
-	/* Ethernet ARP ƒwƒbƒ_‚ğİ’è‚·‚éB*/
+	/* Ethernet ARP ãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã™ã‚‹ã€‚*/
 	memcpy(et_arph->thost, et_arph->shost, 6);
 	memcpy(et_arph->shost, macaddress, 6);
 	memcpy(et_arph->tproto, (uint8_t*)&et_arph->sproto, sizeof(T_IN4_ADDR));
 	ahtonl(et_arph->sproto, taddr);
 
-	/* Ethernet ARP ƒwƒbƒ_‚ğİ’è‚·‚éB*/
+	/* Ethernet ARP ãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã™ã‚‹ã€‚*/
 	arph->opcode = htons(ARPOP_REPLY);
 
-	/* Ethernet ƒwƒbƒ_‚ğİ’è‚·‚éB*/
+	/* Ethernet ãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã™ã‚‹ã€‚*/
 	T_ETHER_HDR	*eth = GET_ETHER_HDR(input);
 	memcpy(eth->dhost, eth->shost,6);
 	memcpy(eth->shost, macaddress,6);
 
-	/* ARP ‰“š‚ğ‘—M‚·‚éB*/
+	/* ARP å¿œç­”ã‚’é€ä¿¡ã™ã‚‹ã€‚*/
 	cEthernetRawOutput_ethernetRawOutput((int8_t*)input,GET_IF_ARP_HDR_SIZE(input),TMO_FEVR);
 	return;
 	
   err_ret:
-	//MIB‚ª“ü‚è‚Ü‚·mikan
+	//MIBãŒå…¥ã‚Šã¾ã™mikan
   buf_rel:
 	eArpInput_arpInput_inputp_dealloc((void*)input);
 }
@@ -323,21 +323,21 @@ eArpInput_arpInput(CELLIDX idx, int8_t* inputp, int32_t size, const uint8_t* mac
 	T_ARP_HDR *arph;
 	T_NET_BUF *input = (T_NET_BUF*)inputp;
 	
-	/* ARP ƒwƒbƒ_‚Ì’·‚³‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* ARP ãƒ˜ãƒƒãƒ€ã®é•·ã•ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (input->len < ETHER_ARP_HDR_SIZE)
 		goto buf_rel;
 
 	arph = GET_ARP_HDR(input);
 
 	/*
-	 *  •¨—ƒAƒhƒŒƒXƒtƒH[ƒ}ƒbƒg‚ª Ehternet ˆÈŠO
-	 *  ‚Ü‚½‚ÍAƒvƒƒgƒRƒ‹‚ª IP ˆÈŠO‚ÍƒGƒ‰[B
+	 *  ç‰©ç†ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆãŒ Ehternet ä»¥å¤–
+	 *  ã¾ãŸã¯ã€ãƒ—ãƒ­ãƒˆã‚³ãƒ«ãŒ IP ä»¥å¤–ã¯ã‚¨ãƒ©ãƒ¼ã€‚
 	 */
 	if (ntohs(arph->hrd_addr) != ARPHRD_ETHER ||
 	    ntohs(arph->proto)    != ETHER_TYPE_IP)
 		goto buf_rel;
 	
-	/* ARP ƒwƒbƒ_ + Ether ARP ƒwƒbƒ_‚Ì’·‚³‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* ARP ãƒ˜ãƒƒãƒ€ + Ether ARP ãƒ˜ãƒƒãƒ€ã®é•·ã•ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (input->len < IF_ARP_ETHER_HDR_SIZE)
 		goto buf_rel;
 	
@@ -383,18 +383,18 @@ eArpOutput_arpResolve(CELLIDX idx, int8_t* outputp, int32_t size,T_IN4_ADDR dsta
 	eth = GET_ETHER_HDR(output);
 
 	/*
-	 *  Ÿ‚Ìê‡‚ÍAƒC[ƒTƒlƒbƒg‚Ìƒuƒ[ƒhƒLƒƒƒXƒgƒAƒhƒŒƒX‚ğ•Ô‚·B
+	 *  æ¬¡ã®å ´åˆã¯ã€ã‚¤ãƒ¼ã‚µãƒãƒƒãƒˆã®ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¿”ã™ã€‚
 	 *
-	 *    E‘Sƒrƒbƒg‚ª 1
-	 *    EƒzƒXƒg•”‚Ì‘Sƒrƒbƒg‚ª 1 ‚ÅAƒlƒbƒgƒ[ƒN•”‚ªƒ[ƒJƒ‹ƒAƒhƒŒƒX
+	 *    ãƒ»å…¨ãƒ“ãƒƒãƒˆãŒ 1
+	 *    ãƒ»ãƒ›ã‚¹ãƒˆéƒ¨ã®å…¨ãƒ“ãƒƒãƒˆãŒ 1 ã§ã€ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯éƒ¨ãŒãƒ­ãƒ¼ã‚«ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹
 	 */
 	if (dstaddr == IPV4_ADDR_BROADCAST ||
-	    dstaddr == ((src & mask) | ~mask)) {
+	    dstaddr == ((src & mask) | â€¾mask)) {
 		memcpy(eth->dhost, ether_broad_cast_addr, 6);
 		return cEthernetRawOutput_ethernetRawOutput(output,size,tmout);
 		}
 
-	/* ‘—Mæ GW ‚Ì IP ƒAƒhƒŒƒX‚ª ARP ƒLƒƒƒbƒVƒ…‚É‚ ‚é‚©’²‚×‚éB*/
+	/* é€ä¿¡å…ˆ GW ã® IP ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒ ARP ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ã‚ã‚‹ã‹èª¿ã¹ã‚‹ã€‚*/
 	cArpSemaphore_wait();
 	ent = arp_lookup(p_cellcb,dstaddr, true);
 	if (ent->expire) {
@@ -403,21 +403,21 @@ eArpOutput_arpResolve(CELLIDX idx, int8_t* outputp, int32_t size,T_IN4_ADDR dsta
 		return cEthernetRawOutput_ethernetRawOutput(output,size,tmout);
 	}
 	else {
-	 	/* ‘—M‚ªƒyƒ“ƒfƒ“ƒO‚³‚ê‚Ä‚¢‚éƒtƒŒ[ƒ€‚ª‚ ‚ê‚ÎÌ‚Ä‚éB*/
+	 	/* é€ä¿¡ãŒãƒšãƒ³ãƒ‡ãƒ³ã‚°ã•ã‚Œã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ãŒã‚ã‚Œã°æ¨ã¦ã‚‹ã€‚*/
 		if (ent->hold) {
 			eArpOutput_arpResolve_outputp_dealloc((void*)ent->hold);
 		}
 
 		/*
-		 *  ‘—M‚ğƒyƒ“ƒfƒBƒ“ƒO‚·‚éB
-		 *  IF ‚Åƒlƒbƒgƒ[ƒNƒoƒbƒtƒ@‚ğŠJ•ú‚µ‚È‚¢ƒtƒ‰ƒO‚ªİ’è‚³‚ê‚Ä‚¢‚é‚Æ‚«‚ÍA
-		 *  ‘—M‚ğƒyƒ“ƒfƒBƒ“ƒO‚µ‚È‚¢B
+		 *  é€ä¿¡ã‚’ãƒšãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã™ã‚‹ã€‚
+		 *  IF ã§ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒƒãƒ•ã‚¡ã‚’é–‹æ”¾ã—ãªã„ãƒ•ãƒ©ã‚°ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã¨ãã¯ã€
+		 *  é€ä¿¡ã‚’ãƒšãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã—ãªã„ã€‚
 		 */
 		ent->hold = output;
 
 		cArpSemaphore_signal();
 
-		/* ƒAƒhƒŒƒX‰ğŒˆ—v‹‚ğ‘—M‚·‚éB*/
+		/* ã‚¢ãƒ‰ãƒ¬ã‚¹è§£æ±ºè¦æ±‚ã‚’é€ä¿¡ã™ã‚‹ã€‚*/
 		return arp_request(p_cellcb,macaddress, dstaddr);
 	}
 }
@@ -453,7 +453,7 @@ eArpTimer_callFunction(CELLIDX idx)
 			VAR_arp_cache[ix].expire -= 600;
 			if(VAR_arp_cache[ix].expire == 0){
 				if(VAR_arp_cache[ix].hold){
-					//MIB‚ğ‚â‚Á‚Ämikan
+					//MIBã‚’ã‚„ã£ã¦mikan
 					eArpInput_arpInput_inputp_dealloc((void*)VAR_arp_cache[ix].hold);
 				}
 				memset(&VAR_arp_cache[ix],0,sizeof(T_ARP_ENTRY));
@@ -462,7 +462,7 @@ eArpTimer_callFunction(CELLIDX idx)
 	}
 
 	cArpSemaphore_signal();
-	cNetworkTimer_Timeout(600);//60sŠÔŠu‚ÅŒÄ‚Ño‚³‚ê‚éƒ^ƒCƒ}ŠÖ”‚Å‚·
+	cNetworkTimer_Timeout(600);//60sé–“éš”ã§å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚¿ã‚¤ãƒé–¢æ•°ã§ã™
 }
 
 /* #[<POSTAMBLE>]#

@@ -57,7 +57,7 @@ eNetworkAlloc_alloc(void** buf, const int32_t minlen, TMO tmout)
 	int_t	ix, req_ix;
 	ER	error = E_OK;
 	T_NET_BUF* tmp;
-	/* Å“K‚ÈƒTƒCƒY‚ÌŒÅ’è’·ƒƒ‚ƒŠƒv[ƒ‹‚ð’T‚·B*/
+	/* æœ€é©ãªã‚µã‚¤ã‚ºã®å›ºå®šé•·ãƒ¡ãƒ¢ãƒªãƒ—ãƒ¼ãƒ«ã‚’æŽ¢ã™ã€‚*/
 	ix = N_CP_cFixedSizeMemoryPool;
 	while (ix -- > 0 && len > cMemoryPoolStatus_getSize(ix))
 		;
@@ -97,7 +97,7 @@ eNetworkAlloc_dealloc(const void* buf)
 	T_NET_BUF *tmp = (T_NET_BUF *)buf;
 	ER error;
 	
-	/* ƒlƒbƒgƒ[ƒNƒoƒbƒtƒ@‚Ì ID ‚Ì³“–«‚ðŒŸØ‚·‚éB*/
+	/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒƒãƒ•ã‚¡ã® ID ã®æ­£å½“æ€§ã‚’æ¤œè¨¼ã™ã‚‹ã€‚*/
 	if ((int_t)tmp->idix >= (int_t)N_CP_cFixedSizeMemoryPool) {
 		syslog(LOG_EMERG, "[NET BUF] E_ID, ID=%d.", tmp->idix);
 		error = E_ID;
@@ -123,7 +123,7 @@ eNetworkAlloc_reuse(void* buf)
 	ER error;
 	T_NET_BUF* tmp = (T_NET_BUF *)buf;
 
-	/* ƒlƒbƒgƒ[ƒNƒoƒbƒtƒ@‚Ì ID ‚Ì³“–«‚ðŒŸØ‚·‚éB*/
+	/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒƒãƒ•ã‚¡ã® ID ã®æ­£å½“æ€§ã‚’æ¤œè¨¼ã™ã‚‹ã€‚*/
 	if (tmp->idix >= (int_t)N_CP_cFixedSizeMemoryPool) {
 		syslog(LOG_EMERG, "[NET BUF] E_ID, ID=%d.", tmp->idix);
 		error = E_ID;

@@ -1,15 +1,15 @@
-/*     ƒC[ƒTƒlƒbƒgo—Íƒ^ƒXƒN
-          IDFETHER_OUTPUT_TASK
-          —Dæ“xF5
-          ‰Šúó‘ÔFTA_HLNG
-          ŒÄo‚µŠÖ”Fehter_output_task(net/ethernet.c)
-          ƒXƒ^ƒbƒNƒTƒCƒYF1024
-     ƒC[ƒTƒlƒbƒg“ü—Íƒ^ƒXƒN
-          IDFETHER_INPUT_TASK
-          —Dæ“xF5
-          ‰Šúó‘ÔFTA_HLNG
-          ŒÄo‚µŠÖ”Fehter_input_task(net/ethernet.c)
-          ƒXƒ^ƒbƒNƒTƒCƒYF1024         
+/*     ã‚¤ãƒ¼ã‚µãƒãƒƒãƒˆå‡ºåŠ›ã‚¿ã‚¹ã‚¯
+          IDï¼šETHER_OUTPUT_TASK
+          å„ªå…ˆåº¦ï¼š5
+          åˆæœŸçŠ¶æ…‹ï¼šTA_HLNG
+          å‘¼å‡ºã—é–¢æ•°ï¼šehter_output_task(net/ethernet.c)
+          ã‚¹ã‚¿ãƒƒã‚¯ã‚µã‚¤ã‚ºï¼š1024
+     ã‚¤ãƒ¼ã‚µãƒãƒƒãƒˆå…¥åŠ›ã‚¿ã‚¹ã‚¯
+          IDï¼šETHER_INPUT_TASK
+          å„ªå…ˆåº¦ï¼š5
+          åˆæœŸçŠ¶æ…‹ï¼šTA_HLNG
+          å‘¼å‡ºã—é–¢æ•°ï¼šehter_input_task(net/ethernet.c)
+          ã‚¹ã‚¿ãƒƒã‚¯ã‚µã‚¤ã‚ºï¼š1024         
 */
 
 
@@ -80,7 +80,7 @@ celltype tEthernetOutputTaskBody {
     entry sTaskBody eBody;
 };
 
-/*ƒRƒ“ƒ|ƒWƒbƒg“à•”‚ÌƒZƒ“ƒhƒŒƒV[ƒu‚ªg‚¦‚È‚¢
+/*ã‚³ãƒ³ãƒã‚¸ãƒƒãƒˆå†…éƒ¨ã®ã‚»ãƒ³ãƒ‰ãƒ¬ã‚·ãƒ¼ãƒ–ãŒä½¿ãˆãªã„
 [active]
 composite tEthernetOutputComposite{
 

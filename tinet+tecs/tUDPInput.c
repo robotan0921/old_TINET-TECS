@@ -77,24 +77,24 @@ eInput_UDPInput(int8_t* inputp, int32_t size,  const int8_t* dstaddr, int32_t ad
 	input->off.tphdrlen = UDP_HDR_SIZE;
 	input->off.tphdrlenall = UDP_HDR_SIZE;
 	
-	/* ƒwƒbƒ_’·‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* ãƒ˜ãƒƒãƒ€é•·ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (input->len < offset + UDP_HDR_SIZE)
 		goto buf_rel;
 
 	T_UDP_HDR *udph = GET_UDP_HDR(input,offset);
 
-	/* ƒf[ƒ^ƒOƒ‰ƒ€’·‚ğƒ`ƒFƒbƒN‚·‚é */
+	/* ãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ é•·ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ */
 	ulen  = ntohs(udph->ulen);
 	if (ulen != input->len - offset+input->off.ifalign)
 		goto buf_rel;
 
-	/* ˆ¶æƒ|[ƒg‚ª 0 ‚Ìƒf[ƒ^ƒOƒ‰ƒ€‚Í”jŠü‚·‚éBRFC768 */
+	/* å®›å…ˆãƒãƒ¼ãƒˆãŒ 0 ã®ãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ ã¯ç ´æ£„ã™ã‚‹ã€‚RFC768 */
 	if (udph->dport == 0)
 		goto buf_rel;
 
 
 
-	/* ƒ`ƒFƒbƒNƒTƒ€‚ğƒ`ƒFƒbƒN‚·‚é */
+	/* ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ */
 	if((input->off.protocolflag & FLAG_USE_IPV4) && is_cIPv4CheckSum_joined()){
 		if (udph->sum && cIPv4CheckSum_ipv4CheckSum(inputp,size,offset, IPPROTO_UDP) != 0)
 		  goto buf_rel;
@@ -112,14 +112,14 @@ eInput_UDPInput(int8_t* inputp, int32_t size,  const int8_t* dstaddr, int32_t ad
 			}
 			
 			
-			//mikan UDP‚Ìƒmƒ“ƒuƒƒbƒLƒ“ƒOƒR[ƒ‹‚ğƒTƒ|[ƒg‚·‚é‚È‚ç‚Î‚Ìˆ—
+			//mikan UDPã®ãƒãƒ³ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°ã‚³ãƒ¼ãƒ«ã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹ãªã‚‰ã°ã®å‡¦ç†
 
 
 			
 			else if(is_cCallback_joined(ix))  {
 
-				//ƒR[ƒ‹ƒoƒbƒN‚ÅŸè‚Éƒoƒbƒtƒ@‚ğ‰ğ•ú‚·‚éê‡‚Í‚Æ‚©‚»‚¤‚¢‚¤ˆ—‚ª“ü‚é‚Ì‚Å‚·‚ªA
-				//“ïˆÕ“x‚ª‚‚¢‚Ì‚Åæ‘—‚Á‚¿‚á‚¤‚Ì‚Å‚©‚Á‚Ä‚É‰ğ•ú‚µ‚Ä‰º‚³‚¢‚Æ‚¢‚¤‚±‚Æ‚É‚·‚é
+				//ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã§å‹æ‰‹ã«ãƒãƒƒãƒ•ã‚¡ã‚’è§£æ”¾ã™ã‚‹å ´åˆã¯ã¨ã‹ãã†ã„ã†å‡¦ç†ãŒå…¥ã‚‹ã®ã§ã™ãŒã€
+				//é›£æ˜“åº¦ãŒé«˜ã„ã®ã§å…ˆé€ã£ã¡ã‚ƒã†ã®ã§ã‹ã£ã¦ã«è§£æ”¾ã—ã¦ä¸‹ã•ã„ã¨ã„ã†ã“ã¨ã«ã™ã‚‹
 				if(cCEPInput_sendData(ix,inputp,size) != E_OK)
 				  goto buf_rel;
 				cCallback_callback(ix,TEV_UDP_RCV_DAT,len);
@@ -132,13 +132,13 @@ eInput_UDPInput(int8_t* inputp, int32_t size,  const int8_t* dstaddr, int32_t ad
 	}
 
 
-	//ŠY“–CEP‚ª‚È‚©‚Á‚½ê‡‚ÌƒGƒ‰[ˆ—‚Í‰ºˆÊƒvƒƒgƒRƒ‹‚ÉƒR[ƒ‹ƒoƒbƒN‚ÅˆË—Š‚·‚é
+	//è©²å½“CEPãŒãªã‹ã£ãŸå ´åˆã®ã‚¨ãƒ©ãƒ¼å‡¦ç†ã¯ä¸‹ä½ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã«ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã§ä¾é ¼ã™ã‚‹
 	if((input->off.protocolflag & FLAG_USE_IPV4) && is_cICMP4Error_joined())
 		cICMP4Error_error(inputp,size,ICMP4_UNREACH_PORT);
 
 	
 buf_rel:
-	eInput_UDPInput_inputp_dealloc((void*)inputp);//mikan ‚Ç‚Á‚¿‚É‚µ‚ë“¯‚¶ƒAƒƒP[ƒ^—˜—p‚ğ‘O’ñ
+	eInput_UDPInput_inputp_dealloc((void*)inputp);//mikan ã©ã£ã¡ã«ã—ã‚åŒã˜ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿åˆ©ç”¨ã‚’å‰æ
 	return IPPROTO_DONE;
 }
 

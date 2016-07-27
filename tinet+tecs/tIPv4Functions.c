@@ -38,18 +38,18 @@
 
 
 /*
- *  in_cksum_sum -- ƒ`ƒFƒbƒNƒTƒ€‚Ì‡ŒvŒvZŠÖ”
+ *  in_cksum_sum -- ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã®åˆè¨ˆè¨ˆç®—é–¢æ•°
  *
- *  ’ˆÓ: data ‚Í 4 ƒIƒNƒeƒbƒg’PˆÊ‚ÅƒpƒfƒBƒ“ƒO‚·‚é‚±‚ÆB
- *        data ‚ª 2 ƒIƒNƒeƒbƒg’PˆÊ‚ÉƒAƒ‰ƒCƒ“‚³‚ê‚Ä‚¢‚È‚¢‚Æ
- *        —áŠO‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éB
- *        len  ‚Í 4 ƒIƒNƒeƒbƒg’PˆÊ‚ÉƒAƒ‰ƒCƒ“‚³‚ê‚Ä‚¢‚é‚±‚ÆB
+ *  æ³¨æ„: data ã¯ 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå˜ä½ã§ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°ã™ã‚‹ã“ã¨ã€‚
+ *        data ãŒ 2 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå˜ä½ã«ã‚¢ãƒ©ã‚¤ãƒ³ã•ã‚Œã¦ã„ãªã„ã¨
+ *        ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ã€‚
+ *        len  ã¯ 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå˜ä½ã«ã‚¢ãƒ©ã‚¤ãƒ³ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã€‚
  *
- *        –ß‚è’l‚ÍƒzƒXƒgƒoƒCƒgƒI[ƒ_
+ *        æˆ»ã‚Šå€¤ã¯ãƒ›ã‚¹ãƒˆãƒã‚¤ãƒˆã‚ªãƒ¼ãƒ€
  */
 
 static uint32_t
-in_cksum_sum (void *data, uint_t len /*ƒIƒNƒeƒbƒg’PˆÊ*/)
+in_cksum_sum (void *data, uint_t len /*ã‚ªã‚¯ãƒ†ãƒƒãƒˆå˜ä½*/)
 {
 	uint32_t sum = 0;
 
@@ -68,12 +68,12 @@ in_cksum_sum (void *data, uint_t len /*ƒIƒNƒeƒbƒg’PˆÊ*/)
 	}
 
 /*
- *  in_cksum_carry -- ƒ`ƒFƒbƒNƒTƒ€‚ÌŒ…ã‚°ŒvZŠÖ”
+ *  in_cksum_carry -- ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã®æ¡ä¸Šã’è¨ˆç®—é–¢æ•°
  *
- *  ’ˆÓ: data ‚Í 4 ƒIƒNƒeƒbƒg’PˆÊ‚ÅƒpƒfƒBƒ“ƒO‚·‚é‚±‚ÆB
- *        data ‚ª 2 ƒIƒNƒeƒbƒg’PˆÊ‚ÉƒAƒ‰ƒCƒ“‚³‚ê‚Ä‚¢‚È‚¢‚Æ
- *        —áŠO‚ª”­¶‚·‚é‰Â”\«‚ª‚ ‚éB
- *        len  ‚Í 4 ƒIƒNƒeƒbƒg’PˆÊ‚ÉƒAƒ‰ƒCƒ“‚³‚ê‚Ä‚¢‚é‚±‚ÆB
+ *  æ³¨æ„: data ã¯ 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå˜ä½ã§ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°ã™ã‚‹ã“ã¨ã€‚
+ *        data ãŒ 2 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå˜ä½ã«ã‚¢ãƒ©ã‚¤ãƒ³ã•ã‚Œã¦ã„ãªã„ã¨
+ *        ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ã€‚
+ *        len  ã¯ 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå˜ä½ã«ã‚¢ãƒ©ã‚¤ãƒ³ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã€‚
  */
 
 static uint32_t
@@ -102,7 +102,7 @@ eFunctions_checkSum(const int8_t* data, uint32_t len)
 	uint16_t	sum;
 
 	sum = (uint16_t)in_cksum_carry(in_cksum_sum(data, len));
-	return (uint16_t)(~htons(sum));
+	return (uint16_t)(â€¾htons(sum));
 }
 
 /* #[<ENTRY_FUNC>]# eFunctions_getIPv4Address
@@ -145,16 +145,16 @@ eCheckSum_ipv4CheckSum(int8_t* data, int32_t size, uint32_t offset, uint8_t prot
 	uint32_t align;
 	T_NET_BUF *input = (T_NET_BUF *)data;
 
-	/*IPƒwƒbƒ_‚ÌŒˆ’è*/
+	/*IPãƒ˜ãƒƒãƒ€ã®æ±ºå®š*/
 	T_IP4_HDR *iphdr;
 	iphdr = GET_IP4_HDR(input,input->off.ifhdrlen);
 	uint32_t seglen = input->len - offset + input->off.ifalign;
 
-	/* 4 ƒIƒNƒeƒbƒg‹«ŠE‚Ìƒf[ƒ^’· */
+	/* 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå¢ƒç•Œã®ãƒ‡ãƒ¼ã‚¿é•· */
 	//align = (input->len -offset + 3) >> 2 << 2;
 	align = (seglen + 3) >> 2 << 2;
 
-	/* 4 ƒIƒNƒeƒbƒg‹«ŠE‚Ü‚ÅƒpƒfƒBƒ“ƒO‚Å–„‚ß‚éB*/
+	/* 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå¢ƒç•Œã¾ã§ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°ã§åŸ‹ã‚ã‚‹ã€‚*/
 	//if (align > input->len - offset)
 	if (align > seglen)
 	  memset((uint8_t*)input->buf + offset + seglen, 0, (size_t)(align - seglen));
@@ -166,7 +166,7 @@ eCheckSum_ipv4CheckSum(int8_t* data, int32_t size, uint32_t offset, uint8_t prot
 		  +seglen +proto;
 	sum = in_cksum_carry(sum);
 
-	return (uint16_t)(~htons((uint16_t)sum));
+	return (uint16_t)(â€¾htons((uint16_t)sum));
 }
 
 /* #[<POSTAMBLE>]#

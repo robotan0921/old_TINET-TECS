@@ -81,7 +81,7 @@ eInput_TCPInput(int8_t* inputp, int32_t size, const int8_t* dstaddr, const int8_
 	int32_t offset;
 	ER error;
 	
-	/*ƒvƒƒgƒRƒ‹ƒtƒ‰ƒO‚ÉTCP‚ğƒZƒbƒg */
+	/*ãƒ—ãƒ­ãƒˆã‚³ãƒ«ãƒ•ãƒ©ã‚°ã«TCPã‚’ã‚»ãƒƒãƒˆ */
 	input->off.protocolflag |= FLAG_USE_TCP;
 	input->off.tphdrlen = TCP_HDR_SIZE;
 	offset = input->off.ifhdrlen + input->off.iphdrlenall;
@@ -90,7 +90,7 @@ eInput_TCPInput(int8_t* inputp, int32_t size, const int8_t* dstaddr, const int8_
 	syslog(LOG_EMERG, "ifhdrlen = %d",input->off.ifhdrlen);
 	syslog(LOG_EMERG, "iphdrlenall = %d",input->off.iphdrlenall);
 	
-	/* ƒwƒbƒ_’·‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* ãƒ˜ãƒƒãƒ€é•·ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (input->len < offset + TCP_HDR_SIZE -input->off.ifalign) {
 		syslog(LOG_EMERG, "TCP packets are Droped about header length !");
 		goto drop;
@@ -98,7 +98,7 @@ eInput_TCPInput(int8_t* inputp, int32_t size, const int8_t* dstaddr, const int8_
 
 	tcph = GET_TCP_HDR(input,offset);
 
-	seglen  = input->len - (offset - input->off.ifalign);				/* TCP ‚ÌƒZƒOƒƒ“ƒg’· */
+	seglen  = input->len - (offset - input->off.ifalign);				/* TCP ã®ã‚»ã‚°ãƒ¡ãƒ³ãƒˆé•· */
 
 	if((input->off.protocolflag & FLAG_USE_IPV4) && is_cIPv4CheckSum_joined()){
 		if (cIPv4CheckSum_ipv4CheckSum(inputp,size,offset, IPPROTO_TCP) != 0){
@@ -107,23 +107,23 @@ eInput_TCPInput(int8_t* inputp, int32_t size, const int8_t* dstaddr, const int8_
 		}
 	}
 
-	/* TCP ƒwƒbƒ_’·‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* TCP ãƒ˜ãƒƒãƒ€é•·ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (TCP_HDR_LEN(tcph->doff) < TCP_HDR_SIZE || TCP_HDR_LEN(tcph->doff) > seglen) {
 		syslog(LOG_EMERG, "TCP packets are Droped when length!");
 		goto drop;
 	}
-	tcph->sum = seglen - TCP_HDR_LEN(tcph->doff);		/* ‚±‚±‚©‚ç tcph->sum ‚Í TCP ‚Ì SDU ’· */
+	tcph->sum = seglen - TCP_HDR_LEN(tcph->doff);		/* ã“ã“ã‹ã‚‰ tcph->sum ã¯ TCP ã® SDU é•· */
 
 	/*
-	 *  SYN ‚Æ FIN ‚Ì—¼ƒrƒbƒg‚ªƒZƒbƒg‚³‚ê‚Ä‚¢‚ê‚Î”jŠü‚·‚éBnmap “™‚Ì‘Îô
-	 *  ‚½‚¾‚µARFC1644 T/TCP Šg’£‹@”\‚Æ‹£‡‚·‚éB
+	 *  SYN ã¨ FIN ã®ä¸¡ãƒ“ãƒƒãƒˆãŒã‚»ãƒƒãƒˆã•ã‚Œã¦ã„ã‚Œã°ç ´æ£„ã™ã‚‹ã€‚nmap ç­‰ã®å¯¾ç­–
+	 *  ãŸã ã—ã€RFC1644 T/TCP æ‹¡å¼µæ©Ÿèƒ½ã¨ç«¶åˆã™ã‚‹ã€‚
 	 */
 	if ((tcph->flags & (TCP_FLG_SYN | TCP_FLG_FIN)) == (TCP_FLG_SYN | TCP_FLG_FIN)){
 		syslog(LOG_EMERG, "TCP packets are Droped about flag!");
 		goto drop;
 	}
 		
-	/* ƒlƒbƒgƒ[ƒNƒI[ƒ_[‚©‚çƒzƒXƒgƒI[ƒ_[‚É•ÏŠ·‚·‚éB*/
+	/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚ªãƒ¼ãƒ€ãƒ¼ã‹ã‚‰ãƒ›ã‚¹ãƒˆã‚ªãƒ¼ãƒ€ãƒ¼ã«å¤‰æ›ã™ã‚‹ã€‚*/
 
 	NTOHL(tcph->seq);
 	NTOHL(tcph->ack);
@@ -134,7 +134,7 @@ eInput_TCPInput(int8_t* inputp, int32_t size, const int8_t* dstaddr, const int8_
 
 
 
-	/*TCPCEP‚Ìƒtƒ@ƒCƒ“ƒh*/
+	/*TCPCEPã®ãƒ•ã‚¡ã‚¤ãƒ³ãƒ‰*/
 	for(ix=0;ix<N_CP_cCEPInput;ix++){
 		if(cCEPInput_check(ix,dstaddr,srcaddr,addrlen, tcph->dport, tcph->sport) == E_OK){
 			syslog(LOG_EMERG, "CEP FIND! seq :%d  ack:%d .",tcph->seq,tcph->ack);
@@ -144,11 +144,11 @@ eInput_TCPInput(int8_t* inputp, int32_t size, const int8_t* dstaddr, const int8_
 		}
 	}
 
-	/* CEP‚ª‚È‚©‚Á‚½ˆ— */
+	/* CEPãŒãªã‹ã£ãŸå‡¦ç† */
 	syslog(LOG_EMERG, "CEP Lost... seq :%d  ack:%d .",tcph->seq,tcph->ack);
 	
 	/*
-	 *  RST ‘—Mˆ—
+	 *  RST é€ä¿¡å‡¦ç†
 	 */
 
 	if(input->off.protocolflag & FLAG_USE_IPV4){
@@ -157,7 +157,7 @@ eInput_TCPInput(int8_t* inputp, int32_t size, const int8_t* dstaddr, const int8_
 		}
 	}
 
-	/* ƒzƒXƒgƒI[ƒ_[‚©‚çƒlƒbƒgƒ[ƒNƒI[ƒ_[‚É–ß‚·B*/
+	/* ãƒ›ã‚¹ãƒˆã‚ªãƒ¼ãƒ€ãƒ¼ã‹ã‚‰ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚ªãƒ¼ãƒ€ãƒ¼ã«æˆ»ã™ã€‚*/
 
 	HTONS(tcph->sport);
 	HTONS(tcph->dport);
@@ -169,12 +169,12 @@ eInput_TCPInput(int8_t* inputp, int32_t size, const int8_t* dstaddr, const int8_
 	}
 	else {
 		if (tcph->flags & TCP_FLG_SYN)
-		  tcph->sum ++;		/* tcph->sum ‚Í SDU ’· */
+		  tcph->sum ++;		/* tcph->sum ã¯ SDU é•· */
 		cTCPRespond_respond(inputp,size,NULL,tcph->seq + tcph->sum,0,rbfree, TCP_FLG_RST | TCP_FLG_ACK);
 	}
 	
 	syslog(LOG_EMERG,"*****************");
-	/* input ‚Í tcp_respoond ‚Å•Ô‹p‚³‚ê‚éB*/
+	/* input ã¯ tcp_respoond ã§è¿”å´ã•ã‚Œã‚‹ã€‚*/
 	return IPPROTO_DONE;
 	
 	
@@ -210,7 +210,7 @@ eInput_TCPNotify(const int8_t* inputp, int32_t size, ER error)
 	}
 	tcph = GET_TCP_HDR(input, input->off.ifhdrlen + input->off.iphdrlenall);
 
-	/*TCPCEP‚Ìƒtƒ@ƒCƒ“ƒh*/
+	/*TCPCEPã®ãƒ•ã‚¡ã‚¤ãƒ³ãƒ‰*/
 	for(ix=0;ix<N_CP_cCEPInput;ix++){
 		if(cCEPInput_check(ix,dstaddr,srcaddr,addrlen, tcph->dport, tcph->sport) == E_OK){
 			cCEPInput_notify(ix,error);

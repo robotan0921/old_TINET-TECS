@@ -78,18 +78,18 @@ eCopySave_tcpWriteRwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* inputp, int32_t siz
 	T_NET_BUF *input = (T_NET_BUF*)inputp;
 	uint_t		offset, inlen, last;
 
-	/* �ʐM�[�_�����b�N����B*/
+	/* 通信端点をロックする。*/
 	cSemaphore_wait();
 
 	qhdr  = (T_TCP_Q_HDR*)GET_TCP_HDR(input, thoff);
 
-	/* ��M�ς݃V�[�P���X�ԍ����X�V����B*/
+	/* 受信済みシーケンス番号を更新する。*/
 	cep->rcv_nxt += qhdr->slen;
 
 	last  = cep->rwbuf_count;
 	inlen = qhdr->slen;
 
-	/* �ً}�f�[�^�� SDU �␳���s���B*/
+	/* 緊急データの SDU 補正を行う。*/
 	if (qhdr->urp > 0 && inlen > 0) {
 		inlen      -= qhdr->urp;
 		qhdr->slen -= qhdr->urp;
@@ -97,13 +97,13 @@ eCopySave_tcpWriteRwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* inputp, int32_t siz
 	}
 
 	/*
-	 *  FIN �t���O���t�����Z�O�����g�� inlen == 0 �ɂȂ邱�Ƃ�����B
-	 *  ����́A�A�v���P�[�V�����ɁA���肩�炱��ȏ�f�[�^��������
-	 *  ���Ȃ����Ƃ�m�点�邽�߂ł���B
+	 *  FIN フラグが付いたセグメントは inlen == 0 になることもある。
+	 *  これは、アプリケーションに、相手からこれ以上データが送られて
+	 *  こないことを知らせるためである。
 	 */
 	if (inlen > 0) {
 
-		/* �������݃|�C���^�����E���h����Ƃ��̏��� */
+		/* 書き込みポインタがラウンドするときの処理 */
 		if (inlen > len - (cep->rbuf_wptr - (uint8_t*)rbuf)) {
 			offset = (uint_t)(len - (cep->rbuf_wptr - (uint8_t*)rbuf));
 			memcpy(cep->rbuf_wptr, (void*)(GET_TCP_SDU(input, thoff) + qhdr->soff), (size_t)offset);
@@ -120,15 +120,15 @@ eCopySave_tcpWriteRwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* inputp, int32_t siz
 
 	}
 
-	/* �ʐM�[�_�̃��b�N����������B*/
+	/* 通信端点のロックを解除する。*/
 	cSemaphore_signal();
 
 	if (inlen == 0 && cep->rwbuf_count == 0) {
 		/*
-		 *  ��M�E�B���h�o�b�t�@���̃f�[�^���� 0 �ŁA
-		 *  ���肩�� FIN �t���O���t�����Z�O�����g����M�����Ƃ��́A
-		 *  �ʐM�[�_�����b�N���āA
-		 *  ��M�E�B���h�o�b�t�@�L���[�̃l�b�g���[�N�o�b�t�@���������B
+		 *  受信ウィンドバッファ内のデータ数が 0 で、
+		 *  相手から FIN フラグが付いたセグメントを受信したときは、
+		 *  通信端点をロックして、
+		 *  受信ウィンドバッファキューのネットワークバッファを解放する。
 		 */
 		cSemaphore_wait();
 		eCopySave_tcpFreeRwbufq(idx,cep);
@@ -136,10 +136,10 @@ eCopySave_tcpWriteRwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* inputp, int32_t siz
 	}
 
 	/*
-	 *  ��M�E�B���h�o�b�t�@�Ƀf�[�^�����邩�A inlen == 0 �̎��A���̓^�X�N���N������B
-	 *  FIN �t���O���t�����Z�O�����g�� inlen == 0 �ɂȂ邱�Ƃ�����B
-	 *  ����́A�A�v���P�[�V�����ɁA���肩�炱��ȏ�f�[�^��������
-	 *  ���Ȃ����Ƃ�m�点�邽�߂ł���B
+	 *  受信ウィンドバッファにデータが入るか、 inlen == 0 の時、入力タスクを起床する。
+	 *  FIN フラグが付いたセグメントは inlen == 0 になることもある。
+	 *  これは、アプリケーションに、相手からこれ以上データが送られて
+	 *  こないことを知らせるためである。
 	 */
 	if ((last == 0 && cep->rwbuf_count > 0) || inlen == 0)
 	  cRcvFlag_set(TCP_CEP_EVT_RWBUF_READY);
@@ -168,26 +168,26 @@ eCopySave_tcpReadSwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* outputp, int32_t siz
 	uint8_t	*wptr, *rptr;
 	T_NET_BUF *output = (T_NET_BUF *)outputp;
 
-	/* SDU �̑傫�����`�F�b�N����B*///TCP�w�b�_�̓I�v�V����������IP�w�b�_�͌Œ蒷
+	/* SDU の大きさをチェックする。*///TCPヘッダはオプションがつくがIPヘッダは固定長
 	if (output->off.tphdrlenall < GET_TCP_HDR_SIZE2(output, hoff)) {
 		len = output->off.tphdrlenall+len - GET_TCP_HDR_SIZE2(output,hoff);
 	}
 
 	wptr = GET_TCP_SDU(output, hoff);
 
-	/* �ʐM�[�_�����b�N����B*/
+	/* 通信端点をロックする。*/
 	cSemaphore_wait();
 
 	rptr = cep->sbuf_rptr + doff;
 	if (rptr - (uint8_t*)sbuf > buflen) {
 
-		/* �]���J�n�����M�E�B���h�o�b�t�@�̏I���𒴂���Ƃ��̏����@*/
+		/* 転送開始が送信ウィンドバッファの終わりを超えるときの処理　*/
 		rptr = (uint8_t*)cep->sbuf_rptr - (buflen - doff);
 	}
 	else if (len + (rptr - (uint8_t*)sbuf) > buflen) {
 		uint_t sub;
 
-		/* �]���͈͂����E���h����Ƃ��̏��� */
+		/* 転送範囲がラウンドするときの処理 */
 		sub = (uint_t)(buflen - (rptr - (uint8_t*)sbuf));
 		memcpy((void*)wptr, rptr, (size_t)sub);
 		len  -= sub;
@@ -196,7 +196,7 @@ eCopySave_tcpReadSwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* outputp, int32_t siz
 	}
 	memcpy((void*)wptr, rptr, (size_t)len);
 
-	/* �ʐM�[�_�̃��b�N����������B*/
+	/* 通信端点のロックを解除する。*/
 	cSemaphore_signal();
 }
 
@@ -223,8 +223,8 @@ eCopySave_tcpWaitSwbuf(CELLIDX idx, T_TCP_CEP* cep, uint32_t* flags,int32_t sbuf
 
 	while (cep->swbuf_count >= sbufSize) {
 		/*
-		 *  ���M�E�B���h�o�b�t�@�̋󂫂��Ȃ���΁A�o�͂��|�X�g���āA
-		 *  ���M�E�B���h�o�b�t�@���󂭂܂ő҂B
+		 *  送信ウィンドバッファの空きがなければ、出力をポストして、
+		 *  送信ウィンドバッファが空くまで待つ。
 		 */
 		*flags |= TCP_CEP_FLG_POST_OUTPUT;
 		cSemTcppost_signal();
@@ -232,12 +232,12 @@ eCopySave_tcpWaitSwbuf(CELLIDX idx, T_TCP_CEP* cep, uint32_t* flags,int32_t sbuf
 		if ((error = cSendFlag_waitTimeout( TCP_CEP_EVT_SWBUF_READY, TWF_ORW,&flag,tmout )) != E_OK) {
 			return error;
 		}
-		cSendFlag_clear((FLGPTN)(~TCP_CEP_EVT_SWBUF_READY));
+		cSendFlag_clear((FLGPTN)(‾TCP_CEP_EVT_SWBUF_READY));
 
 		/*
-		 *  ���M�ł��邩�ACEP �� FSM ��Ԃ�����B
-		 *  ���M�E�B���h�o�b�t�@���󂭂܂ő҂ԂɁA���M�s�\�ɂȂ����ꍇ�́A
-		 *  �R�l�N�V�������ؒf���ꂽ���Ƃ��Ӗ����Ă���B
+		 *  送信できるか、CEP の FSM 状態を見る。
+		 *  送信ウィンドバッファが空くまで待つ間に、送信不能になった場合は、
+		 *  コネクションが切断されたことを意味している。
 		 */
 		if (!TCP_FSM_CAN_SEND_MORE(cep->fsm_state)) {
 			return E_CLS;
@@ -266,14 +266,14 @@ eCopySave_tcpWriteSwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* data, int32_t datal
 	/* Put statements here #_TEFB_# */
 	uint_t	offset;
 
-	/* �ʐM�[�_�����b�N����B*/
+	/* 通信端点をロックする。*/
 	cSemaphore_wait();
 
-	/* len �Ƒ��M�E�B���h�o�b�t�@�̋󂫂̏����������ڂ��f�[�^���ɂ���B*/
+	/* len と送信ウィンドバッファの空きの小さい方を移すデータ数にする。*/
 	if (datalen > (buflen - cep->swbuf_count))
 		datalen = buflen - cep->swbuf_count;
 
-	/* �������݃|�C���^�����E���h����Ƃ��̏��� */
+	/* 書き込みポインタがラウンドするときの処理 */
 	if (datalen > buflen - (cep->sbuf_wptr - (uint8_t*)sbuf)) {
 		offset = (uint_t)(buflen - (cep->sbuf_wptr -(uint8_t*)sbuf));
 		memcpy(cep->sbuf_wptr, data, (size_t)offset);
@@ -287,7 +287,7 @@ eCopySave_tcpWriteSwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* data, int32_t datal
 	cep->sbuf_wptr  += datalen - offset;
 	cep->swbuf_count += datalen - offset;
 
-	/* �ʐM�[�_�̃��b�N����������B*/
+	/* 通信端点のロックを解除する。*/
 	cSemaphore_signal();
 
 	return (ER_UINT)datalen;
@@ -334,14 +334,14 @@ eCopySave_tcpReadRwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* data, int32_t datale
 	/* Put statements here #_TEFB_# */
 	uint_t	offset;
 
-	/* �ʐM�[�_�����b�N����B*/
+	/* 通信端点をロックする。*/
 	cSemaphore_wait();
 
-	/* len �Ǝ�M�E�B���h�o�b�t�@�̃f�[�^���̏������������o���f�[�^���ɂ���B*/
+	/* len と受信ウィンドバッファのデータ数の小さい方を取り出すデータ数にする。*/
 	if (datalen > cep->rwbuf_count)
 		datalen = cep->rwbuf_count;
 
-	/* �ǂݏo���|�C���^�����E���h����Ƃ��̏��� */
+	/* 読み出しポインタがラウンドするときの処理 */
 	if (datalen > buflen - (cep->rbuf_rptr - (uint8_t*)rbuf)) {
 		offset = (uint_t)(buflen - (cep->rbuf_rptr -(uint8_t*)rbuf));
 		memcpy(data, cep->rbuf_rptr, (size_t)offset);
@@ -355,7 +355,7 @@ eCopySave_tcpReadRwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* data, int32_t datale
 	cep->rwbuf_count -= datalen - offset;
 	cep->rbuf_rptr  += datalen - offset;
 
-	/* �ʐM�[�_�̃��b�N����������B*/
+	/* 通信端点のロックを解除する。*/
 	cSemaphore_signal();
 
 	return datalen;
@@ -380,23 +380,23 @@ eCopySave_tcpDropSwbuf(CELLIDX idx, T_TCP_CEP* cep, uint32_t len, const int8_t* 
 	/* Put statements here #_TEFB_# */
 	uint_t	last;
 
-	/* �ʐM�[�_�����b�N����B*/
+	/* 通信端点をロックする。*/
 	cSemaphore_wait();
 
 	last = cep->swbuf_count;
 
 	if (cep->sbuf_rptr + len > sbuf + sbufSize)
-		/* ���E���h����Ƃ��̌v�Z */
+		/* ラウンドするときの計算 */
 		cep->sbuf_rptr -= sbufSize - len;
 	else
 		cep->sbuf_rptr += len;
 	cep->swbuf_count -= (uint16_t)len;
 
-	/* �ʐM�[�_�̃��b�N����������B*/
+	/* 通信端点のロックを解除する。*/
 	cSemaphore_signal();
 
 	if (cep->swbuf_count > 0) {
-		/* ���M�E�B���h�o�b�t�@�Ƀf�[�^������Ώo�͂��|�X�g����B*/
+		/* 送信ウィンドバッファにデータがあれば出力をポストする。*/
 		*flags |= TCP_CEP_FLG_POST_OUTPUT;
 		cSemTcppost_signal();
 	}

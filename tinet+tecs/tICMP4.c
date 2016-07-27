@@ -67,9 +67,9 @@
 
 
 /*
- *  icmp_echo -- ƒGƒR[—v‹‚ğóM‚µ‚½‚Æ‚«‚Ìˆ—
+ *  icmp_echo -- ã‚¨ã‚³ãƒ¼è¦æ±‚ã‚’å—ä¿¡ã—ãŸã¨ãã®å‡¦ç†
  *
- *    input ‚É‚Í IF ƒwƒbƒ_‚Æ IP ƒwƒbƒ_‚àŠÜ‚Ü‚ê‚Ä‚¢‚éB
+ *    input ã«ã¯ IF ãƒ˜ãƒƒãƒ€ã¨ IP ãƒ˜ãƒƒãƒ€ã‚‚å«ã¾ã‚Œã¦ã„ã‚‹ã€‚
  */
 
 static void
@@ -81,7 +81,7 @@ icmp_echo (CELLCB *p_cellcb,T_NET_BUF *input,int32_t size)
 	T_IN4_ADDR	srcaddr,dstaddr;
 	int32_t icmpoff;
 
-	/* IP ƒwƒbƒ_‚Ìˆ¶æ‚Æ”­MŒ³‚ğŒğŠ·‚·‚éB*/
+	/* IP ãƒ˜ãƒƒãƒ€ã®å®›å…ˆã¨ç™ºä¿¡å…ƒã‚’äº¤æ›ã™ã‚‹ã€‚*/
 	ip4h      = GET_IP4_HDR(input,input->off.ifhdrlen);
 	srcaddr      = ip4h->src;
 	ip4h->src = ip4h->dst;
@@ -89,24 +89,24 @@ icmp_echo (CELLCB *p_cellcb,T_NET_BUF *input,int32_t size)
 	ip4h->dst = srcaddr;
 	srcaddr = ntohl(srcaddr);
 	
-	/* ƒƒbƒZ[ƒW‚ÌŒ^‚ğƒGƒR[—v‹ (8) ‚©‚ç ƒGƒR[‰“š (0) ‚É	*/
-	/* •ÏX‚µ‚Ä‘—‚è•Ô‚·B					*/
+	/* ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‹ã‚’ã‚¨ã‚³ãƒ¼è¦æ±‚ (8) ã‹ã‚‰ ã‚¨ã‚³ãƒ¼å¿œç­” (0) ã«	*/
+	/* å¤‰æ›´ã—ã¦é€ã‚Šè¿”ã™ã€‚					*/
 
 	icmpoff = input->off.ifhdrlen + GET_IP4_HDR_SIZE(ip4h);
 
 	icmp4h = GET_ICMP4_HDR(input, icmpoff);
 	icmp4h->type = ICMP4_ECHO_REPLY;
 
-	/* ƒ`ƒFƒbƒNƒTƒ€‚ğŒvZ‚·‚éB*/
+	/* ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’è¨ˆç®—ã™ã‚‹ã€‚*/
 	icmp4h->sum = 0;
 	icmp4h->sum = cIPv4Functions_checkSum(icmp4h,(uint_t)(((input->len +input->off.ifalign- icmpoff)) + 3) >> 2 << 2);
 
-	/* ‘—M‚·‚éB*/
+	/* é€ä¿¡ã™ã‚‹ã€‚*/
 	cIPv4Reply_IPv4Reply((int8_t*)input,size,TMO_ICMP_OUTPUT);
 }
 
 /*
- *  icmp_unreach -- ICMP4_UNREACH ‚ğóM‚µ‚½‚Æ‚«‚Ìˆ—
+ *  icmp_unreach -- ICMP4_UNREACH ã‚’å—ä¿¡ã—ãŸã¨ãã®å‡¦ç†
  */
 
 static const int8_t code2error[] = {
@@ -143,7 +143,7 @@ icmp_unreach (CELLCB *p_cellcb,T_NET_BUF *input,int32_t size)
 	error = code2error[code];
 	if (ip4h->proto == IPPROTO_TCP) {
 
-		//TCP‚ª‚ ‚ê‚Îmikan
+		//TCPãŒã‚ã‚Œã°mikan
 		if(is_cTCPInput_joined()){
 
 			memcpy(GET_IP4_HDR(input,input->off.ifhdrlen), ip4h, input->len + input->off.ifalign - (IP4_HDR_SIZE + ICMP4_HDR_SIZE));
@@ -189,27 +189,27 @@ eICMP4_input(CELLIDX idx, int8_t* inputp, int32_t size)
 
 	int32_t icmpoff = input->off.ifhdrlen + GET_IP4_HDR_SIZE(iph);
 	
-	/* ICMP ƒwƒbƒ_‚Ì’·‚³‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* ICMP ãƒ˜ãƒƒãƒ€ã®é•·ã•ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (input->len < icmpoff + ICMP4_HDR_SIZE - input->off.ifalign) {
 		goto buf_rel;
 	}
 
 	icmp4h = (T_ICMP4_HDR *)(input->buf + icmpoff);
 
-	/* 4 ƒIƒNƒeƒbƒg‹«ŠE‚Ìƒf[ƒ^’· */
+	/* 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå¢ƒç•Œã®ãƒ‡ãƒ¼ã‚¿é•· */
 	len   = input->len + input->off.ifalign- icmpoff;
 	align = (len + 3) >> 2 << 2;
 
-	/* 4 ƒIƒNƒeƒbƒg‹«ŠE‚Ü‚ÅƒpƒfƒBƒ“ƒO‚Å–„‚ß‚éB*/
+	/* 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå¢ƒç•Œã¾ã§ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°ã§åŸ‹ã‚ã‚‹ã€‚*/
 	if (align > len)
 		memset((uint8_t*)input->buf + input->len, 0, (size_t)(align - len));
 
-	/* ƒ`ƒFƒbƒNƒTƒ€‚ğŒvZ‚·‚éB*/
+	/* ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’è¨ˆç®—ã™ã‚‹ã€‚*/
 	if (cIPv4Functions_checkSum(icmp4h, align) != 0) {
 		goto buf_rel;
 	}
 
-	/* ƒƒbƒZ[ƒW‚ÌŒ^‚É‚æ‚è•ªŠò‚·‚éB*/
+	/* ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‹ã«ã‚ˆã‚Šåˆ†å²ã™ã‚‹ã€‚*/
 	switch (icmp4h->type) {
 	  case ICMP4_ECHO_REQUEST:
 		icmp_echo(p_cellcb,input,size);
@@ -286,13 +286,13 @@ eICMP4Error_error(CELLIDX idx, int8_t* inputp, int32_t size, uint8_t code)
 	ip4h  = GET_IP4_HDR(input,input->off.ifhdrlen);
 	ip4hl = GET_IP4_HDR_SIZE(ip4h);
 
-	/* ‘—M—p‚Ì IP ƒf[ƒ^ƒOƒ‰ƒ€‚ğŠl“¾‚·‚éB*/
+	/* é€ä¿¡ç”¨ã® IP ãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ ã‚’ç²å¾—ã™ã‚‹ã€‚*/
 	if (input->len - ip4hl < 8)
 		len = input->len - ip4hl;
 	else
 		len = 8;
 
-	/* 4 ƒIƒNƒeƒbƒg‹«ŠE‚Ìƒf[ƒ^’· */
+	/* 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå¢ƒç•Œã®ãƒ‡ãƒ¼ã‚¿é•· */
 	align = (len +ICMP4_HDR_SIZE +ip4hl+ 3) >> 2 << 2;
 
 	slen = align+input->off.ifhdrlen+IP4_HDR_SIZE;
@@ -300,13 +300,13 @@ eICMP4Error_error(CELLIDX idx, int8_t* inputp, int32_t size, uint8_t code)
 	if(cIPv4Reply_IPv4Reply_outputp_alloc((void**)&output,slen,TMO_ICMP_OUTPUT) != E_OK)
 	  return;
 
-	//ƒIƒtƒZƒbƒgî•ñh‚ğƒRƒs[‚·‚é
+	//ã‚ªãƒ•ã‚»ãƒƒãƒˆæƒ…å ±hã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 	output->off = input->off;
 	output->off.iphdrlenall = IP4_HDR_SIZE;
 	
 	sip4h = output->buf + output->off.ifhdrlen;
 
-	/* IP ƒwƒbƒ_‚ğİ’è‚·‚é ---------------------*/
+	/* IP ãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã™ã‚‹ ---------------------*/
 	sip4h->vhl	= IP4_MAKE_VHL(IPV4_VERSION, IP4_HDR_SIZE >> 2);
 	sip4h->len	= htons(slen);
 	sip4h->proto	= IPPROTO_ICMP;
@@ -314,34 +314,34 @@ eICMP4Error_error(CELLIDX idx, int8_t* inputp, int32_t size, uint8_t code)
 	sip4h->type	= 0;
 	sip4h->id	= ip4h->flg_off = ip4h->sum = 0;
 
-	/* IP ƒAƒhƒŒƒX‚ğİ’è‚·‚éB*/
+	/* IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚*/
 	sip4h->dst	= ip4h->src;
 	sip4h->src = htonl(cIPv4Functions_getIPv4Address());
-	/*IPheader ‚±‚±‚Ü‚Å---------------------*/
+	/*IPheader ã“ã“ã¾ã§---------------------*/
 
-	/* ICMP ƒwƒbƒ_‚ğİ’è‚·‚éB*/
+	/* ICMP ãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã™ã‚‹ã€‚*/
 	icmp4h		= GET_ICMP4_HDR(output, output->off.ifhdrlen+IP4_HDR_SIZE);
 	icmp4h->type	= ICMP4_UNREACH;
 	icmp4h->code	= code;
 	icmp4h->data.addr= 0;
 
-	/* ƒGƒ‰[‚ª”­¶‚µ‚½ IP ƒwƒbƒ_‚Æ ƒf[ƒ^ 8 ƒIƒNƒeƒbƒg‚ğƒRƒs[‚·‚éB*/
+	/* ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸ IP ãƒ˜ãƒƒãƒ€ã¨ ãƒ‡ãƒ¼ã‚¿ 8 ã‚ªã‚¯ãƒ†ãƒƒãƒˆã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ã€‚*/
 	memcpy(GET_ICMP4_SDU(output, output->off.ifhdrlen+IP4_HDR_SIZE),
 	       ip4h, (size_t)(ip4hl + len));
 
-	/* 4 ƒIƒNƒeƒbƒg‹«ŠE‚Ü‚ÅƒpƒfƒBƒ“ƒO‚Å–„‚ß‚éB*/
+	/* 4 ã‚ªã‚¯ãƒ†ãƒƒãƒˆå¢ƒç•Œã¾ã§ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°ã§åŸ‹ã‚ã‚‹ã€‚*/
 	if (align > len)
 		memset((uint8_t*)GET_ICMP4_SDU(output, output->off.ifhdrlen+IP4_HDR_SIZE) + ip4hl + len,
 		       0, (size_t)(align - len));
 
-	/* ƒ`ƒFƒbƒNƒTƒ€‚ğŒvZ‚·‚éB*/
+	/* ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’è¨ˆç®—ã™ã‚‹ã€‚*/
 	icmp4h->sum = 0;
 	icmp4h->sum = cIPv4Functions_checkSum(icmp4h, (uint_t)(ICMP4_HDR_SIZE + ip4hl + align));
 
-	/* ‘—M‚·‚éB*/
+	/* é€ä¿¡ã™ã‚‹ã€‚*/
 	cIPv4Reply_IPv4Reply((int8_t*)output,output->len+output->off.ifalign + sizeof(T_NET_BUF) - 4,TMO_ICMP_OUTPUT);
 
-	//ƒƒ‚ƒŠ‚ğ‰ğ•ú
+	//ãƒ¡ãƒ¢ãƒªã‚’è§£æ”¾
 	eICMP4Error_error_inputp_dealloc((void*)inputp);
 }
 

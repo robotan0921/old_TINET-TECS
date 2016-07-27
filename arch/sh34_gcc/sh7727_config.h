@@ -6,89 +6,89 @@
  *  Copyright (C) 2007 by Embedded and Real-Time Systems Laboratory
  *              Graduate School of Information Science, Nagoya Univ., JAPAN
  * 
- *  �嵭����Ԥϡ��ʲ���(1)��(4)�ξ������������˸¤ꡤ�ܥ��եȥ���
- *  �����ܥ��եȥ���������Ѥ�����Τ�ޤࡥ�ʲ�Ʊ���ˤ���ѡ�ʣ������
- *  �ѡ������ۡʰʲ������ѤȸƤ֡ˤ��뤳�Ȥ�̵���ǵ������롥
- *  (1) �ܥ��եȥ������򥽡��������ɤη������Ѥ�����ˤϡ��嵭������
- *      ��ɽ�����������Ѿ�浪��Ӳ�����̵�ݾڵ��꤬�����Τޤޤη��ǥ���
- *      ����������˴ޤޤ�Ƥ��뤳�ȡ�
- *  (2) �ܥ��եȥ������򡤥饤�֥������ʤɡ�¾�Υ��եȥ�������ȯ�˻�
- *      �ѤǤ�����Ǻ����ۤ�����ˤϡ������ۤ�ȼ���ɥ�����ȡ�����
- *      �ԥޥ˥奢��ʤɡˤˡ��嵭�����ɽ�����������Ѿ�浪��Ӳ���
- *      ��̵�ݾڵ����Ǻܤ��뤳�ȡ�
- *  (3) �ܥ��եȥ������򡤵�����Ȥ߹���ʤɡ�¾�Υ��եȥ�������ȯ�˻�
- *      �ѤǤ��ʤ����Ǻ����ۤ�����ˤϡ����Τ����줫�ξ�����������
- *      �ȡ�
- *    (a) �����ۤ�ȼ���ɥ�����ȡ����Ѽԥޥ˥奢��ʤɡˤˡ��嵭����
- *        �ɽ�����������Ѿ�浪��Ӳ�����̵�ݾڵ����Ǻܤ��뤳�ȡ�
- *    (b) �����ۤη��֤��̤�������ˡ�ˤ�äơ�TOPPERS�ץ��������Ȥ�
- *        ��𤹤뤳�ȡ�
- *  (4) �ܥ��եȥ����������Ѥˤ��ľ��Ū�ޤ��ϴ���Ū�������뤤���ʤ�»
- *      ������⡤�嵭����Ԥ����TOPPERS�ץ��������Ȥ����դ��뤳�ȡ�
- *      �ޤ����ܥ��եȥ������Υ桼���ޤ��ϥ���ɥ桼������Τ����ʤ���
- *      ͳ�˴�Ť����ᤫ��⡤�嵭����Ԥ����TOPPERS�ץ��������Ȥ�
- *      ���դ��뤳�ȡ�
+ *  上記著作権者は，以下の(1)〜(4)の条件を満たす場合に限り，本ソフトウェ
+ *  ア（本ソフトウェアを改変したものを含む．以下同じ）を使用・複製・改
+ *  変・再配布（以下，利用と呼ぶ）することを無償で許諾する．
+ *  (1) 本ソフトウェアをソースコードの形で利用する場合には，上記の著作
+ *      権表示，この利用条件および下記の無保証規定が，そのままの形でソー
+ *      スコード中に含まれていること．
+ *  (2) 本ソフトウェアを，ライブラリ形式など，他のソフトウェア開発に使
+ *      用できる形で再配布する場合には，再配布に伴うドキュメント（利用
+ *      者マニュアルなど）に，上記の著作権表示，この利用条件および下記
+ *      の無保証規定を掲載すること．
+ *  (3) 本ソフトウェアを，機器に組み込むなど，他のソフトウェア開発に使
+ *      用できない形で再配布する場合には，次のいずれかの条件を満たすこ
+ *      と．
+ *    (a) 再配布に伴うドキュメント（利用者マニュアルなど）に，上記の著
+ *        作権表示，この利用条件および下記の無保証規定を掲載すること．
+ *    (b) 再配布の形態を，別に定める方法によって，TOPPERSプロジェクトに
+ *        報告すること．
+ *  (4) 本ソフトウェアの利用により直接的または間接的に生じるいかなる損
+ *      害からも，上記著作権者およびTOPPERSプロジェクトを免責すること．
+ *      また，本ソフトウェアのユーザまたはエンドユーザからのいかなる理
+ *      由に基づく請求からも，上記著作権者およびTOPPERSプロジェクトを
+ *      免責すること．
  * 
- *  �ܥ��եȥ������ϡ�̵�ݾڤ��󶡤���Ƥ����ΤǤ��롥�嵭����Ԥ�
- *  ���TOPPERS�ץ��������Ȥϡ��ܥ��եȥ������˴ؤ��ơ�����λ�����Ū
- *  ���Ф���Ŭ������ޤ�ơ������ʤ��ݾڤ�Ԥ�ʤ����ޤ����ܥ��եȥ���
- *  �������Ѥˤ��ľ��Ū�ޤ��ϴ���Ū�������������ʤ�»���˴ؤ��Ƥ⡤��
- *  ����Ǥ�����ʤ���
+ *  本ソフトウェアは，無保証で提供されているものである．上記著作権者お
+ *  よびTOPPERSプロジェクトは，本ソフトウェアに関して，特定の使用目的
+ *  に対する適合性も含めて，いかなる保証も行わない．また，本ソフトウェ
+ *  アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
+ *  の責任を負わない．
  * 
  *  @(#) $Id: sh7727_config.h 1596 2009-06-29 09:41:45Z ertl-honda $
  */
 
 /*
- *		�ץ����å���¸�⥸�塼���SH7727�ѡ�
+ *		プロセッサ依存モジュール（SH7727用）
  *
- *  ���Υ��󥯥롼�ɥե�����ϡ�target_config.h�ʤޤ��ϡ��������饤��
- *  �롼�ɤ����ե�����ˤΤߤ��饤�󥯥롼�ɤ���롥¾�Υե����뤫��
- *  ľ�ܥ��󥯥롼�ɤ��ƤϤʤ�ʤ���
+ *  このインクルードファイルは，target_config.h（または，そこからインク
+ *  ルードされるファイル）のみからインクルードされる．他のファイルから
+ *  直接インクルードしてはならない．
  */
 
 #ifndef TOPPERS_SH7727_CONFIG_H
 #define TOPPERS_SH7727_CONFIG_H
 
 /*
- * �ץ����å��μ���
+ * プロセッサの種類
  */
 #define SH3
 
 /*
- * ����ߥϥ�ɥ��ֹ�˴ؤ������
+ * 割込みハンドラ番号に関する定義
  */ 
 #define TMIN_INHNO 0x1C0U
 #define TMAX_INHNO 0xB60U
 #define TNUM_INH   0x05CU
 
 /*
- * ������ֹ�˴ؤ������
+ * 割込み番号に関する定義
  */ 
 #define TMIN_INTNO 0x1C0U
 #define TMAX_INTNO 0xB60U
 #define TNUM_INT   0x05CU
 
 /*
- * ����ߥϥ�ɥ��ֹ������������ɽ������Ѵ�
+ * 割込みハンドラ番号の内部・外部表現相互変換
  */
-#define EXT_INHNO(iintno) (CAST(uint16_t, (iinhno) << 5)) /* ����ɽ������ɽ���� */
-#define INT_INHNO(intno)  (CAST(uint16_t, (inhno) >> 5))  /* ����ɽ��������ɽ���� */
+#define EXT_INHNO(iintno) (CAST(uint16_t, (iinhno) << 5)) /* 内部表現を外部表現に */
+#define INT_INHNO(intno)  (CAST(uint16_t, (inhno) >> 5))  /* 外部表現を内部表現に */
 
 /*
- * ������ֹ������������ɽ������Ѵ�
+ * 割込み番号の内部・外部表現相互変換
  */
-#define EXT_INTNO(iintno) (CAST(uint16_t, (iintno) << 5)) /* ����ɽ������ɽ���� */
-#define INT_INTNO(intno)  (CAST(uint16_t, (intno) >> 5))  /* ����ɽ��������ɽ���� */
+#define EXT_INTNO(iintno) (CAST(uint16_t, (iintno) << 5)) /* 内部表現を外部表現に */
+#define INT_INTNO(intno)  (CAST(uint16_t, (intno) >> 5))  /* 外部表現を内部表現に */
 
 /*
- * ������ֹ�Ȥ���INTEVT2���ͤ���Ѥ���
+ * 割込み番号としてINTEVT2の値を使用する
  */
 #define USE_INTEVT2
 
 /*
- * ������֥�ǳ�����ֹ椫�� inh_tbl ���������Υޥ���
- * reg�ˤϡ�������ֹ���ݻ����Ƥ���
- * �쥸��������ꤹ�� 
+ * アセンブラで割込み番号から inh_tbl を引くためのマクロ
+ * regには，割込み番号を保持している
+ * レジスタを指定する 
  */
 #ifdef TOPPERS_ASM_MACRO
 .macro index_intno reg
@@ -98,22 +98,22 @@
 #endif /* TOPPERS_ASM_MACRO */
      
 /*
- * CPU�㳰�ϥ�ɥ��ֹ�˴ؤ������
+ * CPU例外ハンドラ番号に関する定義
  */ 
 #define TMIN_EXCNO 0x040U
 #define TMAX_EXCNO 0x5C0U
 #define TNUM_EXC   0x5DU
      
 /*
- * CPU�㳰�ϥ�ɥ��ֹ������������ɽ������Ѵ�
+ * CPU例外ハンドラ番号の内部・外部表現相互変換
  */
-#define EXT_EXCNO(iexcno)  (CAST(uint16_t, (iexcno) << 4)) /* ����ɽ������ɽ���� */
-#define INT_EXCNO(excno)   (CAST(uint16_t, (excno)  >> 4)) /* ����ɽ��������ɽ���� */
+#define EXT_EXCNO(iexcno)  (CAST(uint16_t, (iexcno) << 4)) /* 内部表現を外部表現に */
+#define INT_EXCNO(excno)   (CAST(uint16_t, (excno)  >> 4)) /* 外部表現を内部表現に */
 
 /*
- * ������֥��CPU�㳰�ֹ椫�� exch_tbl ���������Υޥ���
- * reg�ˤϡ�EXPEVT�쥸�������ͤ��ݻ����Ƥ���
- * �쥸��������ꤹ�� 
+ * アセンブラでCPU例外番号から exch_tbl を引くためのマクロ
+ * regには，EXPEVTレジスタの値を保持している
+ * レジスタを指定する 
  */
 #ifdef TOPPERS_ASM_MACRO
 .macro index_excno reg
@@ -124,7 +124,7 @@
 #ifndef TOPPERS_MACRO_ONLY
 
 /*
- * ������׵�饤�����ͥ��������쥸�������������
+ * 割込み要求ライン毎の優先度設定レジスタの設定情報
  */
 #define IPR_INFO_TBL_DATA   \
     {0U, 0},   /* 0x000(0x000) */ \
@@ -250,7 +250,7 @@
 
 
 /*
- * IRC�ν����
+ * IRCの初期化
  */
 Inline void
 init_irc(void)
@@ -269,7 +269,7 @@ init_irc(void)
 }
 
 /*
- * �����ͥ���٥쥸����������
+ * 割込み優先度レジスタの設定
  */
 Inline void
 set_irc_ipr(uint32_t address, uint32_t offset, uint8_t val)
@@ -285,7 +285,7 @@ set_irc_ipr(uint32_t address, uint32_t offset, uint8_t val)
 #endif /* TOPPERS_MACRO_ONLY */
 
 /*
- *  �ץ����å���¸�⥸�塼���SH34�ѡ�
+ *  プロセッサ依存モジュール（SH34用）
  */
 #include "sh34_gcc/prc_config.h"
 

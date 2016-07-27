@@ -90,7 +90,7 @@ eIPv4Input_IPv4Input(CELLIDX idx, int8_t* inputp, int32_t size)
 	/* Put statements here #_TEFB_# */
 	T_NET_BUF *input = (T_NET_BUF*)inputp;
 
-	//ƒoƒbƒtƒ@î•ñ‚ÌƒZƒbƒg
+	//ãƒãƒƒãƒ•ã‚¡æƒ…å ±ã®ã‚»ãƒƒãƒˆ
 	input->off.protocolflag |= FLAG_USE_IPV4;
 	input->off.iphdrlen = IP4_HDR_SIZE;
 	input->off.ipmss = TCP_MSS;
@@ -99,37 +99,37 @@ eIPv4Input_IPv4Input(CELLIDX idx, int8_t* inputp, int32_t size)
 	uint32_t hlen = GET_IP4_HDR_SIZE(ip4h);
 	input->off.iphdrlenall = hlen;
 
-	/* ƒlƒbƒgƒ[ƒNƒoƒbƒtƒ@‚Ì’·‚³‚ğƒf[ƒ^ƒOƒ‰ƒ€’·‚É’²®‚·‚éB*/
-	//ƒRƒ“ƒgƒ[ƒ‰‚É•s’²‚ª‚ ‚éƒP[ƒX‚Ì‚½‚ß‚É‚±‚±‚Å‰ü‚ß‚Äİ’è‚·‚é
+	/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒƒãƒ•ã‚¡ã®é•·ã•ã‚’ãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ é•·ã«èª¿æ•´ã™ã‚‹ã€‚*/
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã«ä¸èª¿ãŒã‚ã‚‹ã‚±ãƒ¼ã‚¹ã®ãŸã‚ã«ã“ã“ã§æ”¹ã‚ã¦è¨­å®šã™ã‚‹
 	input->len = (uint16_t)(ntohs(ip4h->len) + input->off.ifhdrlen - input->off.ifalign);
 	size = input->len +sizeof(T_NET_BUF) - 4;
 
-	/* IP ƒwƒbƒ_‚Ì’·‚³‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* IP ãƒ˜ãƒƒãƒ€ã®é•·ã•ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (input->len < IP4_HDR_SIZE+input->off.ifhdrlen -input->off.ifalign)
 	  goto buf_rel;
 	
-	/* ƒo[ƒWƒ‡ƒ“‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (IP4_VHL_V(ip4h->vhl) != IPV4_VERSION) {
 		goto buf_rel;
 	}
 
-	/* IP ƒwƒbƒ_‚Ì’·‚³‚ğƒ`ƒFƒbƒN‚µAƒIƒvƒVƒ‡ƒ“‚ğ‰ğÍ‚·‚éB*/
+	/* IP ãƒ˜ãƒƒãƒ€ã®é•·ã•ã‚’ãƒã‚§ãƒƒã‚¯ã—ã€ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è§£æã™ã‚‹ã€‚*/
 	if (hlen > IP4_HDR_SIZE) {
-		/* %%% ƒIƒvƒVƒ‡ƒ“‚Ì‰ğÍ %%% */
+		/* %%% ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®è§£æ %%% */
 	}
 	
-	/* ƒf[ƒ^ƒOƒ‰ƒ€’·‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* ãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ é•·ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (ntohs(ip4h->len) > input->len - input->off.ifhdrlen + input->off.ifalign) {
 		goto buf_rel;
 	}
 	
 
-	/* ƒ`ƒFƒbƒNƒTƒ€‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (cFunctions_checkSum(ip4h, hlen) != 0) {
 		goto buf_rel;
 	}
 
-	/* IP ƒwƒbƒ_‚Ì’·‚³‚ğƒ`ƒFƒbƒN‚µAãˆÊ‚ª ICMP ˆÈŠO‚ÍƒIƒvƒVƒ‡ƒ“‚ğÁ‹‚·‚éB*/
+	/* IP ãƒ˜ãƒƒãƒ€ã®é•·ã•ã‚’ãƒã‚§ãƒƒã‚¯ã—ã€ä¸Šä½ãŒ ICMP ä»¥å¤–ã¯ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’æ¶ˆå»ã™ã‚‹ã€‚*/
 	if (hlen > IP4_HDR_SIZE && ip4h->proto != IPPROTO_ICMP) {
 		memset((uint8_t*)ip4h + IP4_HDR_SIZE, 0, hlen - IP4_HDR_SIZE);
 	}
@@ -138,27 +138,27 @@ eIPv4Input_IPv4Input(CELLIDX idx, int8_t* inputp, int32_t size)
 	T_IN4_ADDR addr=cFunctions_getIPv4Address();
 	T_IN4_ADDR mask=cFunctions_getIPv4Mask();
 
-	/* ‘—MŒ³ƒAƒhƒŒƒX‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* é€ä¿¡å…ƒã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	src = ntohl(ip4h->src);
-	bc  = (addr & mask) | ~mask;
+	bc  = (addr & mask) | â€¾mask;
 
 	//
-	//**************   LOOP‚¾‚Á‚½‚ç‚Ç‚¤‚¾‚Æ‚©‚»‚¤‚¢‚¤ˆ—‚ª“ü‚é
-	//mikan ‚±‚ê‚Ç‚¤‚µ‚æ‚¤
+	//**************   LOOPã ã£ãŸã‚‰ã©ã†ã ã¨ã‹ãã†ã„ã†å‡¦ç†ãŒå…¥ã‚‹
+	//mikan ã“ã‚Œã©ã†ã—ã‚ˆã†
 	if (src == addr || src == bc || src == IPV4_ADDR_BROADCAST || src == IPV4_ADDRANY) {
 		goto buf_rel;
 	}
 
 	
-	/* ‚ ‚ÄæƒAƒhƒŒƒX‚ğƒ`ƒFƒbƒN‚·‚éB*/
+	/* ã‚ã¦å…ˆã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	dst = ntohl(ip4h->dst);
 
-	syslog(LOG_EMERG,"IPv4 input dst is %d ~~~ %d",(0xFF & ip4h->dst),ip4h->dst>>24 );
+	syslog(LOG_EMERG,"IPv4 input dst is %d â€¾â€¾â€¾ %d",(0xFF & ip4h->dst),ip4h->dst>>24 );
 
 	
 	//
-	//************** IP‘—MƒAƒhƒŒƒX‚Ì”»’è
-	//mikan ‚Æ‚è‚ ‚¦‚¸DHCP‚È‚¢‚È‚ç‚Îˆ—
+	//************** IPé€ä¿¡ã‚¢ãƒ‰ãƒ¬ã‚¹ã®åˆ¤å®š
+	//mikan ã¨ã‚Šã‚ãˆãšDHCPãªã„ãªã‚‰ã°å‡¦ç†
 
 	if ((addr != IPV4_ADDRANY) &&
 	    (!(dst == addr || dst == bc ||
@@ -167,10 +167,10 @@ eIPv4Input_IPv4Input(CELLIDX idx, int8_t* inputp, int32_t size)
 	}
 
 	//
-	//**************  IP•ªŠ„‹@”\‚ªON‚¾‚Á‚½‚ç‚Ç‚¤‚¾‚Æ‚©‚»‚¤‚¢‚¤ˆ—‚ª“ü‚é
-	//mikan ‚Æ‚è‚ ‚¦‚¸‚È‚¢
+	//**************  IPåˆ†å‰²æ©Ÿèƒ½ãŒONã ã£ãŸã‚‰ã©ã†ã ã¨ã‹ãã†ã„ã†å‡¦ç†ãŒå…¥ã‚‹
+	//mikan ã¨ã‚Šã‚ãˆãšãªã„
 
-	/* •ªŠ„‚³‚ê‚Ä‚¢‚é‚©ƒ`ƒFƒbƒN‚·‚éB*/
+	/* åˆ†å‰²ã•ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚*/
 	if (ntohs(ip4h->flg_off) & (IP4_MF | IP4_OFFMASK)) {
 		T_IN4_ADDR	src;
 		
@@ -185,20 +185,20 @@ eIPv4Input_IPv4Input(CELLIDX idx, int8_t* inputp, int32_t size)
 	//syslog(LOG_EMERG, "receive IP address is %x",dst);
 
 
-	//mikan IPsec‚Ìˆ—
+	//mikan IPsecã®å‡¦ç†
 
 	//dis_int(0x200);//keisoku
 	//wai_sem(8);//keisoku
 
 	
-	/* ƒvƒƒgƒRƒ‹‚ğ‘I‘ğ‚·‚é */
+	/* ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã‚’é¸æŠã™ã‚‹ */
 	switch (ip4h->proto) {
 
 	  case IPPROTO_UDP:
 		if(is_cUDPInput_joined()){
 			if(dst == bc)
 			  dst = IPV4_ADDR_BROADCAST;
-			cUDPInput_UDPInput(inputp,size, (int8_t *)&dst,4 );//dst‚ÍƒzƒXƒgƒI[ƒ_‡‚Å“ü‚Á‚Ä‚¢‚é[0]=200 [1]=1 [2]=168 [3]=192//offmikan
+			cUDPInput_UDPInput(inputp,size, (int8_t *)&dst,4 );//dstã¯ãƒ›ã‚¹ãƒˆã‚ªãƒ¼ãƒ€é †ã§å…¥ã£ã¦ã„ã‚‹[0]=200 [1]=1 [2]=168 [3]=192//offmikan
 			return;
 		}
 		break;
@@ -219,7 +219,7 @@ eIPv4Input_IPv4Input(CELLIDX idx, int8_t* inputp, int32_t size)
 		break;
 
 	  default:
-		/* ƒ[ƒJƒ‹ IP ƒAƒhƒŒƒX‚É“Í‚¢‚½ƒf[ƒ^ƒOƒ‰ƒ€‚Ì‚İ ICMP ƒGƒ‰[‚ğ’Ê’m‚·‚éB*/
+		/* ãƒ­ãƒ¼ã‚«ãƒ« IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã«å±Šã„ãŸãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ ã®ã¿ ICMP ã‚¨ãƒ©ãƒ¼ã‚’é€šçŸ¥ã™ã‚‹ã€‚*/
 		if ((dst == addr) && is_cICMP4Error_joined()) {
 			T_IN4_ADDR	src;
 

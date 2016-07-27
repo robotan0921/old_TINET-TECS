@@ -1,37 +1,37 @@
 $ 
-$     �ѥ�2�Υ������ƥ������¸�ƥ�ץ졼�ȡ�SH34�ѡ�
+$     パス2のアーキテクチャ依存テンプレート（SH34用）
 $ 
 
 $ 
-$  ATT_ISR�ǻ��ѤǤ��������ֹ�Ȥ�����б��������ߥϥ�ɥ��ֹ�
+$  ATT_ISRで使用できる割込み番号とそれに対応する割込みハンドラ番号
 $ 
 $INTNO_ATTISR_VALID = INTNO_VALID$
 $INHNO_ATTISR_VALID = INHNO_VALID$
 
 $ 
-$  DEF_INT��DEF_EXC�ǻ��ѤǤ������ߥϥ�ɥ��ֹ桿CPU�㳰�ϥ�ɥ��ֹ�
+$  DEF_INT／DEF_EXCで使用できる割込みハンドラ番号／CPU例外ハンドラ番号
 $ 
 $INHNO_DEFINH_VALID = INHNO_VALID$
 $EXCNO_DEFEXC_VALID = EXCNO_VALID$
 
 $ 
-$  �����å���ˡ�λ���
+$  チェック方法の指定
 $ 
 $CHECK_STKSZ_ALIGN = 4$
 
 $ 
-$  CFG_INT�ǻ��ѤǤ��������ֹ�ȳ����ͥ����
+$  CFG_INTで使用できる割込み番号と割込み優先度
 $ 
 $INTNO_CFGINT_VALID = INTNO_VALID$
 $INTPRI_CFGINT_VALID = { -1,-2,...,-15 }$
 
 $ 
-$  �����°����Υ������åȰ�¸���Ѥ���ӥå�
+$  割込み属性中のターゲット依存に用いるビット
 $ 
 $TARGET_INTATR = TA_NEGEDGE|TA_POSEDGE$
            
 $ 
-$  ɸ��ƥ�ץ졼�ȥե�����Υ��󥯥롼��
+$  標準テンプレートファイルのインクルード
 $ 
 $INCLUDE "kernel/kernel.tf"$
 
@@ -41,7 +41,7 @@ $SPC$*/$NL$
 $NL$
 
 $ 
-$  CFG_INT�Υ������ƥ������¸�Υ��顼�����å�
+$  CFG_INTのアーキテクチャ依存のエラーチェック
 $ 
 $FOREACH intno (INT.ORDER_LIST)$
 	$IF (0x600 <= INT.INTNO[intno]) && (INT.INTNO[intno] <= 0x6A0)$
@@ -57,15 +57,15 @@ $FOREACH intno (INT.ORDER_LIST)$
 $END$
 
 $ 
-$  �����ͥ���٥ơ��֥������ɽ����
+$  割込み優先度テーブル（内部表現）
 $ 
 const uint32_t _kernel_int_iipm_tbl[TNUM_INT] = {$NL$
 $FOREACH intno INTNO_RANGE$
 	$IF LENGTH(INT.INTNO[intno])$
 		$intmask = 0x40000000 | (-INT.INTPRI[intno] << 4)$
 	$ELSE$
-$		// LSB��1�ˤ��Ƥ���Τϡ������°�������ꤵ��Ƥ��ʤ����Ȥ�Ƚ
-$		// �̤��뤿��Ǥ��롥
+$		// LSBを1にしているのは，割込み属性が設定されていないことを判
+$		// 別するためである．
 		$intmask = 0x400000F0 | 0x01 $
 	$END$
 	$TAB$$FORMAT("UINT32_C(0x%08x), /* 0x%03x */", intmask, +intno)$$NL$
@@ -74,7 +74,7 @@ $NL$};$NL$
 $NL$
 
 $ 
-$  ����ߥϥ�ɥ�ơ��֥�
+$  割込みハンドラテーブル
 $ 
 const FP _kernel_inh_tbl[TNUM_INH] = {$NL$
 $FOREACH inhno INHNO_RANGE$
@@ -89,7 +89,7 @@ $NL$};$NL$
 $NL$
 
 $ 
-$  �㳰�ϥ�ɥ�ơ��֥�
+$  例外ハンドラテーブル
 $ 
 const FP _kernel_exch_tbl[TNUM_EXC] = {$NL$
 $FOREACH excno EXCNO_RANGE$

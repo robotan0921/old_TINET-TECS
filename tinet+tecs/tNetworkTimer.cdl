@@ -3,21 +3,21 @@
 
 //************************************************
 
-//           ƒVƒOƒjƒ`ƒƒéŒ¾
+//           ã‚·ã‚°ãƒ‹ãƒãƒ£å®£è¨€
 
 //************************************************
 
 
 
 
-//ƒVƒOƒjƒ`ƒƒ
-signature sCallTimerFunction{
+//ã‚·ã‚°ãƒ‹ãƒãƒ£
+signature sCallTimerFunction {
     void callFunction(void);
 };
 
 
-//ƒlƒbƒgƒ[ƒNƒ^ƒCƒ}‘€ìŠÖ”
-signature sNetworkTimer{
+//ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¿ã‚¤ãƒæ“ä½œé–¢æ•°
+signature sNetworkTimer {
     ER Timeout([in]RELTIM timout);
 };
 
@@ -25,7 +25,7 @@ signature sNetworkTimer{
 
 
 
-/*ƒ^ƒCƒ}‹@”\‚ª•K—v‚É‚È‚Á‚½‚ç—LŒø‚É‚·‚é
+/*ã‚¿ã‚¤ãƒæ©Ÿèƒ½ãŒå¿…è¦ã«ãªã£ãŸã‚‰æœ‰åŠ¹ã«ã™ã‚‹
 cell tNetworkTimer NetworkTimer;
 
 

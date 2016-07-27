@@ -2,7 +2,7 @@ import_C("lan9221_define.h");
 import ( "Temp.cdl" );
 
 
-//ƒhƒ‰ƒCƒo‘€ì—pƒVƒOƒjƒ`ƒƒ
+//ãƒ‰ãƒ©ã‚¤ãƒæ“ä½œç”¨ã‚·ã‚°ãƒ‹ãƒãƒ£
 
 signature sNicDriver {
     void init(void);
@@ -61,7 +61,7 @@ composite tLan9221Composite {
     
     cell tLan9221 Lan9221;
 
-    //ƒhƒ‰ƒCƒo‘—óM—pƒZƒ}ƒtƒH
+    //ãƒ‰ãƒ©ã‚¤ãƒé€å—ä¿¡ç”¨ã‚»ãƒãƒ•ã‚©
     cell tSemaphore SemaphoreNicSend{
         attribute = C_EXP("TA_TPRI");
         initialCount = 1;
@@ -83,7 +83,7 @@ composite tLan9221Composite {
 
     cell tLan9221 Lan9221 {
 
-        //MACƒAƒhƒŒƒXw’èƒ|ƒCƒ“ƒg
+        //MACã‚¢ãƒ‰ãƒ¬ã‚¹æŒ‡å®šãƒã‚¤ãƒ³ãƒˆ
         //        macaddr = {composite.mac0,composite.mac1,composite.mac2,composite.mac3,composite.mac4,composite.mac5};
 
         macaddr0 = composite.mac0;

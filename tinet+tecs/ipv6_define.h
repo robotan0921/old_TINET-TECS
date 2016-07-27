@@ -1,5 +1,5 @@
 /*
- *  IPv6 ƒAƒhƒŒƒX
+ *  IPv6 ã‚¢ãƒ‰ãƒ¬ã‚¹
  */
 
 typedef struct t_in6_addr {

@@ -3,75 +3,75 @@ typedef uint32_t T_IN4_ADDR;
 #define MAKE_IPV4_ADDR(a,b,c,d)		((T_IN4_ADDR)(((uint32_t)(a)<<24)|((uint32_t)(b)<<16)|((uint32_t)(c)<<8)|(d)))
 
 /*
- *  IP ƒAƒhƒŒƒX‚Ì’è‹`
+ *  IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã®å®šç¾©
  */
 
-#define IPV4_ADDRANY		ULONG_C(0x00000000)	/* ITRON TCP/IP •W€	*/
+#define IPV4_ADDRANY		ULONG_C(0x00000000)	/* ITRON TCP/IP æ¨™æº–	*/
 
 #define IPV4_ADDR_LOOPBACK	ULONG_C(0x7f000001)
 #define IPV4_ADDR_BROADCAST	ULONG_C(0xffffffff)
 
 
 /*
- *  IPv4 ‚Ì’è‹`ARFC791 ŽQÆ
+ *  IPv4 ã®å®šç¾©ã€RFC791 å‚ç…§
  */
 
 #define IPV4_VERSION		4
 
 /*
- *  ƒCƒ“ƒ^[ƒlƒbƒgƒVƒXƒeƒ€‚Ì’è‹`ARFC790 ŽQÆ
+ *  ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒƒãƒˆã‚·ã‚¹ãƒ†ãƒ ã®å®šç¾©ã€RFC790 å‚ç…§
  */
 
 /*
- *  ƒvƒƒgƒRƒ‹ (RFC1700)
+ *  ãƒ—ãƒ­ãƒˆã‚³ãƒ« (RFC1700)
  */
 
-#define IPPROTO_IP		UINT_C(0)	/* IP ‚Ìƒ_ƒ~[				*/
-#define IPPROTO_HOPOPTS		UINT_C(0)	/* IPv6 ’†Œp“_ (Hop-by-Hop) ƒIƒvƒVƒ‡ƒ“	*/
+#define IPPROTO_IP		UINT_C(0)	/* IP ã®ãƒ€ãƒŸãƒ¼				*/
+#define IPPROTO_HOPOPTS		UINT_C(0)	/* IPv6 ä¸­ç¶™ç‚¹ (Hop-by-Hop) ã‚ªãƒ—ã‚·ãƒ§ãƒ³	*/
 #define IPPROTO_ICMP		UINT_C(1)	/* ICMP					*/
 #define IPPROTO_TCP		UINT_C(6)	/* TCP					*/
 #define IPPROTO_UDP		UINT_C(17)	/* UDP					*/
 #define IPPROTO_IPV6		UINT_C(41)	/* IPv6					*/
-#define IPPROTO_ROUTING		UINT_C(43)	/* Œo˜H§ŒäƒIƒvƒVƒ‡ƒ“			*/
-#define IPPROTO_FRAGMENT	UINT_C(44)	/* ’f•Ð‰»ƒIƒvƒVƒ‡ƒ“			*/
+#define IPPROTO_ROUTING		UINT_C(43)	/* çµŒè·¯åˆ¶å¾¡ã‚ªãƒ—ã‚·ãƒ§ãƒ³			*/
+#define IPPROTO_FRAGMENT	UINT_C(44)	/* æ–­ç‰‡åŒ–ã‚ªãƒ—ã‚·ãƒ§ãƒ³			*/
 #define IPPROTO_RSVP		UINT_C(46)	/* RSVP					*/
-#define IPPROTO_ESP		UINT_C(50)	/* IPv6 ˆÃ†‰»ƒIƒvƒVƒ‡ƒ“		*/
-#define IPPROTO_AH		UINT_C(51)	/* IPv6 ”FØƒIƒvƒVƒ‡ƒ“			*/
+#define IPPROTO_ESP		UINT_C(50)	/* IPv6 æš—å·åŒ–ã‚ªãƒ—ã‚·ãƒ§ãƒ³		*/
+#define IPPROTO_AH		UINT_C(51)	/* IPv6 èªè¨¼ã‚ªãƒ—ã‚·ãƒ§ãƒ³			*/
 #define IPPROTO_ICMPV6		UINT_C(58)	/* ICMPv6				*/
-#define IPPROTO_NONE		UINT_C(59)	/* IPv6 ŽŸƒwƒbƒ_–³‚µ			*/
-#define IPPROTO_DSTOPTS		UINT_C(60)	/* IPv6 I“_ƒIƒvƒVƒ‡ƒ“			*/
-#define IPPROTO_IPCOMP		UINT_C(108)	/* ƒyƒCƒ[ƒhˆ³k			*/
-#define IPPROTO_DONE		UINT_C(257)	/* IPv6 ‚ÅãˆÊƒvƒƒgƒRƒ‹“ü—ÍI—¹	*/
+#define IPPROTO_NONE		UINT_C(59)	/* IPv6 æ¬¡ãƒ˜ãƒƒãƒ€ç„¡ã—			*/
+#define IPPROTO_DSTOPTS		UINT_C(60)	/* IPv6 çµ‚ç‚¹ã‚ªãƒ—ã‚·ãƒ§ãƒ³			*/
+#define IPPROTO_IPCOMP		UINT_C(108)	/* ãƒšã‚¤ãƒ­ãƒ¼ãƒ‰åœ§ç¸®			*/
+#define IPPROTO_DONE		UINT_C(257)	/* IPv6 ã§ä¸Šä½ãƒ—ãƒ­ãƒˆã‚³ãƒ«å…¥åŠ›çµ‚äº†	*/
 
 
 /*
- *  ƒ‹[ƒeƒBƒ“ƒO•\ƒGƒ“ƒgƒŠ\‘¢‘Ì
+ *  ãƒ«ãƒ¼ãƒ†ã‚£ãƒ³ã‚°è¡¨ã‚¨ãƒ³ãƒˆãƒªæ§‹é€ ä½“
  */
 
 typedef struct t_in4_rtentry {
-	T_IN4_ADDR	target;		/* –Ú•Wƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX			*/
-	T_IN4_ADDR	mask;		/* –Ú•Wƒlƒbƒgƒ[ƒNƒAƒhƒŒƒX‚ÌƒTƒuƒlƒbƒgƒ}ƒXƒN	*/
-	T_IN4_ADDR	gateway;	/* ƒQ[ƒgƒEƒFƒC‚Ì IP ƒAƒhƒŒƒX			*/
-	uint32_t	expire;		/* —LŒøŽžŠÔ‚ªØ‚ê‚éŽž [s]			*/
-	uint8_t		flags;		/* ƒtƒ‰ƒO					*/
+	T_IN4_ADDR	target;		/* ç›®æ¨™ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¢ãƒ‰ãƒ¬ã‚¹			*/
+	T_IN4_ADDR	mask;		/* ç›®æ¨™ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¢ãƒ‰ãƒ¬ã‚¹ã®ã‚µãƒ–ãƒãƒƒãƒˆãƒžã‚¹ã‚¯	*/
+	T_IN4_ADDR	gateway;	/* ã‚²ãƒ¼ãƒˆã‚¦ã‚§ã‚¤ã® IP ã‚¢ãƒ‰ãƒ¬ã‚¹			*/
+	uint32_t	expire;		/* æœ‰åŠ¹æ™‚é–“ãŒåˆ‡ã‚Œã‚‹æ™‚åˆ» [s]			*/
+	uint8_t		flags;		/* ãƒ•ãƒ©ã‚°					*/
 	} T_IN4_RTENTRY;
 
 /*
- *  ƒ‹[ƒeƒBƒ“ƒOƒGƒ“ƒgƒŠó‘Ôƒtƒ‰ƒO
+ *  ãƒ«ãƒ¼ãƒ†ã‚£ãƒ³ã‚°ã‚¨ãƒ³ãƒˆãƒªçŠ¶æ…‹ãƒ•ãƒ©ã‚°
  */
 
-#define IN_RTF_DEFINED		UINT_C(0x01)	/* ’è‹`Ï‚Ý			*/
-#define IN_RTF_REDIRECT		UINT_C(0x10)	/* Œü‚¯’¼‚µ‚É‚æ‚èŽ©“®Ý’è‚³‚ê‚½	*/
+#define IN_RTF_DEFINED		UINT_C(0x01)	/* å®šç¾©æ¸ˆã¿			*/
+#define IN_RTF_REDIRECT		UINT_C(0x10)	/* å‘ã‘ç›´ã—ã«ã‚ˆã‚Šè‡ªå‹•è¨­å®šã•ã‚ŒãŸ	*/
 
 
 
 /*
- *  IPv4 ƒwƒbƒ_‚Ì’è‹`
+ *  IPv4 ãƒ˜ãƒƒãƒ€ã®å®šç¾©
  */
 
 typedef struct t_ip4_hdr {
 	uint8_t		vhl;		/* version << 4 | header length >> 2	*/
-					/* length ‚Í 4 octets ’PˆÊ		*/
+					/* length ã¯ 4 octets å˜ä½		*/
 	uint8_t		type;		/* type of services			*/
 	uint16_t	len;		/* total length				*/
 
@@ -89,7 +89,7 @@ typedef struct t_ip4_hdr {
 #define IP4_HDR_SIZE		(sizeof(T_IP4_HDR))
 
 /*
- *  IPv4 ƒwƒbƒ_\‘¢‘Ìƒƒ“ƒoƒAƒNƒZƒXƒ}ƒNƒ
+ *  IPv4 ãƒ˜ãƒƒãƒ€æ§‹é€ ä½“ãƒ¡ãƒ³ãƒã‚¢ã‚¯ã‚»ã‚¹ãƒžã‚¯ãƒ­
  */
 
 #define IP4_MAKE_VHL(v,hl)	((uint8_t)(((uint8_t)(v)<<4)|(hl)))
@@ -108,48 +108,48 @@ typedef struct t_ip4_hdr {
 
 
 /*
- *  IPv4 ƒwƒbƒ_‚ÌƒtƒB[ƒ‹ƒh‚Ì’l‚Ì’è‹`
+ *  IPv4 ãƒ˜ãƒƒãƒ€ã®ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å€¤ã®å®šç¾©
  */
 
-#define IP4_VHL_BORING	UINT_C(0x45)	/* ƒIƒvƒVƒ‡ƒ“‚ª‚È‚¢ VHL ’l	*/
-#define IP4_RF		UINT_C(0x8000)	/* off: —\–ñ			*/
-#define IP4_DF		UINT_C(0x4000)	/* off: •ªŠ„‹ÖŽ~			*/
-#define IP4_MF		UINT_C(0x2000)	/* off: •ªŠ„‚ ‚è			*/
-#define IP4_OFFMASK	UINT_C(0x1fff)	/* ƒIƒtƒZƒbƒg•”‚Ìƒ}ƒXƒN’l		*/
+#define IP4_VHL_BORING	UINT_C(0x45)	/* ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãŒãªã„ VHL å€¤	*/
+#define IP4_RF		UINT_C(0x8000)	/* off: äºˆç´„			*/
+#define IP4_DF		UINT_C(0x4000)	/* off: åˆ†å‰²ç¦æ­¢			*/
+#define IP4_MF		UINT_C(0x2000)	/* off: åˆ†å‰²ã‚ã‚Š			*/
+#define IP4_OFFMASK	UINT_C(0x1fff)	/* ã‚ªãƒ•ã‚»ãƒƒãƒˆéƒ¨ã®ãƒžã‚¹ã‚¯å€¤		*/
 
 /*
- *  §ŒÀ’l
+ *  åˆ¶é™å€¤
  */
 
-#define IP4_MAXPACKET	UINT_C(65535)	/* Å‘åƒpƒPƒbƒgƒTƒCƒY		*/
-#define IP4_MAXTTL	UINT_C(255)	/* TTL Å‘å’l			*/
-#define IP4_DEFTTL	UINT_C(64)	/* TTL ‹K’è’l (RFC1340)		*/
-#define IP4_FRAGTTL	UINT_C(60)	/* •ªŠ„‚³‚ê‚½ƒf[ƒ^ƒOƒ‰ƒ€‚Ì¶‘¶ŽžŠÔi•bj*/
-#define IP4_MSS		UINT_C(576)	/* Å‘åƒZƒOƒƒ“ƒgƒTƒCƒY‚Ì‹K’è’l	*/
+#define IP4_MAXPACKET	UINT_C(65535)	/* æœ€å¤§ãƒ‘ã‚±ãƒƒãƒˆã‚µã‚¤ã‚º		*/
+#define IP4_MAXTTL	UINT_C(255)	/* TTL æœ€å¤§å€¤			*/
+#define IP4_DEFTTL	UINT_C(64)	/* TTL è¦å®šå€¤ (RFC1340)		*/
+#define IP4_FRAGTTL	UINT_C(60)	/* åˆ†å‰²ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ ã®ç”Ÿå­˜æ™‚é–“ï¼ˆç§’ï¼‰*/
+#define IP4_MSS		UINT_C(576)	/* æœ€å¤§ã‚»ã‚°ãƒ¡ãƒ³ãƒˆã‚µã‚¤ã‚ºã®è¦å®šå€¤	*/
 
 
 /****************************************
-  ARP‚ÉŠÖ‚·‚é’è‹`
+  ARPã«é–¢ã™ã‚‹å®šç¾©
 ******************************************/
 
 
 
 typedef struct arp_entry {
-    T_NET_BUF	*hold;		/* ARP ‚Ì‰ðŒˆ‘Ò‚¿o—ÍƒtƒŒ[ƒ€	*/
-    T_IN4_ADDR	ip_addr;	/* IP ƒAƒhƒŒƒX			*/
-    uint16_t	expire;		/* ”jŠü‚Ü‚Å‚ÌŽžŠÔA0 ‚È‚ç–¢Žg—p	*/
-    uint8_t	mac_addr[6];	/* MAC ƒAƒhƒŒƒX	*/
+    T_NET_BUF	*hold;		/* ARP ã®è§£æ±ºå¾…ã¡å‡ºåŠ›ãƒ•ãƒ¬ãƒ¼ãƒ 	*/
+    T_IN4_ADDR	ip_addr;	/* IP ã‚¢ãƒ‰ãƒ¬ã‚¹			*/
+    uint16_t	expire;		/* ç ´æ£„ã¾ã§ã®æ™‚é–“ã€0 ãªã‚‰æœªä½¿ç”¨	*/
+    uint8_t	mac_addr[6];	/* MAC ã‚¢ãƒ‰ãƒ¬ã‚¹	*/
 } T_ARP_ENTRY;
 
 
-/* ARP ƒwƒbƒ_ */
+/* ARP ãƒ˜ãƒƒãƒ€ */
 
 typedef struct t_arp_hdr {
-	uint16_t	hrd_addr;	/* •¨—ƒAƒhƒŒƒXƒtƒH[ƒ}ƒbƒg	*/
-	uint16_t	proto;		/* ƒvƒƒgƒRƒ‹			*/
-	uint8_t		hdr_len;	/* •¨—ƒAƒhƒŒƒX’·		*/
-	uint8_t		proto_len;	/* ƒvƒƒgƒRƒ‹’·			*/
-	uint16_t	opcode;		/* –½—ßƒR[ƒh			*/
+	uint16_t	hrd_addr;	/* ç‰©ç†ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆ	*/
+	uint16_t	proto;		/* ãƒ—ãƒ­ãƒˆã‚³ãƒ«			*/
+	uint8_t		hdr_len;	/* ç‰©ç†ã‚¢ãƒ‰ãƒ¬ã‚¹é•·		*/
+	uint8_t		proto_len;	/* ãƒ—ãƒ­ãƒˆã‚³ãƒ«é•·			*/
+	uint16_t	opcode;		/* å‘½ä»¤ã‚³ãƒ¼ãƒ‰			*/
 	} T_ARP_HDR;
 
 
@@ -157,12 +157,12 @@ typedef struct t_arp_hdr {
 #define GET_ARP_HDR(nbuf)		((T_ARP_HDR*)((nbuf)->buf + ETHER_HDR_SIZE))
 
 
-/* ARP ’†g */
+/* ARP ä¸­èº« */
 typedef struct t_ether_arp_hdr {
-	uint8_t		shost[6];	/* ‘—MƒzƒXƒg‚Ì•¨—ƒAƒhƒŒƒX	*/
-	uint8_t		sproto[4];	/* ‘—MƒzƒXƒg‚Ì IP ƒAƒhƒŒƒX	*/
-	uint8_t		thost[6];	/* ‰ðŒˆ‘ÎÛ•¨—ƒAƒhƒŒƒX		*/
-	uint8_t		tproto[4];	/* ‰ðŒˆ‘ÎÛ IP ƒAƒhƒŒƒX		*/
+	uint8_t		shost[6];	/* é€ä¿¡ãƒ›ã‚¹ãƒˆã®ç‰©ç†ã‚¢ãƒ‰ãƒ¬ã‚¹	*/
+	uint8_t		sproto[4];	/* é€ä¿¡ãƒ›ã‚¹ãƒˆã® IP ã‚¢ãƒ‰ãƒ¬ã‚¹	*/
+	uint8_t		thost[6];	/* è§£æ±ºå¯¾è±¡ç‰©ç†ã‚¢ãƒ‰ãƒ¬ã‚¹		*/
+	uint8_t		tproto[4];	/* è§£æ±ºå¯¾è±¡ IP ã‚¢ãƒ‰ãƒ¬ã‚¹		*/
 	} T_ETHER_ARP_HDR;
 
 #define ETHER_ARP_HDR_SIZE		(sizeof(T_ETHER_ARP_HDR))
@@ -173,38 +173,38 @@ typedef struct t_ether_arp_hdr {
 #define GET_ETHER_ARP_HDR(nbuf)		((T_ETHER_ARP_HDR*)((nbuf)->buf + GET_IF_ARP_HDR_SIZE(nbuf)))
 
 
-/* hrd_addrA•¨—ƒAƒhƒŒƒXƒtƒH[ƒ}ƒbƒg‚Ì’l */
+/* hrd_addrã€ç‰©ç†ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã®å€¤ */
 
 #define ARPHRD_ETHER	1	/* Ethernet	*/
 
-/* opcode, –½—ßƒR[ƒh‚Ì’l */
+/* opcode, å‘½ä»¤ã‚³ãƒ¼ãƒ‰ã®å€¤ */
 
-#define ARPOP_REQUEST		UINT_C(1)	/* ƒAƒhƒŒƒX‰ðŒˆ—v‹		*/
-#define ARPOP_REPLY		UINT_C(2)	/* ƒAƒhƒŒƒX‰ðŒˆ‰ž“š		*/
-#define ARPOP_REV_REQUEST	UINT_C(3)	/* ƒvƒƒgƒRƒ‹EƒAƒhƒŒƒX‰ðŒˆ—v‹	*/
-#define ARPOP_REV_REPLY		UINT_C(4)	/* ƒvƒƒgƒRƒ‹EƒAƒhƒŒƒX‰ðŒˆ—v‹	*/
-#define ARPOP_INV_REQUEST	UINT_C(8)	/* I’[Ž¯•Ê—v‹			*/
-#define ARPOP_INV_REPLY		UINT_C(9)	/* I’[Ž¯•Ê—v‹			*/
+#define ARPOP_REQUEST		UINT_C(1)	/* ã‚¢ãƒ‰ãƒ¬ã‚¹è§£æ±ºè¦æ±‚		*/
+#define ARPOP_REPLY		UINT_C(2)	/* ã‚¢ãƒ‰ãƒ¬ã‚¹è§£æ±ºå¿œç­”		*/
+#define ARPOP_REV_REQUEST	UINT_C(3)	/* ãƒ—ãƒ­ãƒˆã‚³ãƒ«ãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹è§£æ±ºè¦æ±‚	*/
+#define ARPOP_REV_REPLY		UINT_C(4)	/* ãƒ—ãƒ­ãƒˆã‚³ãƒ«ãƒ»ã‚¢ãƒ‰ãƒ¬ã‚¹è§£æ±ºè¦æ±‚	*/
+#define ARPOP_INV_REQUEST	UINT_C(8)	/* çµ‚ç«¯è­˜åˆ¥è¦æ±‚			*/
+#define ARPOP_INV_REPLY		UINT_C(9)	/* çµ‚ç«¯è­˜åˆ¥è¦æ±‚			*/
 
 
-#define ARP_CACHE_KEEP		(20*60*10)	/* ARP ƒLƒƒƒbƒVƒ…‚Ìƒ^ƒCƒ€ƒAƒEƒg	*/
+#define ARP_CACHE_KEEP		(20*60*10)	/* ARP ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ	*/
 
-#define TMO_ARP_GET_NET_BUF		ULONG_C(1000)	/* [ms]AARP ‚Ìƒlƒbƒgƒ[ƒNƒoƒbƒtƒ@Šl“¾ƒ^ƒCƒ€ƒAƒEƒg	*/
-#define TMO_ARP_OUTPUT			ULONG_C(1000)	/* [ms]AƒAƒhƒŒƒX‰ðŒˆ—v‹o—Íƒ^ƒCƒ€ƒAƒEƒg		*/
+#define TMO_ARP_GET_NET_BUF		ULONG_C(1000)	/* [ms]ã€ARP ã®ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ãƒãƒƒãƒ•ã‚¡ç²å¾—ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ	*/
+#define TMO_ARP_OUTPUT			ULONG_C(1000)	/* [ms]ã€ã‚¢ãƒ‰ãƒ¬ã‚¹è§£æ±ºè¦æ±‚å‡ºåŠ›ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ		*/
 
 
 
 /****************************************
-  ICMP4‚ÉŠÖ‚·‚é’è‹`
+  ICMP4ã«é–¢ã™ã‚‹å®šç¾©
 ******************************************/
 /*
- *  ICMP ƒwƒbƒ_‚Ì’è‹`ARFC 792
+ *  ICMP ãƒ˜ãƒƒãƒ€ã®å®šç¾©ã€RFC 792
  */
 
 typedef struct t_icmp_hdr {
-	uint8_t		type;		/* ƒƒbƒZ[ƒW‚ÌŒ^	*/
-	uint8_t		code;		/* ƒTƒuŒ^		*/
-	uint16_t	sum;		/* ƒ`ƒFƒbƒNƒTƒ€		*/
+	uint8_t		type;		/* ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®åž‹	*/
+	uint8_t		code;		/* ã‚µãƒ–åž‹		*/
+	uint16_t	sum;		/* ãƒã‚§ãƒƒã‚¯ã‚µãƒ 		*/
 	union {
 		struct id_seq {
 			uint16_t	id;
@@ -218,77 +218,77 @@ typedef struct t_icmp_hdr {
 #define GET_ICMP4_HDR(nbuf,ihoff)	((T_ICMP4_HDR*)((uint8_t*)((nbuf)->buf) + ihoff))
 #define GET_ICMP4_SDU(nbuf,ihoff)	((uint8_t*)((nbuf)->buf) + ihoff + ICMP4_HDR_SIZE)
 
-#define TMO_ICMP_OUTPUT			ULONG_C(1000)	/* [ms]AICMP o—Íƒ^ƒCƒ€ƒAƒEƒg				*/
+#define TMO_ICMP_OUTPUT			ULONG_C(1000)	/* [ms]ã€ICMP å‡ºåŠ›ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ				*/
 
 
 
 /*
- *  ƒƒbƒZ[ƒW‚ÌŒ^
+ *  ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®åž‹
  */
 
-#define ICMP4_ECHO_REPLY	UINT_C(0)	/* ƒGƒR[‰ž“š		*/
-#define ICMP4_UNREACH		UINT_C(3)	/* ƒGƒ‰[		*/
-#define ICMP4_SOURCE_QUENCH	UINT_C(4)	/* ”­M§ŒÀ		*/
-#define ICMP4_REDIRECT		UINT_C(5)	/* •ûŒü•ÏX		*/
-#define ICMP4_ECHO_REQUEST	UINT_C(8)	/* ƒGƒR[—v‹		*/
-#define ICMP4_TIME_EXCEEDED	UINT_C(11)	/* ”­M§ŒÀ		*/
-#define ICMP4_PARAMETER		UINT_C(12)	/* ƒpƒ‰ƒ[ƒ^ˆÙí	*/
-#define ICMP4_TIME_REQUEST	UINT_C(13)	/* ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv—v‹	*/
-#define ICMP4_TIME_REPLY	UINT_C(14)	/* ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‰ž“š	*/
-#define ICMP4_MASK_REQUEST	UINT_C(17)	/* ƒAƒhƒŒƒXƒ}ƒXƒN—v‹	*/
-#define ICMP4_MASK_REPLY	UINT_C(18)	/* ƒAƒhƒŒƒXƒ}ƒXƒN‰ž“š	*/
+#define ICMP4_ECHO_REPLY	UINT_C(0)	/* ã‚¨ã‚³ãƒ¼å¿œç­”		*/
+#define ICMP4_UNREACH		UINT_C(3)	/* ã‚¨ãƒ©ãƒ¼		*/
+#define ICMP4_SOURCE_QUENCH	UINT_C(4)	/* ç™ºä¿¡åˆ¶é™		*/
+#define ICMP4_REDIRECT		UINT_C(5)	/* æ–¹å‘å¤‰æ›´		*/
+#define ICMP4_ECHO_REQUEST	UINT_C(8)	/* ã‚¨ã‚³ãƒ¼è¦æ±‚		*/
+#define ICMP4_TIME_EXCEEDED	UINT_C(11)	/* ç™ºä¿¡åˆ¶é™		*/
+#define ICMP4_PARAMETER		UINT_C(12)	/* ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ç•°å¸¸	*/
+#define ICMP4_TIME_REQUEST	UINT_C(13)	/* ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—è¦æ±‚	*/
+#define ICMP4_TIME_REPLY	UINT_C(14)	/* ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—å¿œç­”	*/
+#define ICMP4_MASK_REQUEST	UINT_C(17)	/* ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒžã‚¹ã‚¯è¦æ±‚	*/
+#define ICMP4_MASK_REPLY	UINT_C(18)	/* ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒžã‚¹ã‚¯å¿œç­”	*/
 
 /*
- *  ƒTƒuŒ^
+ *  ã‚µãƒ–åž‹
  */
 
 /* ICMP4_UNREACH (3)	*/
 
-#define ICMP4_UNREACH_NET		UINT_C(0)	/* ƒlƒbƒgƒ[ƒN		*/
-#define ICMP4_UNREACH_HOST		UINT_C(1)	/* ƒzƒXƒg		*/
-#define ICMP4_UNREACH_PROTOCOL		UINT_C(2)	/* ƒvƒƒgƒRƒ‹		*/
-#define ICMP4_UNREACH_PORT		UINT_C(3)	/* ƒ|[ƒg		*/
-#define ICMP4_UNREACH_FLAG		UINT_C(4)	/* •ªŠ„			*/
-#define ICMP4_UNREACH_SRC_FAIL		UINT_C(5)	/* ƒ\[ƒXŒo˜H		*/
-#define ICMP4_UNREACH_NET_UNKNOWN	UINT_C(6)	/* ƒlƒbƒgƒ[ƒN•s–¾	*/
-#define ICMP4_UNREACH_HOST_UNKNOWN	UINT_C(7)	/* ƒzƒXƒg•s–¾		*/
-#define ICMP4_UNREACH_ISOLATED		UINT_C(8)	/* •ª—£			*/
+#define ICMP4_UNREACH_NET		UINT_C(0)	/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯		*/
+#define ICMP4_UNREACH_HOST		UINT_C(1)	/* ãƒ›ã‚¹ãƒˆ		*/
+#define ICMP4_UNREACH_PROTOCOL		UINT_C(2)	/* ãƒ—ãƒ­ãƒˆã‚³ãƒ«		*/
+#define ICMP4_UNREACH_PORT		UINT_C(3)	/* ãƒãƒ¼ãƒˆ		*/
+#define ICMP4_UNREACH_FLAG		UINT_C(4)	/* åˆ†å‰²			*/
+#define ICMP4_UNREACH_SRC_FAIL		UINT_C(5)	/* ã‚½ãƒ¼ã‚¹çµŒè·¯		*/
+#define ICMP4_UNREACH_NET_UNKNOWN	UINT_C(6)	/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ä¸æ˜Ž	*/
+#define ICMP4_UNREACH_HOST_UNKNOWN	UINT_C(7)	/* ãƒ›ã‚¹ãƒˆä¸æ˜Ž		*/
+#define ICMP4_UNREACH_ISOLATED		UINT_C(8)	/* åˆ†é›¢			*/
 #define ICMP4_UNREACH_NET_PROHIB	UINT_C(9)	/* 			*/
 #define ICMP4_UNREACH_HOST_PROHIB	UINT_C(10)	/* 			*/
-#define ICMP4_UNREACH_TOS_NET		UINT_C(11)	/* ƒlƒbƒgƒ[ƒN‚Ö‚Ì•s³TOS*/
-#define ICMP4_UNREACH_TOS_HOST		UINT_C(12)	/* ƒzƒXƒg‚Ö‚Ì•s³TOS	*/
+#define ICMP4_UNREACH_TOS_NET		UINT_C(11)	/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã¸ã®ä¸æ­£TOS*/
+#define ICMP4_UNREACH_TOS_HOST		UINT_C(12)	/* ãƒ›ã‚¹ãƒˆã¸ã®ä¸æ­£TOS	*/
 #define ICMP4_UNREACH_FILTER_PROHIB	UINT_C(13)	/* 			*/
 #define ICMP4_UNREACH_HOST_PRECEDENCE	UINT_C(14)	/* 			*/
 #define ICMP4_UNREACH_PRECEDENCE_CUTOFF	UINT_C(15)	/* 			*/
 
 /* ICMP4_REDIRECT (5)	*/
 
-#define ICMP4_REDIRECT_NET		UINT_C(0)	/* ƒlƒbƒgƒ[ƒN		*/
-#define ICMP4_REDIRECT_HOST		UINT_C(1)	/* ƒzƒXƒg		*/
-#define ICMP4_REDIRECT_PORT_AND_NET	UINT_C(2)	/* ƒ|[ƒg”Ô†‚Æƒlƒbƒg	*/
-#define ICMP4_REDIRECT_PORT_AND_HOST	UINT_C(3)	/* ƒ|[ƒg”Ô†‚ÆƒzƒXƒg	*/
+#define ICMP4_REDIRECT_NET		UINT_C(0)	/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯		*/
+#define ICMP4_REDIRECT_HOST		UINT_C(1)	/* ãƒ›ã‚¹ãƒˆ		*/
+#define ICMP4_REDIRECT_PORT_AND_NET	UINT_C(2)	/* ãƒãƒ¼ãƒˆç•ªå·ã¨ãƒãƒƒãƒˆ	*/
+#define ICMP4_REDIRECT_PORT_AND_HOST	UINT_C(3)	/* ãƒãƒ¼ãƒˆç•ªå·ã¨ãƒ›ã‚¹ãƒˆ	*/
 
 
 /*
- *  “ÆŽ©‚ÌƒGƒ‰[ƒR[ƒh
+ *  ç‹¬è‡ªã®ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
  */
 
-#define EV_NOPND		(-97)		/* ƒyƒ“ƒfƒBƒ“ƒO‚µ‚Ä‚¢‚È‚¢ */
+#define EV_NOPND		(-97)		/* ãƒšãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã—ã¦ã„ãªã„ */
 
 /*
- *  ƒlƒbƒgƒ[ƒNƒGƒ‰[ƒR[ƒh
+ *  ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
  */
 
-#define EV_MSIZE		(-98)		/* ƒf[ƒ^ƒOƒ‰ƒ€’·’´‰ß	*/
-#define EV_NURCH		(-99)		/* ƒlƒbƒgƒ[ƒN“ž’B•s”\	*/
-#define EV_HDOWN		(-100)		/* ƒzƒXƒgƒ_ƒEƒ“		*/
-#define EV_HURCH		(-101)		/* ƒzƒXƒg“ž’B•s”\	*/
-#define EV_CNNRF		(-102)		/* Ú‘±•s”\		*/
-#define EV_CNRST		(-103)		/* Ú‘±ƒŠƒZƒbƒg		*/
-#define EV_REXMTMO		(-104)		/* Ä‘—ƒ^ƒCƒ€ƒAƒEƒg	*/
+#define EV_MSIZE		(-98)		/* ãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ é•·è¶…éŽ	*/
+#define EV_NURCH		(-99)		/* ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯åˆ°é”ä¸èƒ½	*/
+#define EV_HDOWN		(-100)		/* ãƒ›ã‚¹ãƒˆãƒ€ã‚¦ãƒ³		*/
+#define EV_HURCH		(-101)		/* ãƒ›ã‚¹ãƒˆåˆ°é”ä¸èƒ½	*/
+#define EV_CNNRF		(-102)		/* æŽ¥ç¶šä¸èƒ½		*/
+#define EV_CNRST		(-103)		/* æŽ¥ç¶šãƒªã‚»ãƒƒãƒˆ		*/
+#define EV_REXMTMO		(-104)		/* å†é€ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ	*/
 
 /*
- *  IP ƒAƒhƒŒƒX‚Ì’è‹`
+ *  IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã®å®šç¾©
  */
 #define IPV4_CLASS_D(i)		(((i) & ULONG_C(0xf0000000)) == ULONG_C(0xe0000000))
 

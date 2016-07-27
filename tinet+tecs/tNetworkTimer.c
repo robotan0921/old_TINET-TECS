@@ -101,14 +101,14 @@ eBody_main()
 	if(is_cTCPTask_joined())
 	  cTCPTask_activate();
 
-	//Ú‘±‚³‚ê‚Ä‚¢‚é‚ª‹N“®‚µ‚Ä‚¢‚È‚¢ƒ^ƒCƒ}‚ğ‹N“®
+	//æ¥ç¶šã•ã‚Œã¦ã„ã‚‹ãŒèµ·å‹•ã—ã¦ã„ãªã„ã‚¿ã‚¤ãƒã‚’èµ·å‹•
 	for(ix = NCP_cCallTimerFunction; ix -- > 0 ;) {
 		if(is_cCallTimerFunction_joined(ix) && VAR_timeout ==-1)
 		   cCallTimerFunction_callFunction(ix);
 	}
 	
 	while (true) {
-		/* ƒ^ƒCƒ€ƒAƒEƒg‚µ‚½ƒGƒ“ƒgƒŠ‚ğŒÄo‚·B*/
+		/* ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã—ãŸã‚¨ãƒ³ãƒˆãƒªã‚’å‘¼å‡ºã™ã€‚*/
 		cSemaphoreNetworkTimer_wait();
 		for (ix = NCP_cCallTimerFunction; ix -- > 0; ) {
 			cSemaphoreCalloutLock_wait();
@@ -140,7 +140,7 @@ eBody_main()
 void
 eiBody_main()
 {
-	//100msüŠú‚ÅŒÄ‚Ño‚³‚ê‚éƒlƒbƒgƒ[ƒNƒ^ƒCƒ}ŠÖ”
+	//100mså‘¨æœŸã§å‘¼ã³å‡ºã•ã‚Œã‚‹ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚¿ã‚¤ãƒé–¢æ•°
 	
 	int32_t ix;
 

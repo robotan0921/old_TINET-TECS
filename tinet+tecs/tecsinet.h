@@ -8,8 +8,8 @@
 #include "itron.h"
 
 
-#define FLAG_USE_UDP	(0x01)	/* TCPを利用するフラグ */
-#define FLAG_USE_TCP	(0x02)	/* UDPを利用するフラグ */
+#define FLAG_USE_UDP	(0x01)	/* TCP繧貞茜逕ｨ縺吶ｋ繝輔Λ繧ｰ */
+#define FLAG_USE_TCP	(0x02)	/* UDP繧貞茜逕ｨ縺吶ｋ繝輔Λ繧ｰ */
 
 #define FLAG_USE_IPV4   (0x04) //IPv4
 #define FLAG_USE_IPV6   (0x08) //IPv6
@@ -43,22 +43,22 @@ extern int  rev_memcmp_word (uint8_t *data1, uint8_t *data2);
 #define ahtonl(n,h)		rev_memcpy_word((n),(uint8_t*)&(h))
 #define nahcmpl(n,h)		rev_memcmp_word((n),(uint8_t*)&(h))
 
-/*プロトコルフラグに関する定義 */
+/*繝励Ο繝医さ繝ｫ繝輔Λ繧ｰ縺ｫ髢｢縺吶ｋ螳夂ｾｩ */
 
 /*
- * プロトコルフラグ
+ * 繝励Ο繝医さ繝ｫ繝輔Λ繧ｰ
  */
 
-//#define FLAG_SET_UDP	((uint32_t)(0x01))<<24	/* UDPを利用するフラグ */
-//#define FLAG_SET_TCP	((uint32_t)(0x02))<<24	/* TDPを利用するフラグ */
+//#define FLAG_SET_UDP	((uint32_t)(0x01))<<24	/* UDP繧貞茜逕ｨ縺吶ｋ繝輔Λ繧ｰ */
+//#define FLAG_SET_TCP	((uint32_t)(0x02))<<24	/* TDP繧貞茜逕ｨ縺吶ｋ繝輔Λ繧ｰ */
 
 //#define FLAG_SET_IPV4   ((uint32_t)(0x01))<<16 //IPv4
 //#define FLAG_SET_IPV6   ((uint32_t)(0x02))<<16 //IPv6
 
 //#define FLAG_SET_ETHER  ((uint32_t)(0x01))<<8 //ethernet
 
-//#define FLAG_SET_UDP	UINT_C(0x00000001)	/* UDPを利用するフラグ */
-//#define FLAG_SET_TCP	UINT_C(0x00000002)	/* TDPを利用するフラグ */
+//#define FLAG_SET_UDP	UINT_C(0x00000001)	/* UDP繧貞茜逕ｨ縺吶ｋ繝輔Λ繧ｰ */
+//#define FLAG_SET_TCP	UINT_C(0x00000002)	/* TDP繧貞茜逕ｨ縺吶ｋ繝輔Λ繧ｰ */
 
 //#define FLAG_SET_IPV4   UINT_C(0x00000100) //IPv4
 //#define FLAG_SET_IPV6   UINT_C(0x00000200) //IPv6
@@ -66,8 +66,8 @@ extern int  rev_memcmp_word (uint8_t *data1, uint8_t *data2);
 //#define FLAG_SET_ETHER  UINT_C(0x00010000) //ethernet
 
 
-//#define FLAG_USE_UDP	UINT_C(0x00000001)	/* TCPを利用するフラグ */
-//#define FLAG_USE_TCP	UINT_C(0x00000002)	/* UDPを利用するフラグ */
+//#define FLAG_USE_UDP	UINT_C(0x00000001)	/* TCP繧貞茜逕ｨ縺吶ｋ繝輔Λ繧ｰ */
+//#define FLAG_USE_TCP	UINT_C(0x00000002)	/* UDP繧貞茜逕ｨ縺吶ｋ繝輔Λ繧ｰ */
 
 //#define FLAG_USE_IPV4   UINT_C(0x00000100) //IPv4
 //#define FLAG_USE_IPV6   UINT_C(0x00000200) //IPv6
@@ -76,7 +76,7 @@ extern int  rev_memcmp_word (uint8_t *data1, uint8_t *data2);
 
 #endif
 
-/* 一般 */
+/* 荳闊ｬ */
 
-#define NADR			((void*)(-1))	/* 無効アドレス */
+#define NADR			((void*)(-1))	/* 辟｡蜉ｹ繧｢繝峨Ξ繧ｹ */
 #define IS_PTR_DEFINED(a)	((void*)(a)!=NADR&&(void*)(a)!=NULL)

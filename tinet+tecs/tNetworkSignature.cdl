@@ -1,4 +1,4 @@
-//ドライバ操作用シグニチャ
+//繝峨Λ繧､繝先桃菴懃畑繧ｷ繧ｰ繝九メ繝｣
 
 signature sNicDriver {
     void init(void);

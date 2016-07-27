@@ -113,19 +113,19 @@ eRoutingTable_redirect(T_IN4_ADDR gateway, T_IN4_ADDR target, uint8_t flags, uin
 	T_IN4_RTENTRY	*rt;
 	int_t		ix;
 
-	/* ‹ó‚«ƒGƒ“ƒgƒŠ‚ğ’T‚·B*/
+	/* ç©ºãã‚¨ãƒ³ãƒˆãƒªã‚’æ¢ã™ã€‚*/
 	for (ix = 0; ix < ATTR_numRedirectEntry; ix ++) {
 		if ((VAR_routingTable[ix].flags & IN_RTF_DEFINED) == 0) {
 			frt = &VAR_routingTable[ix];
 			break;
 		}
 	}
-	/* expire ‚Ì’PˆÊ‚Í [s]B*/
+	/* expire ã®å˜ä½ã¯ [s]ã€‚*/
 	getTime(&now);
 	now /= 1000;//SYSTIM_HZ;
 
 	if (frt == NULL) {
-		/* ‹ó‚«‚ª‚È‚¯‚ê‚ÎA—LŒøŠÔ‚ª‚à‚Á‚Æ‚à’Z‚¢ƒGƒ“ƒgƒŠ‚ğ‹ó‚«‚É‚·‚éB*/
+		/* ç©ºããŒãªã‘ã‚Œã°ã€æœ‰åŠ¹æ™‚é–“ãŒã‚‚ã£ã¨ã‚‚çŸ­ã„ã‚¨ãƒ³ãƒˆãƒªã‚’ç©ºãã«ã™ã‚‹ã€‚*/
 		T_IN4_RTENTRY	*srt = NULL;
 		int_t		diff, sdiff = INT_MAX;
 
@@ -134,7 +134,7 @@ eRoutingTable_redirect(T_IN4_ADDR gateway, T_IN4_ADDR target, uint8_t flags, uin
 			rt = &VAR_routingTable[ix];
 			diff = (int_t)(rt->expire - now);
 			if (diff <= 0) {	/* rt->expire <= now */
-				/* Šù‚ÉA—LŒøŠÔ‚ª‰ß‚¬‚Ä‚¢‚éB*/
+				/* æ—¢ã«ã€æœ‰åŠ¹æ™‚é–“ãŒéãã¦ã„ã‚‹ã€‚*/
 				frt = rt;
 				break;
 			}
@@ -175,7 +175,7 @@ eRoutingTableTimer_callFunction()
 	SYSTIM	now;
 	int_t	ix;
 
-	/* expire ‚Ì’PˆÊ‚Í [s]B*/
+	/* expire ã®å˜ä½ã¯ [s]ã€‚*/
 	getTime(&now);
 	now /= 1000;//STSTIM_HZ
 

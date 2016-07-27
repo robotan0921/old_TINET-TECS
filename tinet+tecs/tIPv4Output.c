@@ -80,13 +80,13 @@ eOutput_IPv4Output(CELLIDX idx, int8_t* outputp, int32_t size,TMO tmout)
 	/* Put statements here #_TEFB_# */
 
 
-	/****IPSeC‚Ìˆ—   mikan*********/
+	/****IPSeCã®å‡¦ç†   mikan*********/
 
 	T_IP4_HDR	*ip4h;
 	T_IN4_ADDR	gw;
 	T_NET_BUF *output=(T_NET_BUF *)outputp;
 
-	/*******IPƒtƒ‰ƒOƒƒ“ƒgˆ—@mikan*******/
+	/*******IPãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆå‡¦ç†ã€€mikan*******/
 
 	int32_t offset,mtu;
 
@@ -100,7 +100,7 @@ eOutput_IPv4Output(CELLIDX idx, int8_t* outputp, int32_t size,TMO tmout)
 	
 	ip4h = GET_IP4_HDR(output,output->off.ifhdrlen);
 	
-	/* IP ƒwƒbƒ_‚ðÝ’è‚·‚é ---------------------*/
+	/* IP ãƒ˜ãƒƒãƒ€ã‚’è¨­å®šã™ã‚‹ ---------------------*/
 	ip4h->vhl	= IP4_MAKE_VHL(IPV4_VERSION, IP4_HDR_SIZE >> 2);
 	ip4h->len	= htons(output->len - output->off.ifhdrlen + output->off.ifalign);
 	ip4h->proto	= proto;
@@ -110,16 +110,16 @@ eOutput_IPv4Output(CELLIDX idx, int8_t* outputp, int32_t size,TMO tmout)
 
 
 	
-	/*IPheader ‚±‚±‚Ü‚Å---------------------*/
+	/*IPheader ã“ã“ã¾ã§---------------------*/
 
-	syslog(LOG_EMERG,"IPv4 OUTPUT dst is %d ~~~ %d",(0xFF & ip4h->dst),ip4h->dst>>24 );
+	syslog(LOG_EMERG,"IPv4 OUTPUT dst is %d â€¾â€¾â€¾ %d",(0xFF & ip4h->dst),ip4h->dst>>24 );
 
 
-	/* ƒf[ƒ^ƒOƒ‰ƒ€ƒTƒCƒY‚ªƒlƒbƒgƒ[ƒN‚Ì MTU ‚ð’´‚¦‚Ä‚¢‚ê‚ÎƒGƒ‰[ */
+	/* ãƒ‡ãƒ¼ã‚¿ã‚°ãƒ©ãƒ ã‚µã‚¤ã‚ºãŒãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã® MTU ã‚’è¶…ãˆã¦ã„ã‚Œã°ã‚¨ãƒ©ãƒ¼ */
 	if (ntohs(ip4h->len) > mtu)
 		return E_PAR;
 
-	/* ƒwƒbƒ_‚ð–„‚ß‚éB*/
+	/* ãƒ˜ãƒƒãƒ€ã‚’åŸ‹ã‚ã‚‹ã€‚*/
 	ip4h->id  = htons(VAR_fragId);
 	VAR_fragId ++;
 	ip4h->sum = 0;
@@ -159,7 +159,7 @@ eOutput_getOffset(CELLIDX idx, T_OFF_BUF* offset)
 	offset->iphdrlen = IP4_HDR_SIZE;
 	offset->ipmss = TCP_MSS;
 	
-	if(is_cEthernetOutput_joined()){//mikan ‚¢‚Ü‚¢‚¿–¢Š®
+	if(is_cEthernetOutput_joined()){//mikan ã„ã¾ã„ã¡æœªå®Œ
 		offset->protocolflag |= FLAG_USE_ETHER;
 		offset->ifhdrlen = ETHER_HDR_SIZE;
 		offset->ifalign = NETBUFFER_ALIGN;
@@ -212,7 +212,7 @@ eOutput_setHeader(CELLIDX idx, int8_t* outputp, int32_t size, T_IN4_ADDR dstaddr
 	T_NET_BUF *output=(T_NET_BUF*)outputp;
 	T_IP4_HDR	*ip4h = GET_IP4_HDR(output,output->off.ifhdrlen);
 
-	/* IP ƒAƒhƒŒƒX‚ðÝ’è‚·‚éB*/
+	/* IP ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’è¨­å®šã™ã‚‹ã€‚*/
 	ip4h->dst	= htonl(dstaddr);
 
 	if (srcaddr == IPV4_ADDRANY)
@@ -248,13 +248,13 @@ eOutput_IPv4Reply(CELLIDX idx, int8_t* outputp, int32_t size,  TMO tmout)
 
 
 	ip4h = GET_IP4_HDR(output,output->off.ifhdrlen);
-	/* ƒwƒbƒ_‚ð–„‚ß‚éB*/
+	/* ãƒ˜ãƒƒãƒ€ã‚’åŸ‹ã‚ã‚‹ã€‚*/
 	ip4h->id  = htons(VAR_fragId);
 	VAR_fragId ++;
 	ip4h->sum = 0;
 	ip4h->sum = cFunctions_checkSum((void*)ip4h, (uint_t)GET_IP4_HDR_SIZE(ip4h));
 
-	syslog(LOG_EMERG,"IPv4 REPLY dst is %d ~~~ %d",(0xFF & ip4h->dst),ip4h->dst>>24 );
+	syslog(LOG_EMERG,"IPv4 REPLY dst is %d â€¾â€¾â€¾ %d",(0xFF & ip4h->dst),ip4h->dst>>24 );
 	
 	gw = cRoutingTable_routeAlloc(ntohl(ip4h->dst));
 

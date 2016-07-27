@@ -1,5 +1,5 @@
 typedef struct {
-#if 1//4ƒoƒCƒg‹«ŠE‚É‡‚í‚¹‚é•K—v‚ª‚ ‚é‚È‚ç
+#if 1//4ãƒã‚¤ãƒˆå¢ƒç•Œã«åˆã‚ã›ã‚‹å¿…è¦ãŒã‚ã‚‹ãªã‚‰
 	uint16_t    align;
 #endif
 	uint8_t		dhost[6];
@@ -7,7 +7,7 @@ typedef struct {
 	uint16_t	type;
 } T_ETHER_HDR;
 
-#if 1//4ƒoƒCƒg‹«ŠE‚É‡‚í‚¹‚é•K—v‚ª‚ ‚é‚È‚ç
+#if 1//4ãƒã‚¤ãƒˆå¢ƒç•Œã«åˆã‚ã›ã‚‹å¿…è¦ãŒã‚ã‚‹ãªã‚‰
 #define NETBUFFER_ALIGN 2
 #else
 #define NETBUFFER_ALIGN 0
@@ -21,7 +21,7 @@ typedef struct {
 
 
 /*
- *  Type ƒtƒB[ƒ‹ƒh
+ *  Type ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
  */
 
 #define ETHER_TYPE_IP		UINT_C(0x0800)	/* IPv4	*/
