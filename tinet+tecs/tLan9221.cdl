@@ -1,4 +1,5 @@
 import_C("lan9221_define.h");
+import ( "Temp.cdl" );
 
 
 //ドライバ操作用シグニチャ
@@ -25,7 +26,7 @@ celltype tLan9221 {
 
     call sSemaphore cSemaphoreSend;
     call siSemaphore ciSemaphoreReceive;
-    call sConfigInterrupt cConfigInterrupt;
+    call sInterruptRequest cInterruptRequest;
     call sNetworkTimer cNetworkTimer;
    
     entry sCallTimerFunction eWatchdogTimer;
@@ -63,21 +64,21 @@ composite tLan9221Composite {
     //ドライバ送受信用セマフォ
     cell tSemaphore SemaphoreNicSend{
         attribute = C_EXP("TA_TPRI");
-        count = 1;
-        max = 1;
+        initialCount = 1;
+        maxCount = 1;
     };
     cell tSemaphore SemaphoreNicReceive{
         attribute = C_EXP("TA_TPRI");
-        count = 0;
-        max = 1;
+        initialCount = 0;
+        maxCount = 1;
     };
     
-    cell tISRWithConfigInterrupt NicInterrupt{
+    cell tISRWithInterruptRequest NicInterrupt{
         
         interruptNumber = composite.interruptNumber;
         interruptAttribute = C_EXP("TA_ENAINT");
         interruptPriority = composite.interruptPriority;
-        ciBody = Lan9221.eiBody;
+        ciISRBody = Lan9221.eiBody;
     };
 
     cell tLan9221 Lan9221 {
@@ -95,7 +96,7 @@ composite tLan9221Composite {
         cSemaphoreSend = SemaphoreNicSend.eSemaphore;
         ciSemaphoreReceive = SemaphoreNicReceive.eiSemaphore;
         
-        cConfigInterrupt = NicInterrupt.eConfigInterrupt;
+        cInterruptRequest = NicInterrupt.eInterruptRequest;
 
         cNetworkTimer => composite.cNetworkTimer;
     };

@@ -1,5 +1,124 @@
-//ASP�J�[�l���I�u�W�F�N�g�R���|�[�l���g���C���N���[�h
-import ("kernel.cdl");
+/*
+ *  カーネルオブジェクトの定義
+ */
+import(<kernel.cdl>);
+
+/*
+ *  ターゲット非依存のセルタイプの定義
+ */
+import("syssvc/tSerialPort.cdl");
+import("syssvc/tSerialAdapter.cdl");
+import("syssvc/tSysLog.cdl");
+import("syssvc/tSysLogAdapter.cdl");
+import("syssvc/tLogTask.cdl");
+import("syssvc/tBanner.cdl");
+
+/*
+ *  ターゲット依存部の取り込み
+ */
+import("target.cdl");
+
+/*
+ *  「セルの組上げ記述」とは，"cell"で始まる行から，それに対応する"};"
+ *  の行までのことを言う．
+ */
+
+/*
+ *  システムログ機能の組上げ記述
+ *
+ *  システムログ機能を外す場合には，以下のセルの組上げ記述を削除し，コ
+ *  ンパイルオプションに-DTOPPERS_OMIT_SYSLOGを追加すればよい．ただし，
+ *  システムログタスクはシステムログ機能を使用するため，それも外すこと
+ *  が必要である．また，システムログ機能のアダプタも外さなければならな
+ *  い．tecsgenが警告メッセージを出すが，無視してよい．
+ */
+cell tSysLog SysLog {
+	logBufferSize = 32;					/* ログバッファのサイズ */
+	initLogMask = C_EXP("LOG_UPTO(LOG_NOTICE)");
+										/* ログバッファに記録すべき重要度 */
+	initLowMask = C_EXP("LOG_UPTO(LOG_EMERG)");
+									   	/* 低レベル出力すべき重要度 */
+	/* 低レベル出力との結合 */
+	cPutLog = PutLogTarget.ePutLog;
+};
+
+/*
+ *  C言語で記述されたアプリケーションから，TECSベースのシステムログ機能
+ *  を呼び出すためのアダプタの組上げ記述
+ *
+ *  システムログ機能のサービスコール（syslog関数とsyslog_0関数～syslog_5
+ *  関数以外のもの）ルをC言語で記述されたアプリケーションから呼び出さな
+ *  い場合には，以下のセルの組上げ記述を削除すればよい．
+ */
+cell tSysLogAdapter SysLogAdapter {
+	cSysLog = SysLog.eSysLog;
+};
+
+/*
+ *  シリアルインタフェースドライバの組上げ記述
+ *
+ *  シリアルインタフェースドライバを外す場合には，以下のセルの組上げ記
+ *  述を削除すればよい．ただし，システムログタスクはシリアルインタフェー
+ *  スドライバを使用するため，それも外すことが必要である．また，シリア
+ *  ルインタフェースドライバのアダプタも外さなければならない．
+ */
+cell tSerialPort SerialPort1 {
+	receiveBufferSize = 256;			/* 受信バッファのサイズ */
+	sendBufferSize    = 256;			/* 送信バッファのサイズ */
+
+	/* ターゲット依存部との結合 */
+	cSIOPort = SIOPortTarget1.eSIOPort;
+	eiSIOCBR <= SIOPortTarget1.ciSIOCBR;	/* コールバック */
+};
+
+/*
+ *  C言語で記述されたアプリケーションから，TECSベースのシリアルインタ
+ *  フェースドライバを呼び出すためのアダプタの組上げ記述
+ *
+ *  シリアルインタフェースドライバのサービスコールをC言語で記述されたア
+ *  プリケーションから呼び出さない場合には，以下のセルの組上げ記述を削
+ *  除すればよい．
+ */
+cell tSerialAdapter SerialAdapter {
+	cSerialPort[0] = SerialPort1.eSerialPort;
+};
+
+/*
+ *  システムログタスクの組上げ記述
+ *
+ *  システムログタスクを外す場合には，以下のセルの組上げ記述を削除すれ
+ *  ばよい．
+ */
+cell tLogTask LogTask {
+	priority  = 3;					/* システムログタスクの優先度 */
+	stackSize = LogTaskStackSize;	/* システムログタスクのスタックサイズ */
+
+	/* シリアルインタフェースドライバとの結合 */
+	cSerialPort        = SerialPort1.eSerialPort;
+	cnSerialPortManage = SerialPort1.enSerialPortManage;
+
+	/* システムログ機能との結合 */
+	cSysLog = SysLog.eSysLog;
+
+	/* 低レベル出力との結合 */
+	cPutLog = PutLogTarget.ePutLog;
+};
+
+/*
+ *  カーネル起動メッセージ出力の組上げ記述
+ *
+ *  カーネル起動メッセージの出力を外す場合には，以下のセルの組上げ記述
+ *  を削除すればよい．
+ */
+cell tBanner Banner {
+	/* 属性の設定 */
+	targetName      = BannerTargetName;
+	copyrightNotice = BannerCopyrightNotice;
+};
+
+
+//ASPカーネルオブジェクトコンポーネントをインクルード
+
 cell tKernel ASPKernel{
 };
 
@@ -12,63 +131,63 @@ cell tKernel ASPKernel{
 
 //************************************************
 
-//TINET+TECS�̒�`��錾
+//TINET+TECSの定義を宣言
 import("tTINET+TECS_decl.cdl");
 
-//TINET+TECS�̑g�グ�v���g�R�^�C�v�錾
+//TINET+TECSの組上げプロトコタイプ宣言
 import("tTINET+TECS_pre.cdl");
 
-//�C���^�t�F�[�X���C���g�ݏグ�L�q
-//�C���^�t�F�[�X���C���̊e�p�����[�^���`����
-//UDPCEP�̐�
-const uint32_t NUM_UDPCEP=1;
-const uint32_t UDPV4ADDR_000=C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
-const uint32_t UDPV4ADDR_001=C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
+//インタフェースレイヤ組み上げ記述
+//インタフェースレイヤの各パラメータを定義する
+//UDPCEPの数
+const uint32_t NUM_UDPCEP    = 1;
+const uint32_t UDPV4ADDR_000 = C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
+const uint32_t UDPV4ADDR_001 = C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
 
-const uint16_t UDPPORT_000=8931;
-const uint16_t UDPPORT_001=10000;
+const uint16_t UDPPORT_000   = 8931;
+const uint16_t UDPPORT_001   = 10000;
 
-//TCPCEP�̐�
-const uint32_t NUM_TCPCEP=1;
+//TCPCEPの数
+const uint32_t NUM_TCPCEP    = 1;
 //**********************
 
 
-[generate(RepeatCellPlugin, "count = NUM_UDPCEP"),allocator(eInput.sendData.input=NetworkBuffer.eNetworkAlloc)]//�t���N���C�A���g���Ȃ����߂Ƃ肠����
-cell tUDPCEP4 UDPCEP_000{
+[generate(RepeatCellPlugin, "count = NUM_UDPCEP"),allocator(eInput.sendData.input=NetworkBuffer.eNetworkAlloc)]//逆リクワイアが使えないためとりあえず
+cell tUDPCEP4 UDPCEP_000 {
     v4addr = UDPV4ADDR_000;
-    port = UDPPORT_000;
+    port   = UDPPORT_000;
     cSemaphoreAllCEP = SemaphoreUDPCEP.eSemaphore;
-    cUDPOutput = UDPOutput.eOutput;
+    cUDPOutput       = UDPOutput.eOutput;
 };
 
 
 
-[generate(RepeatCellPlugin, "count = NUM_TCPCEP"),allocator(eInput.input.inputp=NetworkBuffer.eNetworkAlloc)]//�t���N���C�A���g���Ȃ����߂Ƃ肠����
-cell tTCPCEP4 TCPCEP_000{
+[generate(RepeatCellPlugin, "count = NUM_TCPCEP"),allocator(eInput.input.inputp=NetworkBuffer.eNetworkAlloc)]//逆リクワイアが使えないためとりあえず
+cell tTCPCEP4 TCPCEP_000 {
     sbufSize = 512;
     rbufSize = 512;
     cTCPFunctions = TCPFunctions.eTCPFunctions;
-    cSemTcppost = SemaphoreTcppost.eSemaphore;
-    cSemTcpcep = SemaphoreTcpcep.eSemaphore;
-    cTCPOutput = TCPOutputBody.eTCPOutput;
+    cSemTcppost   = SemaphoreTcppost.eSemaphore;
+    cSemTcpcep    = SemaphoreTcpcep.eSemaphore;
+    cTCPOutput    = TCPOutputBody.eTCPOutput;
 };
 
-cell tREP4 REP4_000{
+cell tREP4 REP4_000 {
     myaddr = C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
     myport = 50000;
 };
 
-cell tREP4 REP4_001{
+cell tREP4 REP4_001 {
     myaddr = C_EXP("MAKE_IPV4_ADDR(192,168,1,200)");
     myport = 23;
 };
 
-/////*****�C���^�t�F�[�X���C���̑g�グ�L�q�����܂�
-/**************TINET+TECS�g�グ�L�q*******************/
+/////*****インタフェースレイヤの組上げ記述ここまで
+/**************TINET+TECS組上げ記述*******************/
 import("tTINET+TECS_init.cdl");
 
 
-//�A�v���P�[�V�������C����CDL�̋L�q****************
+//アプリケーションレイヤのCDLの記述****************
 [active,singleton]
 celltype tTest {
     require tKernel.eKernel;
@@ -83,34 +202,34 @@ celltype tTest {
 };
 
 [active,singleton]
-celltype tRelTest{
+celltype tRelTest {
     call sUDPCEPAPI4 cUDPAPI4;
 
     entry sTaskBody eBody;
 };
 
-    
 
-cell tTest Main{
-    cTCPAPI4 = TCPCEP_000.eAPI;
-    cUDPAPI4 = UDPCEP_000.eAPI;
+
+cell tTest Main {
+    cTCPAPI4  = TCPCEP_000.eAPI;
+    cUDPAPI4  = UDPCEP_000.eAPI;
     cREP4_000 = REP4_000.eREP4;
     cREP4_001 = REP4_001.eREP4;
 };
     
-cell tTask mainTask{
-    cBody = Main.eTestTask;
+cell tTask mainTask {
+    cTaskBody = Main.eTestTask;
     
-    taskAttribute = C_EXP("TA_ACT");
-    priority = 10;
+    attribute = C_EXP("TA_ACT");
+    priority  = 10;
     stackSize = 1024;
 };
 
-/*cell tRelTest RelTest{
+/*cell tRelTest RelTest {
     cUDPAPI4 = UDPCEP_000.eAPI;
 };
 
-cell tTask RelTestTask{
+cell tTask RelTestTask {
     cBody = Main.eTestTask;
     
     taskAttribute = C_EXP("TA_NULL");
@@ -118,6 +237,6 @@ cell tTask RelTestTask{
     stackSize = 512;
 };*/
 
-//�A�v���P�[�V�������C���̋L�q�����܂�**********************
+//アプリケーションレイヤの記述ここまで**********************
 
 
