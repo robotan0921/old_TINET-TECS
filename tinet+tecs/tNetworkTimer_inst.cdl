@@ -59,7 +59,7 @@ cell tNetworkTimer NetworkTimer;
 cell tCyclicHandler NetTimerHandler{
     ciHandlerBody = NetworkTimer.eiBody;
     
-    attribute = C_EXP("TA_ACT");
+    attribute = C_EXP("TA_STA");
     cycleTime = NET_TIMER_CYCLE;
     cyclePhase = 1;
 };
