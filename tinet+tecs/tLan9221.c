@@ -206,8 +206,8 @@ static int lan9221_phy_reset(CELLCB *p_cellcb)
 	unsigned long val;
 
 	val = lan9221_reg_read(LAN9221_PMT_CTRL);
-	val &= ‾0xFFFFF030;
-	val |= LAN9221_PMT_CTRL_PHY_RST;
+	val &= 0xFFFFF030;
+    val |= LAN9221_PMT_CTRL_PHY_RST;
 	lan9221_reg_write(LAN9221_PMT_CTRL, val);
 
 	//delay(100);opt
@@ -427,8 +427,6 @@ eNicDriver_start(CELLIDX idx,int8_t* outputp, int32_t size,uint8_t align)
 	static unsigned long cmd_a;
 	static unsigned long cmd_b;
 
-	
-	
 	//cmd_a = ((unsigned long)tmp & 0x3) |
 	cmd_a =  LAN9221_TX_CMD_A_INT_FIRST_SEG | //0x2000
 	  LAN9221_TX_CMD_A_INT_LAST_SEG  | (int)size;// | //0x1000

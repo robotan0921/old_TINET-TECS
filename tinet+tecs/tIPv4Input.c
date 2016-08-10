@@ -140,7 +140,7 @@ eIPv4Input_IPv4Input(CELLIDX idx, int8_t* inputp, int32_t size)
 
 	/* 送信元アドレスをチェックする。*/
 	src = ntohl(ip4h->src);
-	bc  = (addr & mask) | ‾mask;
+	bc  = (addr & mask) |  mask;
 
 	//
 	//**************   LOOPだったらどうだとかそういう処理が入る

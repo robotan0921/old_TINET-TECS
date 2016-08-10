@@ -216,11 +216,11 @@ get_tTask_DES()
 }
 
 
-#define tTCPCEP_cCallingSendTask_bind(p_that) ¥
+#define tTCPCEP_cCallingSendTask_bind(p_that) \
   (p_that)->cCallingSendTask = get_tTask_DES()
 #define cCallingSendTask_bind() tTCPCEP_cCallingSendTask_bind(p_cellcb)
 
-#define tTCPCEP_cCallingReceiveTask_bind(p_that) ¥
+#define tTCPCEP_cCallingReceiveTask_bind(p_that) \
   (p_that)->cCallingReceiveTask = get_tTask_DES()
 #define cCallingReceiveTask_bind() tTCPCEP_cCallingReceiveTask_bind(p_cellcb)
 //mikanここまで
@@ -347,7 +347,7 @@ send_segment (CELLCB *p_cellcb,bool_t *sendalot, uint_t doff, uint_t win, uint_t
 	 *  本実装では、相手の最大受信セグメントにする。
 	 */
 	if (len + optlen > VAR_cep.maxseg) {
-		flags &= ‾TCP_FLG_FIN;
+		flags &= TCP_FLG_FIN;
 		len = VAR_cep.maxseg - optlen;
 		*sendalot = true;
 	}
@@ -518,7 +518,7 @@ send_segment (CELLCB *p_cellcb,bool_t *sendalot, uint_t doff, uint_t win, uint_t
 		VAR_cep.snd_max = VAR_cep.snd_nxt + len;
 
 	/* ネットワーク層 (IP) の出力関数を呼び出す。*/
-	if((error = cTCPOutput_output(output,size, cGetAddress_getDstAddress( ), cGetAddress_getMyAddress(),ATTR_ipLength )) != E_OK)
+	if((error = cTCPOutput_output(output,size, cGetAddress_getDstAddress(), cGetAddress_getMyAddress(),ATTR_ipLength )) != E_OK)
 	  goto err_ret;
 
 	/*
@@ -539,9 +539,9 @@ send_segment (CELLCB *p_cellcb,bool_t *sendalot, uint_t doff, uint_t win, uint_t
 	/*
 	 *  フラグの設定を行う。
 	 */
-	VAR_flags &= ‾(TCP_CEP_FLG_ACK_NOW | TCP_CEP_FLG_DEL_ACK);
+	VAR_flags &= (TCP_CEP_FLG_ACK_NOW | TCP_CEP_FLG_DEL_ACK);
 	if (VAR_flags & TCP_CEP_FLG_FORCE_CLEAR)
-		VAR_flags &= ‾(TCP_CEP_FLG_FORCE | TCP_CEP_FLG_FORCE_CLEAR);
+		VAR_flags &= (TCP_CEP_FLG_FORCE | TCP_CEP_FLG_FORCE_CLEAR);
 
 	return E_OK;
 
@@ -642,7 +642,7 @@ tcp_output (CELLCB *p_cellcb)
 				 *  FIN フラグをクリアする。
 				 */
 				if (doff < VAR_cep.swbuf_count)
-					flags &=‾TCP_FLG_FIN;
+					flags &=TCP_FLG_FIN;
 				win = 1;
 			}
 			else {
@@ -682,7 +682,7 @@ tcp_output (CELLCB *p_cellcb)
 		 *    ・セグメントがデータを含んでいる。
 		 */
 		if ((flags & TCP_FLG_SYN) && SEQ_GT(VAR_cep.snd_nxt, VAR_cep.snd_una)) {
-			flags &= ‾TCP_FLG_SYN;
+			flags &= TCP_FLG_SYN;
 			doff --;		/* -1 は SYN フラグ分 */
 			len ++;			/* +1 は SYN フラグ分 */
 			if (len > 0 && VAR_cep.fsm_state == TCP_FSM_SYN_SENT)
@@ -691,7 +691,7 @@ tcp_output (CELLCB *p_cellcb)
 
 		if (flags & TCP_FLG_SYN) {
 			len = 0;
-			flags &= ‾TCP_FLG_FIN;
+			flags &= TCP_FLG_FIN;
 			}
 
 		if (len < 0) {
@@ -762,7 +762,7 @@ tcp_output (CELLCB *p_cellcb)
 		 *  FIN フラグをクリアする。
 		 */
 		if (SEQ_LT(VAR_cep.snd_nxt + len, VAR_cep.snd_una + VAR_cep.swbuf_count))
-			flags &= ‾TCP_FLG_FIN;
+			flags &= TCP_FLG_FIN;
 
 		/*
 		 *  ここから win は、受信ウィンドウサイズ。
@@ -1141,7 +1141,7 @@ eTCPOutputStart_outputStart(CELLIDX idx)
 	if(!(VAR_flags & TCP_CEP_FLG_POST_OUTPUT))
 	  return E_ID;
 
-	VAR_flags &= ‾TCP_CEP_FLG_POST_OUTPUT;
+	VAR_flags &= TCP_CEP_FLG_POST_OUTPUT;
 				
 
 	tcp_output(p_cellcb);
@@ -1149,14 +1149,14 @@ eTCPOutputStart_outputStart(CELLIDX idx)
 	if (VAR_flags & TCP_CEP_FLG_CLOSE_AFTER_OUTPUT) {
 		/* コネクションを閉じる。*/
 		tcp_close(p_cellcb);
-		VAR_flags &= ‾TCP_CEP_FLG_CLOSE_AFTER_OUTPUT;
+		VAR_flags &= TCP_CEP_FLG_CLOSE_AFTER_OUTPUT;
 	}
 
 	if (VAR_flags & TCP_CEP_FLG_RESTORE_NEXT_OUTPUT) {
 		/* snd_nxt を元に戻す。*/
 		if (SEQ_GT(VAR_cep.snd_old_nxt, VAR_cep.snd_nxt))
 		  VAR_cep.snd_nxt = VAR_cep.snd_old_nxt;
-		VAR_flags &= ‾TCP_CEP_FLG_RESTORE_NEXT_OUTPUT;
+		VAR_flags &= TCP_CEP_FLG_RESTORE_NEXT_OUTPUT;
 	}	
 
 	return E_OK;
@@ -1448,7 +1448,7 @@ tcp_move_ra2rw (CELLCB *p_cellcb, uint8_t flags)
 	}
 	if (VAR_cep.reassq != NULL) {
 		VAR_flags |= TCP_CEP_FLG_ACK_NOW;
-		flags &= ‾TCP_FLG_FIN;
+		flags &= TCP_FLG_FIN;
 	}
 	return flags;
 }
@@ -1612,7 +1612,7 @@ trim_length (CELLCB *p_cellcb,T_TCP_HDR *tcph)
 		 *  破棄し、FIN に応答しないことで、破棄したデータを再送させる。
 		 */
 		tcph->sum    = (uint16_t)VAR_cep.rcv_wnd;
-		tcph->flags &= ‾TCP_FLG_FIN;
+		tcph->flags &= TCP_FLG_FIN;
 		}
 	VAR_cep.snd_wl1 = tcph->seq - 1;		/* VAR_cep.snd_wl1: ウィンド更新 SEQ 番号	*/
 
@@ -1854,7 +1854,7 @@ reassemble (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, uint8_t flags)
 		 */
 		eInput_input_inputp_dealloc(input);
 		VAR_flags |= TCP_CEP_FLG_ACK_NOW;
-		flags &= ‾TCP_FLG_FIN;
+		flags &= TCP_FLG_FIN;
 	}
 	else if (tcph->seq == VAR_cep.rcv_nxt &&
 	         VAR_cep.reassq == NULL &&
@@ -2170,7 +2170,7 @@ proc_ack1 (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, bool_t *needoutput)
 		/* 状態を変更する。*/
 		if (VAR_flags & TCP_CEP_FLG_NEED_FIN) {
 			VAR_cep.fsm_state  = TCP_FSM_FIN_WAIT_1;
-			VAR_flags &= ‾TCP_CEP_FLG_NEED_FIN;
+			VAR_flags &= TCP_CEP_FLG_NEED_FIN;
 			}
 		else {
 			VAR_cep.timer[TCP_TIM_KEEP] = TCP_TVAL_KEEP_IDLE;
@@ -2324,7 +2324,7 @@ proc_ack1 (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, bool_t *needoutput)
 			/*
 			 *  SYN 送信要求を取り消して、未確認の最小送信 SEQ を進める。
 			 */
-			VAR_flags &= ‾TCP_CEP_FLG_NEED_SYN;
+			VAR_flags &= TCP_CEP_FLG_NEED_SYN;
 			VAR_cep.snd_una ++;
 		}
 		
@@ -2502,8 +2502,8 @@ syn_sent (CELLCB *p_cellcb,T_TCP_HDR *tcph,T_TCP_CEP *cep)
 			 *  CEP の状態を FIN Wait 1 にする。
 			 */
 			VAR_cep.fsm_state = TCP_FSM_FIN_WAIT_1;
-			VAR_flags  &= ‾TCP_CEP_FLG_NEED_FIN;
-			tcph->flags &= ‾TCP_FLG_SYN;
+			VAR_flags  &= TCP_CEP_FLG_NEED_FIN;
+			tcph->flags &= TCP_FLG_SYN;
 		}
 		else {
 			/*
@@ -2741,12 +2741,12 @@ eInput_input(CELLIDX idx, int8_t* inputp, int32_t size)
 			 *  SEQ を進め、緊急ポインタと削除する長さを調整する。
 			 */
 			if (tcph->flags & TCP_FLG_SYN) {
-				tcph->flags &= ‾TCP_FLG_SYN;
+				tcph->flags &= TCP_FLG_SYN;
 				tcph->seq ++;
 				if (tcph->urp > 1)
 					tcph->urp --;
 				else
-					tcph->flags &= ‾TCP_FLG_URG;
+					tcph->flags &= TCP_FLG_URG;
 				todrop --;
 			}
 
@@ -2758,7 +2758,7 @@ eInput_input(CELLIDX idx, int8_t* inputp, int32_t size)
 			 */
 			if ( todrop >  tcph->sum ||		/* tcph->sum は TCP の SDU 長 */
 				 (todrop == tcph->sum && (tcph->flags & TCP_FLG_FIN) == 0)) {
-				tcph->flags &= ‾TCP_FLG_FIN;
+				tcph->flags &= TCP_FLG_FIN;
 				VAR_flags |= TCP_CEP_FLG_ACK_NOW;
 				todrop = tcph->sum;		/* tcph->sum は TCP の SDU 長 */
 			}
@@ -2783,7 +2783,7 @@ eInput_input(CELLIDX idx, int8_t* inputp, int32_t size)
 			if (tcph->urp > todrop)
 				tcph->urp -= (uint16_t)todrop;
 			else {
-				tcph->flags &= ‾TCP_FLG_URG;
+				tcph->flags &= TCP_FLG_URG;
 				tcph->urp = 0;
 			}
 
@@ -2851,7 +2851,7 @@ eInput_input(CELLIDX idx, int8_t* inputp, int32_t size)
 				}
 			}
 			tcph->sum -= (uint16_t)todrop;	/* tcph->sum は TCP の SDU 長 */
-			tcph->flags &= ‾(TCP_FLG_PUSH | TCP_FLG_FIN);
+			tcph->flags &= (TCP_FLG_PUSH | TCP_FLG_FIN);
 		}
 
 		/*
@@ -2912,7 +2912,7 @@ eInput_input(CELLIDX idx, int8_t* inputp, int32_t size)
 	}
 	else {
 		eInput_input_inputp_dealloc(inputp);
-		flags &= ‾TCP_FLG_FIN;
+		flags &= TCP_FLG_FIN;
 	}
 
 	/*
@@ -3284,7 +3284,7 @@ tcp_wait_rwbuf (CELLCB *p_cellcb, TMO tmout)
 			if ((error = cRcvFlag_waitTimeout(TCP_CEP_EVT_RWBUF_READY, TWF_ORW, &flag, tmout)) != E_OK) {
 				return error;
 			}
-			cRcvFlag_clear((FLGPTN)(‾TCP_CEP_EVT_RWBUF_READY));
+			cRcvFlag_clear((FLGPTN)(TCP_CEP_EVT_RWBUF_READY));
 
 			/*
 			 *  受信できるか、fsm_state を見る。受信できない状態で、
@@ -3306,7 +3306,7 @@ tcp_wait_rwbuf (CELLCB *p_cellcb, TMO tmout)
 			}
 		}
 	else
-	  cRcvFlag_clear((FLGPTN)(‾TCP_CEP_EVT_RWBUF_READY));
+	  cRcvFlag_clear((FLGPTN)(TCP_CEP_EVT_RWBUF_READY));
 
 	return E_OK;
 }
@@ -3502,7 +3502,7 @@ eAPI_accept(CELLIDX idx, sREP4_entrypoint sREP4, uint16_t* dstport, TMO tmout)
 		goto err_ret;
 	}
 
-	cEstFlag_clear((FLGPTN)(‾TCP_CEP_EVT_CLOSED));
+	cEstFlag_clear((FLGPTN)(TCP_CEP_EVT_CLOSED));
 
 	/* TCP 通信端点を初期化する。*/
 	tcp_init_cep(p_cellcb);
@@ -3535,7 +3535,7 @@ eAPI_accept(CELLIDX idx, sREP4_entrypoint sREP4, uint16_t* dstport, TMO tmout)
 		  error = E_TMOUT;
 	}
 
-	cEstFlag_clear((FLGPTN)(‾TCP_CEP_EVT_ESTABLISHED));
+	cEstFlag_clear((FLGPTN)(TCP_CEP_EVT_ESTABLISHED));
 	
 	if (error != E_OK) {
 		/*
@@ -3604,7 +3604,7 @@ eAPI_connect(CELLIDX idx, const int8_t* myaddr, uint16_t myport, const int8_t* d
 		error = E_OBJ;
 		goto err_ret;
 	}
-	cEstFlag_clear((FLGPTN)(‾TCP_CEP_EVT_CLOSED));
+	cEstFlag_clear((FLGPTN)(TCP_CEP_EVT_CLOSED));
 
 	/* シーケンス番号を初期化する。*/
 	if (cTCPFunctions_getTcpIss() == 0)
@@ -3628,7 +3628,7 @@ eAPI_connect(CELLIDX idx, const int8_t* myaddr, uint16_t myport, const int8_t* d
 	/* 通信端点を設定する。*/
 	VAR_cep.fsm_state = TCP_FSM_SYN_SENT;
 	VAR_dstport = dstport;
-	VAR_cep.iss       = cTCPFunctions_getTcpIss( );
+	VAR_cep.iss       = cTCPFunctions_getTcpIss();
 	VAR_cep.timer[TCP_TIM_KEEP] = TCP_TVAL_KEEP_INIT;
 	cTCPFunctions_setTcpIss(cTCPFunctions_getTcpIss() + (((T_TCP_SEQ)122*1024 + (((T_TCP_SEQ)netRand() >> 14) & 0x3ffff)) / 2));
 	VAR_cep.snd_una = VAR_cep.snd_nxt = VAR_cep.snd_max = VAR_cep.iss;
@@ -3660,7 +3660,7 @@ eAPI_connect(CELLIDX idx, const int8_t* myaddr, uint16_t myport, const int8_t* d
 		  error = E_CLS;
 	}
 
-	cEstFlag_clear((FLGPTN)(‾TCP_CEP_EVT_ESTABLISHED));
+	cEstFlag_clear((FLGPTN)(TCP_CEP_EVT_ESTABLISHED));
 
 	if (error != E_OK) {
 		/*
@@ -3716,7 +3716,7 @@ eAPI_send(CELLIDX idx, const int8_t* data, int32_t len, TMO tmout)
 
 
 	/* 送信ウィンドバッファが空くのを待つ。*/
-	if ((error = cCopySave_tcpWaitSwbuf( &VAR_cep, &VAR_flags,VAR_sbufSize,tmout)) != E_OK)
+	if ((error = cCopySave_tcpWaitSwbuf(&VAR_cep, &VAR_flags,VAR_sbufSize,tmout)) != E_OK)
 	  goto err_ret;
 	
 	/* 送信ウィンドバッファにデータを書き込む。*/

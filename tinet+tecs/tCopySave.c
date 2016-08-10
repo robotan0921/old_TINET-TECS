@@ -232,7 +232,7 @@ eCopySave_tcpWaitSwbuf(CELLIDX idx, T_TCP_CEP* cep, uint32_t* flags,int32_t sbuf
 		if ((error = cSendFlag_waitTimeout( TCP_CEP_EVT_SWBUF_READY, TWF_ORW,&flag,tmout )) != E_OK) {
 			return error;
 		}
-		cSendFlag_clear((FLGPTN)(‾TCP_CEP_EVT_SWBUF_READY));
+		cSendFlag_clear((FLGPTN)( TCP_CEP_EVT_SWBUF_READY));
 
 		/*
 		 *  送信できるか、CEP の FSM 状態を見る。

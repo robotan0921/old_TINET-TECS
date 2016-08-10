@@ -102,7 +102,7 @@ eFunctions_checkSum(const int8_t* data, uint32_t len)
 	uint16_t	sum;
 
 	sum = (uint16_t)in_cksum_carry(in_cksum_sum(data, len));
-	return (uint16_t)(‾htons(sum));
+	return (uint16_t)( htons(sum));
 }
 
 /* #[<ENTRY_FUNC>]# eFunctions_getIPv4Address
@@ -166,7 +166,7 @@ eCheckSum_ipv4CheckSum(int8_t* data, int32_t size, uint32_t offset, uint8_t prot
 		  +seglen +proto;
 	sum = in_cksum_carry(sum);
 
-	return (uint16_t)(‾htons((uint16_t)sum));
+	return (uint16_t)( htons((uint16_t)sum));
 }
 
 /* #[<POSTAMBLE>]#

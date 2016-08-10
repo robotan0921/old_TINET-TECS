@@ -389,7 +389,7 @@ eArpOutput_arpResolve(CELLIDX idx, int8_t* outputp, int32_t size,T_IN4_ADDR dsta
 	 *    ・ホスト部の全ビットが 1 で、ネットワーク部がローカルアドレス
 	 */
 	if (dstaddr == IPV4_ADDR_BROADCAST ||
-	    dstaddr == ((src & mask) | ‾mask)) {
+	    dstaddr == ((src & mask) |  mask)) {
 		memcpy(eth->dhost, ether_broad_cast_addr, 6);
 		return cEthernetRawOutput_ethernetRawOutput(output,size,tmout);
 		}
