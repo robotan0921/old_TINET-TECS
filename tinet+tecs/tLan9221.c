@@ -377,13 +377,13 @@ eNicDriver_init(CELLIDX idx)
 	cNetworkTimer_Timeout(10);
 	
 	
-	cConfigInterrupt_disable();
+	cInterruptRequest_disable();
 
 	lan9221_open(p_cellcb);
 	cSemaphoreSend_signal();
 	ed_inter_init(p_cellcb);
 	
-	cConfigInterrupt_enable();
+	cInterruptRequest_enable();
 	
 	
 }
@@ -483,7 +483,7 @@ eNicDriver_read(CELLIDX idx, int8_t** inputp, int32_t* size, uint8_t align)
 	unsigned long pktlen, tmplen;
 	unsigned long status;
 
-	cConfigInterrupt_disable();
+	cInterruptRequest_disable();
 	
 	if((lan9221_reg_read(LAN9221_RX_FIFO_INF) & LAN9221_RX_FIFO_INF_RXSUSED) >> 16) {
 		status = lan9221_reg_read(LAN9221_RX_STATUS_FIFO);
@@ -517,11 +517,11 @@ eNicDriver_read(CELLIDX idx, int8_t** inputp, int32_t* size, uint8_t align)
 		}
 
 		/* NIC からの割り込みを許可する。*/
-		cConfigInterrupt_enable();
+		cInterruptRequest_enable();
 		return;
 	}
 
-	cConfigInterrupt_enable();
+	cInterruptRequest_enable();
 }
 
 /* #[<ENTRY_FUNC>]# eNicDriver_getMac
