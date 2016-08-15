@@ -13,14 +13,13 @@ signature sNicDriver {
 
 celltype tLan9221 {
 
-    attr{
-        uint8_t macaddr0,macaddr1,macaddr2,macaddr3,macaddr4,macaddr5;
+    attr {
+        uint8_t macaddr0, macaddr1, macaddr2, macaddr3, macaddr4, macaddr5;
     };
 
-    var{
+    var {
         uint16_t Timer;
     };
-    
 
     require tKernel.eKernel;
 
