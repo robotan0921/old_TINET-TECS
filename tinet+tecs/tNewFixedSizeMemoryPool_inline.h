@@ -5,10 +5,10 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * id               ID               ATTR_id         
  * blockSize        uint32_t         ATTR_blockSize  
  *
@@ -87,10 +87,10 @@ eFixedSizeMemoryPool_initialize(CELLIDX idx)
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 Inline ER
-eFixedSizeMemoryPool_refer(CELLIDX idx, T_RMPF* pk_memoryPoolFixedSizeStatus)
+eFixedSizeMemoryPool_refer(CELLIDX idx, T_RMPF* pk_fixedSizeMemoryPoolStatus)
 {
 	CELLCB	*p_cellcb = GET_CELLCB(idx);
-	return(ref_mpf(ATTR_id, pk_memoryPoolFixedSizeStatus));
+	return(ref_mpf(ATTR_id, pk_fixedSizeMemoryPoolStatus));
 }
 
 /* #[<ENTRY_PORT>]# eMemoryPoolStatus
@@ -111,3 +111,6 @@ eMemoryPoolStatus_getSize(CELLIDX idx)
 	return ATTR_blockSize;
 }
 
+/* #[<POSTAMBLE>]#
+ *   これより下に非受け口関数を書きます
+ * #[</POSTAMBLE>]#*/
