@@ -5,15 +5,15 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * myaddr           T_IN4_ADDR       VAR_myaddr      
  * dstaddr          T_IN4_ADDR       VAR_dstaddr     
  *
- * call port function #_TCPF_#
- * call port : cAPI  signature: sTCPCEPAPI context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cAPI signature: sTCPCEPAPI context:task
  *   ER             cAPI_accept( intptr_t sREP4, uint16_t* dstport, TMO tmout );
  *   ER             cAPI_connect( const int8_t* myaddr, uint16_t myport, const int8_t* dstaddr, uint16_t dstport, int32_t addrlen, TMO tmout );
  *   ER_UINT        cAPI_send( const int8_t* data, int32_t len, TMO tmout );
@@ -47,7 +47,7 @@
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 ER
-eAPI4_accept(CELLIDX idx,sREP4_des sREP4, T_IPV4EP* dstep4, TMO tmout)
+eAPI4_accept(CELLIDX idx, intptr_t sREP4, T_IPV4EP* dstep4, TMO tmout)
 {
 	ER		ercd = E_OK;
 	CELLCB	*p_cellcb;
@@ -297,5 +297,5 @@ eGetAddress4_setDst4Address(CELLIDX idx, T_IN4_ADDR addr)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

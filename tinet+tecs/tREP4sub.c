@@ -5,16 +5,16 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * repatr           ATR              ATTR_repatr     
  * myaddr           T_IN4_ADDR       ATTR_myaddr     
  * myport           uint16_t         ATTR_myport     
  *
- * call port function #_TCPF_#
- * call port : cSemaphore  signature: sSemaphore context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cSemaphore signature: sSemaphore context:task
  *   ER             cSemaphore_signal( );
  *   ER             cSemaphore_wait( );
  *   ER             cSemaphore_waitPolling( );
@@ -198,5 +198,5 @@ eREP4_refer(CELLIDX idx, T_RSEM* pk_semaphoreStatus)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

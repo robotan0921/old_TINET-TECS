@@ -5,41 +5,47 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * call port function #_TCPF_#
- * require port : signature: sKernel context: task
+ * 呼び口関数 #_TCPF_#
+ * require port: signature:sKernel context:task
+ *   ER             getExtendedInformation( intptr_t* p_exinf );
  *   ER             sleep( );
  *   ER             sleepTimeout( TMO timeout );
  *   ER             delay( RELTIM delayTime );
- *   ER             exitTask( );
- *   ER             getTaskId( ID* p_taskId );
- *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             exit( );
+ *   ER             disableTerminate( );
+ *   ER             enableTerminate( );
+ *   bool_t         senseTerminate( );
+ *   ER             setTime( SYSTIM systemTime );
  *   ER             getTime( SYSTIM* p_systemTime );
- *   ER             getMicroTime( SYSUTM* p_systemMicroTime );
+ *   ER             adjustTime( int32_t adjustTime );
+ *   HRTCNT         fetchHighResolutionTimer( );
+ *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             getTaskId( ID* p_taskId );
+ *   ER             getLoad( PRI taskPriority, uint_t* p_load );
+ *   ER             getNthTask( PRI taskPriority, uint_t nth, ID* p_taskID );
  *   ER             lockCpu( );
  *   ER             unlockCpu( );
  *   ER             disableDispatch( );
  *   ER             enableDispatch( );
- *   ER             disableTaskException( );
- *   ER             enableTaskException( );
- *   ER             changeInterruptPriorityMask( PRI interruptPriority );
- *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
- *   ER             exitKernel( );
  *   bool_t         senseContext( );
  *   bool_t         senseLock( );
  *   bool_t         senseDispatch( );
  *   bool_t         senseDispatchPendingState( );
  *   bool_t         senseKernel( );
- * call port : cSemaphoreSend  signature: sSemaphore context: task
+ *   ER             exitKernel( );
+ *   ER             changeInterruptPriorityMask( PRI interruptPriority );
+ *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
+ * call port: cSemaphoreSend signature: sSemaphore context:task
  *   ER             cSemaphoreSend_signal( );
  *   ER             cSemaphoreSend_wait( );
  *   ER             cSemaphoreSend_waitPolling( );
  *   ER             cSemaphoreSend_waitTimeout( TMO timeout );
  *   ER             cSemaphoreSend_initialize( );
  *   ER             cSemaphoreSend_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cDataqueue  signature: sDataqueue context: task
+ * call port: cDataqueue signature: sDataqueue context:task
  *   ER             cDataqueue_send( intptr_t data );
  *   ER             cDataqueue_sendPolling( intptr_t data );
  *   ER             cDataqueue_sendTimeout( intptr_t data, TMO timeout );
@@ -49,31 +55,32 @@
  *   ER             cDataqueue_receiveTimeout( intptr_t* p_data, TMO timeout );
  *   ER             cDataqueue_initialize( );
  *   ER             cDataqueue_refer( T_RDTQ* pk_dataqueueStatus );
- * call port : cNicDriver  signature: sNicDriver context: task
+ * call port: cNicDriver signature: sNicDriver context:task
  *   void           cNicDriver_init( );
  *   void           cNicDriver_start( int8_t* outputp, int32_t size, uint8_t align );
  *   void           cNicDriver_read( int8_t** inputp, int32_t* size, uint8_t align );
  *   void           cNicDriver_getMac( uint8_t* macaddress );
- * call port : cSemTcppost  signature: sSemaphore context: task
+ * call port: cSemTcppost signature: sSemaphore context:task optional:true
+ *   bool_t     is_cSemTcppost_joined()                     check if joined
  *   ER             cSemTcppost_signal( );
  *   ER             cSemTcppost_wait( );
  *   ER             cSemTcppost_waitPolling( );
  *   ER             cSemTcppost_waitTimeout( TMO timeout );
  *   ER             cSemTcppost_initialize( );
  *   ER             cSemTcppost_refer( T_RSEM* pk_semaphoreStatus );
- * allocator port for call port: cNicDriver func: start param: outputp
+ * allocator port for call port:cNicDriver func:start param: outputp
  *   ER             cNicDriver_start_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cNicDriver_start_outputp_dealloc( const void* buf );
  *   ER             cNicDriver_start_outputp_reuse( void* buf );
  *   ER_UINT        cNicDriver_start_outputp_bufferSize( const void* buf );
  *   uint32_t       cNicDriver_start_outputp_bufferMaxSize( );
- * allocator port for call port: cNicDriver func: read param: inputp
+ * allocator port for call port:cNicDriver func:read param: inputp
  *   ER             cNicDriver_read_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cNicDriver_read_inputp_dealloc( const void* buf );
  *   ER             cNicDriver_read_inputp_reuse( void* buf );
  *   ER_UINT        cNicDriver_read_inputp_bufferSize( const void* buf );
  *   uint32_t       cNicDriver_read_inputp_bufferMaxSize( );
- * allocator port for call port: eRawOutput func: ethernetRawOutput param: outputp
+ * allocator port for call port:eRawOutput func:ethernetRawOutput param: outputp
  *   ER             eRawOutput_ethernetRawOutput_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eRawOutput_ethernetRawOutput_outputp_dealloc( const void* buf );
  *   ER             eRawOutput_ethernetRawOutput_outputp_reuse( void* buf );
@@ -103,7 +110,7 @@
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 ER
-eRawOutput_ethernetRawOutput(CELLIDX idx, int8_t* outputp, int32_t size,TMO tmout)
+eRawOutput_ethernetRawOutput(CELLIDX idx, int8_t* outputp, int32_t size, TMO tmout)
 {
 	ER		ercd = E_OK;
 	CELLCB	*p_cellcb;
@@ -173,5 +180,5 @@ eBody_main(CELLIDX idx)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

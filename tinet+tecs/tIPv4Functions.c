@@ -5,10 +5,10 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * IPv4AddressInit  T_IN4_ADDR       ATTR_IPv4AddressInit
  * IPv4MaskInit     T_IN4_ADDR       ATTR_IPv4MaskInit
  * IPv4GatawayInit  T_IN4_ADDR       ATTR_IPv4GatawayInit
@@ -49,8 +49,7 @@
  */
 
 static uint32_t
-in_cksum_sum (void *data, uint_t len /*オクテット単位*/)
-{
+in_cksum_sum (void *data, uint_t len /*オクテット単位*/) {
 	uint32_t sum = 0;
 
 	for ( ; len > 0; len -= 2) {
@@ -77,8 +76,7 @@ in_cksum_sum (void *data, uint_t len /*オクテット単位*/)
  */
 
 static uint32_t
-in_cksum_carry (uint32_t sum)
-{
+in_cksum_carry (uint32_t sum) {
 	uint32_t	carry;
 
 	while (sum >= 0x00010000) {
@@ -170,5 +168,5 @@ eCheckSum_ipv4CheckSum(int8_t* data, int32_t size, uint32_t offset, uint8_t prot
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

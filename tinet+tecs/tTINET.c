@@ -5,10 +5,10 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * next             uint32_t         VAR_next        
  *
  * #[</PREAMBLE>]# */
@@ -52,7 +52,7 @@ eTINET_netSrand(uint32_t speed)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/
 
 
@@ -68,8 +68,7 @@ eTINET_netSrand(uint32_t speed)
  */
 
 void
-rev_memcpy_word (uint8_t *dst, uint8_t *src)
-{
+rev_memcpy_word (uint8_t *dst, uint8_t *src) {
 	*(dst    ) = *(src + 3);
 	*(dst + 1) = *(src + 2);
 	*(dst + 2) = *(src + 1);
@@ -84,8 +83,7 @@ rev_memcpy_word (uint8_t *dst, uint8_t *src)
  */
 
 int_t
-rev_memcmp_word (uint8_t *data1, uint8_t *data2)
-{
+rev_memcmp_word (uint8_t *data1, uint8_t *data2) {
 	int_t	ix, diff;
 
 	for (ix = 4; ix -- > 0; ) {

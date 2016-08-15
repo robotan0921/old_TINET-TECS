@@ -5,20 +5,22 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * timeout          int32_t*         VAR_timeout     
  *
- * call port function #_TCPF_#
- * call port : cCallTimerFunction  signature: sCallTimerFunction context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cCallTimerFunction signature: sCallTimerFunction context:task optional:true
+ *   bool_t     is_cCallTimerFunction_joined(int subscript)        check if joined
  *   void           cCallTimerFunction_callFunction( subscript );
  *       subscript:  0...(NCP_cCallTimerFunction-1)
- * call port : cTCPTask  signature: sTask context: task
+ * call port: cTCPTask signature: sTask context:task optional:true
+ *   bool_t     is_cTCPTask_joined()                     check if joined
  *   ER             cTCPTask_activate( );
  *   ER_UINT        cTCPTask_cancelActivate( );
- *   ER             cTCPTask_terminate( );
+ *   ER             cTCPTask_getTaskState( STAT* p_tskstat );
  *   ER             cTCPTask_changePriority( PRI priority );
  *   ER             cTCPTask_getPriority( PRI* p_priority );
  *   ER             cTCPTask_refer( T_RTSK* pk_taskStatus );
@@ -27,17 +29,18 @@
  *   ER             cTCPTask_releaseWait( );
  *   ER             cTCPTask_suspend( );
  *   ER             cTCPTask_resume( );
- *   ER             cTCPTask_raiseException( TEXPTN pattern );
- * call port : cSemaphoreNetworkTimer  signature: sSemaphore context: task
+ *   ER             cTCPTask_raiseTerminate( );
+ *   ER             cTCPTask_terminate( );
+ * call port: cSemaphoreNetworkTimer signature: sSemaphore context:task
  *   ER             cSemaphoreNetworkTimer_signal( );
  *   ER             cSemaphoreNetworkTimer_wait( );
  *   ER             cSemaphoreNetworkTimer_waitPolling( );
  *   ER             cSemaphoreNetworkTimer_waitTimeout( TMO timeout );
  *   ER             cSemaphoreNetworkTimer_initialize( );
  *   ER             cSemaphoreNetworkTimer_refer( T_RSEM* pk_semaphoreStatus );
- * call port : ciSemaphoreNetworkTimer  signature: siSemaphore context: non-task
+ * call port: ciSemaphoreNetworkTimer signature: siSemaphore context:non-task
  *   ER             ciSemaphoreNetworkTimer_signal( );
- * call port : cSemaphoreCalloutLock  signature: sSemaphore context: task
+ * call port: cSemaphoreCalloutLock signature: sSemaphore context:task
  *   ER             cSemaphoreCalloutLock_signal( );
  *   ER             cSemaphoreCalloutLock_wait( );
  *   ER             cSemaphoreCalloutLock_waitPolling( );
@@ -155,5 +158,5 @@ eiBody_main()
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

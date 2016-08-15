@@ -5,37 +5,43 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * tcpIss           T_TCP_SEQ        VAR_tcpIss      
  *
- * call port function #_TCPF_#
- * require port : signature: sKernel context: task
+ * 呼び口関数 #_TCPF_#
+ * require port: signature:sKernel context:task
+ *   ER             getExtendedInformation( intptr_t* p_exinf );
  *   ER             sleep( );
  *   ER             sleepTimeout( TMO timeout );
  *   ER             delay( RELTIM delayTime );
- *   ER             exitTask( );
- *   ER             getTaskId( ID* p_taskId );
- *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             exit( );
+ *   ER             disableTerminate( );
+ *   ER             enableTerminate( );
+ *   bool_t         senseTerminate( );
+ *   ER             setTime( SYSTIM systemTime );
  *   ER             getTime( SYSTIM* p_systemTime );
- *   ER             getMicroTime( SYSUTM* p_systemMicroTime );
+ *   ER             adjustTime( int32_t adjustTime );
+ *   HRTCNT         fetchHighResolutionTimer( );
+ *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             getTaskId( ID* p_taskId );
+ *   ER             getLoad( PRI taskPriority, uint_t* p_load );
+ *   ER             getNthTask( PRI taskPriority, uint_t nth, ID* p_taskID );
  *   ER             lockCpu( );
  *   ER             unlockCpu( );
  *   ER             disableDispatch( );
  *   ER             enableDispatch( );
- *   ER             disableTaskException( );
- *   ER             enableTaskException( );
- *   ER             changeInterruptPriorityMask( PRI interruptPriority );
- *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
- *   ER             exitKernel( );
  *   bool_t         senseContext( );
  *   bool_t         senseLock( );
  *   bool_t         senseDispatch( );
  *   bool_t         senseDispatchPendingState( );
  *   bool_t         senseKernel( );
- * require port : signature: sTINET context: task
+ *   ER             exitKernel( );
+ *   ER             changeInterruptPriorityMask( PRI interruptPriority );
+ *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
+ * require port: signature:sTINET context:task
  *   uint32_t       netRand( );
  *   void           netSrand( uint32_t speed );
  *
@@ -130,5 +136,5 @@ eTCPFunctions_tcpRangeSet(T_TCP_TIME value, T_TCP_TIME tvmin, T_TCP_TIME tvmax)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

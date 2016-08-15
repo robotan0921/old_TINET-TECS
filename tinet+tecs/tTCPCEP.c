@@ -5,10 +5,10 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * sbufSizeInit     int32_t          ATTR_sbufSizeInit
  * rbufSizeInit     int32_t          ATTR_rbufSizeInit
  * ipLength         int8_t           ATTR_ipLength   
@@ -22,34 +22,40 @@
  * flags            uint32_t         VAR_flags       
  * cep              T_TCP_CEP        VAR_cep         
  *
- * call port function #_TCPF_#
- * require port : signature: sKernel context: task
+ * 呼び口関数 #_TCPF_#
+ * require port: signature:sKernel context:task
+ *   ER             getExtendedInformation( intptr_t* p_exinf );
  *   ER             sleep( );
  *   ER             sleepTimeout( TMO timeout );
  *   ER             delay( RELTIM delayTime );
- *   ER             exitTask( );
- *   ER             getTaskId( ID* p_taskId );
- *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             exit( );
+ *   ER             disableTerminate( );
+ *   ER             enableTerminate( );
+ *   bool_t         senseTerminate( );
+ *   ER             setTime( SYSTIM systemTime );
  *   ER             getTime( SYSTIM* p_systemTime );
- *   ER             getMicroTime( SYSUTM* p_systemMicroTime );
+ *   ER             adjustTime( int32_t adjustTime );
+ *   HRTCNT         fetchHighResolutionTimer( );
+ *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             getTaskId( ID* p_taskId );
+ *   ER             getLoad( PRI taskPriority, uint_t* p_load );
+ *   ER             getNthTask( PRI taskPriority, uint_t nth, ID* p_taskID );
  *   ER             lockCpu( );
  *   ER             unlockCpu( );
  *   ER             disableDispatch( );
  *   ER             enableDispatch( );
- *   ER             disableTaskException( );
- *   ER             enableTaskException( );
- *   ER             changeInterruptPriorityMask( PRI interruptPriority );
- *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
- *   ER             exitKernel( );
  *   bool_t         senseContext( );
  *   bool_t         senseLock( );
  *   bool_t         senseDispatch( );
  *   bool_t         senseDispatchPendingState( );
  *   bool_t         senseKernel( );
- * require port : signature: sTINET context: task
+ *   ER             exitKernel( );
+ *   ER             changeInterruptPriorityMask( PRI interruptPriority );
+ *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
+ * require port: signature:sTINET context:task
  *   uint32_t       netRand( );
  *   void           netSrand( uint32_t speed );
- * call port : cCopySave  signature: sCopySave context: task
+ * call port: cCopySave signature: sCopySave context:task
  *   void           cCopySave_tcpWriteRwbuf( T_TCP_CEP* cep, int8_t* inputp, int32_t size, uint8_t thoff, int8_t* rbuf, int32_t len );
  *   void           cCopySave_tcpReadSwbuf( T_TCP_CEP* cep, int8_t* outputp, int32_t size, uint32_t doff, int8_t* sbuf, int32_t buflen, int32_t hoff, int32_t len );
  *   ER             cCopySave_tcpWaitSwbuf( T_TCP_CEP* cep, uint32_t* flags, int32_t sbufSize, TMO tmout );
@@ -59,69 +65,70 @@
  *   void           cCopySave_tcpDropSwbuf( T_TCP_CEP* cep, uint32_t len, const int8_t* sbuf, int32_t sbufSize, uint32_t* flags );
  *   void           cCopySave_tcpFreeRwbufq( T_TCP_CEP* cep );
  *   void           cCopySave_tcpFreeSwbufq( T_TCP_CEP* cep );
- * call port : cTCPOutput  signature: sTCPOutput context: task
+ * call port: cTCPOutput signature: sTCPOutput context:task
  *   ER             cTCPOutput_output( int8_t* outputp, int32_t size, const int8_t* dstaddr, const int8_t* srcaddr, int32_t addrlen );
  *   ER             cTCPOutput_getOffset( T_OFF_BUF* offset );
  *   T_IN4_ADDR     cTCPOutput_getIPv4Address( );
  *   ER             cTCPOutput_respond( int8_t* outputp, int32_t size, T_TCP_CEP* cep, T_TCP_SEQ ack, T_TCP_SEQ seq, uint32_t rbfree, uint8_t flags );
  *   ER             cTCPOutput_allocAndRespond( const int8_t* dstaddr, const int8_t* srcaddr, int32_t addrlen, uint16_t dstport, uint16_t srcport, T_TCP_SEQ ack, T_TCP_SEQ seq, uint32_t rbfree, uint8_t flags, T_OFF_BUF offset );
- * call port : cTCPFunctions  signature: sTCPFunctions context: task
+ * call port: cTCPFunctions signature: sTCPFunctions context:task
  *   T_TCP_SEQ      cTCPFunctions_getTcpIss( );
  *   void           cTCPFunctions_setTcpIss( T_TCP_SEQ iss );
  *   T_TCP_SEQ      cTCPFunctions_initTcpIss( );
  *   T_TCP_TIME     cTCPFunctions_tcpRexmtValue( T_TCP_TIME srtt, T_TCP_TIME rttvar );
  *   T_TCP_TIME     cTCPFunctions_tcpRangeSet( T_TCP_TIME value, T_TCP_TIME tvmin, T_TCP_TIME tvmax );
- * call port : cGetAddress  signature: sGetAddress2 context: task
+ * call port: cGetAddress signature: sGetAddress2 context:task
  *   int8_t*        cGetAddress_getMyAddress( );
  *   int8_t*        cGetAddress_getDstAddress( );
  *   void           cGetAddress_setMy4Address( T_IN4_ADDR addr );
  *   void           cGetAddress_setDst4Address( T_IN4_ADDR addr );
- * call port : cSemaphore  signature: sSemaphore context: task
+ * call port: cSemaphore signature: sSemaphore context:task
  *   ER             cSemaphore_signal( );
  *   ER             cSemaphore_wait( );
  *   ER             cSemaphore_waitPolling( );
  *   ER             cSemaphore_waitTimeout( TMO timeout );
  *   ER             cSemaphore_initialize( );
  *   ER             cSemaphore_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cSemTcppost  signature: sSemaphore context: task
+ * call port: cSemTcppost signature: sSemaphore context:task
  *   ER             cSemTcppost_signal( );
  *   ER             cSemTcppost_wait( );
  *   ER             cSemTcppost_waitPolling( );
  *   ER             cSemTcppost_waitTimeout( TMO timeout );
  *   ER             cSemTcppost_initialize( );
  *   ER             cSemTcppost_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cSemTcpcep  signature: sSemaphore context: task
+ * call port: cSemTcpcep signature: sSemaphore context:task
  *   ER             cSemTcpcep_signal( );
  *   ER             cSemTcpcep_wait( );
  *   ER             cSemTcpcep_waitPolling( );
  *   ER             cSemTcpcep_waitTimeout( TMO timeout );
  *   ER             cSemTcpcep_initialize( );
  *   ER             cSemTcpcep_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cSendFlag  signature: sEventflag context: task
+ * call port: cSendFlag signature: sEventflag context:task
  *   ER             cSendFlag_set( FLGPTN setPattern );
  *   ER             cSendFlag_clear( FLGPTN clearPattern );
- *   ER             cSendFlag_wait( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern );
- *   ER             cSendFlag_waitPolling( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern );
- *   ER             cSendFlag_waitTimeout( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern, TMO timeout );
+ *   ER             cSendFlag_wait( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern );
+ *   ER             cSendFlag_waitPolling( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern );
+ *   ER             cSendFlag_waitTimeout( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern, TMO timeout );
  *   ER             cSendFlag_initialize( );
  *   ER             cSendFlag_refer( T_RFLG* pk_eventflagStatus );
- * call port : cRcvFlag  signature: sEventflag context: task
+ * call port: cRcvFlag signature: sEventflag context:task
  *   ER             cRcvFlag_set( FLGPTN setPattern );
  *   ER             cRcvFlag_clear( FLGPTN clearPattern );
- *   ER             cRcvFlag_wait( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern );
- *   ER             cRcvFlag_waitPolling( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern );
- *   ER             cRcvFlag_waitTimeout( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern, TMO timeout );
+ *   ER             cRcvFlag_wait( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern );
+ *   ER             cRcvFlag_waitPolling( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern );
+ *   ER             cRcvFlag_waitTimeout( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern, TMO timeout );
  *   ER             cRcvFlag_initialize( );
  *   ER             cRcvFlag_refer( T_RFLG* pk_eventflagStatus );
- * call port : cEstFlag  signature: sEventflag context: task
+ * call port: cEstFlag signature: sEventflag context:task
  *   ER             cEstFlag_set( FLGPTN setPattern );
  *   ER             cEstFlag_clear( FLGPTN clearPattern );
- *   ER             cEstFlag_wait( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern );
- *   ER             cEstFlag_waitPolling( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern );
- *   ER             cEstFlag_waitTimeout( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern, TMO timeout );
+ *   ER             cEstFlag_wait( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern );
+ *   ER             cEstFlag_waitPolling( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern );
+ *   ER             cEstFlag_waitTimeout( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern, TMO timeout );
  *   ER             cEstFlag_initialize( );
  *   ER             cEstFlag_refer( T_RFLG* pk_eventflagStatus );
- * call port : cREP4  signature: sREP4 context: task
+ * call port: cREP4 signature: sREP4 context:task optional:true
+ *   bool_t     is_cREP4_joined()                     check if joined
  *   T_IPV4EP       cREP4_getEndpoint( );
  *   ER             cREP4_signal( );
  *   ER             cREP4_wait( );
@@ -129,10 +136,11 @@
  *   ER             cREP4_waitTimeout( TMO timeout );
  *   ER             cREP4_initialize( );
  *   ER             cREP4_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cCallingSendTask  signature: sTask context: task
+ * call port: cCallingSendTask signature: sTask context:task optional:true
+ *   bool_t     is_cCallingSendTask_joined()                     check if joined
  *   ER             cCallingSendTask_activate( );
  *   ER_UINT        cCallingSendTask_cancelActivate( );
- *   ER             cCallingSendTask_terminate( );
+ *   ER             cCallingSendTask_getTaskState( STAT* p_tskstat );
  *   ER             cCallingSendTask_changePriority( PRI priority );
  *   ER             cCallingSendTask_getPriority( PRI* p_priority );
  *   ER             cCallingSendTask_refer( T_RTSK* pk_taskStatus );
@@ -141,11 +149,13 @@
  *   ER             cCallingSendTask_releaseWait( );
  *   ER             cCallingSendTask_suspend( );
  *   ER             cCallingSendTask_resume( );
- *   ER             cCallingSendTask_raiseException( TEXPTN pattern );
- * call port : cCallingReceiveTask  signature: sTask context: task
+ *   ER             cCallingSendTask_raiseTerminate( );
+ *   ER             cCallingSendTask_terminate( );
+ * call port: cCallingReceiveTask signature: sTask context:task optional:true
+ *   bool_t     is_cCallingReceiveTask_joined()                     check if joined
  *   ER             cCallingReceiveTask_activate( );
  *   ER_UINT        cCallingReceiveTask_cancelActivate( );
- *   ER             cCallingReceiveTask_terminate( );
+ *   ER             cCallingReceiveTask_getTaskState( STAT* p_tskstat );
  *   ER             cCallingReceiveTask_changePriority( PRI priority );
  *   ER             cCallingReceiveTask_getPriority( PRI* p_priority );
  *   ER             cCallingReceiveTask_refer( T_RTSK* pk_taskStatus );
@@ -154,20 +164,21 @@
  *   ER             cCallingReceiveTask_releaseWait( );
  *   ER             cCallingReceiveTask_suspend( );
  *   ER             cCallingReceiveTask_resume( );
- *   ER             cCallingReceiveTask_raiseException( TEXPTN pattern );
- * allocator port for call port: cTCPOutput func: output param: outputp
+ *   ER             cCallingReceiveTask_raiseTerminate( );
+ *   ER             cCallingReceiveTask_terminate( );
+ * allocator port for call port:cTCPOutput func:output param: outputp
  *   ER             cTCPOutput_output_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cTCPOutput_output_outputp_dealloc( const void* buf );
  *   ER             cTCPOutput_output_outputp_reuse( void* buf );
  *   ER_UINT        cTCPOutput_output_outputp_bufferSize( const void* buf );
  *   uint32_t       cTCPOutput_output_outputp_bufferMaxSize( );
- * allocator port for call port: cTCPOutput func: respond param: outputp
+ * allocator port for call port:cTCPOutput func:respond param: outputp
  *   ER             cTCPOutput_respond_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cTCPOutput_respond_outputp_dealloc( const void* buf );
  *   ER             cTCPOutput_respond_outputp_reuse( void* buf );
  *   ER_UINT        cTCPOutput_respond_outputp_bufferSize( const void* buf );
  *   uint32_t       cTCPOutput_respond_outputp_bufferMaxSize( );
- * allocator port for call port: eInput func: input param: inputp
+ * allocator port for call port:eInput func:input param: inputp
  *   ER             eInput_input_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eInput_input_inputp_dealloc( const void* buf );
  *   ER             eInput_input_inputp_reuse( void* buf );
@@ -204,8 +215,7 @@ typedef struct tag_tTask_VCB {
 }  tTask_VCB;
 
 static struct tag_sTask_VDES*
-get_tTask_DES()
-{
+get_tTask_DES() {
 	intptr_t inf;
 	tTask_VCB *vcb;
 
@@ -298,8 +308,7 @@ const static uint8_t tcp_back_off[] = {
  */
 
 static ER
-send_segment (CELLCB *p_cellcb,bool_t *sendalot, uint_t doff, uint_t win, uint_t len, uint8_t flags)
-{
+send_segment (CELLCB *p_cellcb,bool_t *sendalot, uint_t doff, uint_t win, uint_t len, uint8_t flags) {
 	T_NET_BUF	*output;
 	T_TCP_HDR	*tcph;
 	uint_t		optlen;
@@ -562,8 +571,7 @@ err_ret:
  */
 
 static void
-tcp_output (CELLCB *p_cellcb)
-{
+tcp_output (CELLCB *p_cellcb) {
 	bool_t	sendalot = true, idle;
 	ER	error = E_OK;
 	int32_t	len;
@@ -921,8 +929,7 @@ tcp_output (CELLCB *p_cellcb)
  */
 
 static T_TCP_TIME
-tcp_rexmt_val (CELLCB *p_cellcb)
-{
+tcp_rexmt_val (CELLCB *p_cellcb) {
 	T_TCP_TIME val;
 
 	val = ((VAR_cep.srtt >> (TCP_SRTT_SHIFT - TCP_DELTA_SHIFT)) + VAR_cep.rttvar) >> TCP_DELTA_SHIFT;
@@ -937,8 +944,7 @@ tcp_rexmt_val (CELLCB *p_cellcb)
  */
 
 static T_TCP_CEP *
-tcp_timers (CELLCB *p_cellcb, int_t tix)
-{
+tcp_timers (CELLCB *p_cellcb, int_t tix) {
 	uint16_t	win;
 	T_TCP_CEP *cep = &VAR_cep;
 
@@ -1278,8 +1284,7 @@ eInput_check(CELLIDX idx, const int8_t* dstaddr, const int8_t* srcaddr, int32_t 
  */
 
 static void
-tcp_free_reassq (CELLCB *p_cellcb)
-{
+tcp_free_reassq (CELLCB *p_cellcb) {
 	T_NET_BUF	*q, *nq;
 	T_TCP_IP4_Q_HDR *ip4qhdr;
 		
@@ -1299,8 +1304,7 @@ tcp_free_reassq (CELLCB *p_cellcb)
  */
 
 static T_TCP_CEP*
-tcp_close (CELLCB *p_cellcb)
-{
+tcp_close (CELLCB *p_cellcb) {
 	int_t ix;
 
 	for (ix = NUM_TCP_TIMERS; ix -- > 0; )
@@ -1361,8 +1365,7 @@ tcp_close (CELLCB *p_cellcb)
  */
 
 static T_TCP_CEP *
-tcp_drop (CELLCB *p_cellcb, ER errno)
-{
+tcp_drop (CELLCB *p_cellcb, ER errno) {
 	T_TCP_CEP *cep = &VAR_cep;
 	VAR_cep.error = errno;
 	if (TCP_FSM_HAVE_RCVD_SYN(VAR_cep.fsm_state)) {
@@ -1386,8 +1389,7 @@ tcp_drop (CELLCB *p_cellcb, ER errno)
  */
 
 static ER
-drop_after_ack (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff)
-{
+drop_after_ack (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff) {
 	T_TCP_HDR *tcph = GET_TCP_HDR(input,thoff);
 
 	/*
@@ -1414,8 +1416,7 @@ drop_after_ack (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff)
  */
 
 static uint8_t
-tcp_move_ra2rw (CELLCB *p_cellcb, uint8_t flags)
-{
+tcp_move_ra2rw (CELLCB *p_cellcb, uint8_t flags) {
 	T_NET_BUF	*q;
 	T_TCP_Q_HDR	*qhdr;
 	T_TCP_IP4_Q_HDR *ip4qhdr;	
@@ -1460,8 +1461,7 @@ tcp_move_ra2rw (CELLCB *p_cellcb, uint8_t flags)
  */
 
 static void
-parse_option (CELLCB *p_cellcb,T_TCP_HDR *tcph,uint16_t mss)
-{
+parse_option (CELLCB *p_cellcb,T_TCP_HDR *tcph,uint16_t mss) {
 	
 	uint8_t	*opt, type = 0;
 	uint32_t	len, ol, ssize;
@@ -1517,8 +1517,7 @@ parse_option (CELLCB *p_cellcb,T_TCP_HDR *tcph,uint16_t mss)
  */
 
 static void
-set_rexmt_timer (CELLCB *p_cellcb, T_TCP_TIME rtt)
-{
+set_rexmt_timer (CELLCB *p_cellcb, T_TCP_TIME rtt) {
 	T_TCP_TIME delta;
 
 	if (VAR_cep.srtt != 0) {
@@ -1603,8 +1602,7 @@ set_rexmt_timer (CELLCB *p_cellcb, T_TCP_TIME rtt)
  */
 
 static void
-trim_length (CELLCB *p_cellcb,T_TCP_HDR *tcph)
-{
+trim_length (CELLCB *p_cellcb,T_TCP_HDR *tcph) {
 	tcph->seq ++;
 	if (tcph->sum > VAR_cep.rcv_wnd) {		/* 注意: tcph->sum は SDU 長 */
 		/*
@@ -1625,8 +1623,7 @@ trim_length (CELLCB *p_cellcb,T_TCP_HDR *tcph)
  */
 
 static uint8_t
-tcp_write_raque (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, uint8_t flags)
-{
+tcp_write_raque (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, uint8_t flags) {
 	T_NET_BUF	*new;
 	T_NET_BUF	*p, *q, *nq;
 	T_TCP_Q_HDR	*qhdr, *inqhdr = GET_TCP_Q_HDR(input, thoff);
@@ -1841,8 +1838,7 @@ tcp_write_raque (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, uint8_t flags)
  */
 
 static uint8_t
-reassemble (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, uint8_t flags)
-{
+reassemble (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, uint8_t flags) {
 	T_TCP_Q_HDR 	*qhdr;
 	T_TCP_HDR	*tcph;
 	int32_t offset;
@@ -1902,8 +1898,7 @@ reassemble (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, uint8_t flags)
  */
 
 static bool_t
-update_wnd (CELLCB *p_cellcb,T_TCP_HDR *tcph)
-{
+update_wnd (CELLCB *p_cellcb,T_TCP_HDR *tcph) {
 
 	/*
 	 *  更新条件
@@ -1945,8 +1940,7 @@ update_wnd (CELLCB *p_cellcb,T_TCP_HDR *tcph)
  */
 
 static void
-close_connection (CELLCB *p_cellcb, bool_t *needoutput)
-{
+close_connection (CELLCB *p_cellcb, bool_t *needoutput) {
 	if (TCP_FSM_HAVE_RCVD_FIN(VAR_cep.fsm_state) == 0) {
 		
 		VAR_flags |= TCP_CEP_FLG_ACK_NOW;
@@ -2002,8 +1996,7 @@ close_connection (CELLCB *p_cellcb, bool_t *needoutput)
  */
 
 static ER
-proc_ack2 (CELLCB *p_cellcb,T_NET_BUF *input,  uint_t thoff, bool_t *needoutput)
-{
+proc_ack2 (CELLCB *p_cellcb,T_NET_BUF *input,  uint_t thoff, bool_t *needoutput) {
 	T_TCP_HDR	*tcph;
 	ER		ret = RET_OK;
 	uint32_t	acked;
@@ -2160,8 +2153,7 @@ proc_ack2 (CELLCB *p_cellcb,T_NET_BUF *input,  uint_t thoff, bool_t *needoutput)
  */
 
 static ER
-proc_ack1 (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, bool_t *needoutput)
-{
+proc_ack1 (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, bool_t *needoutput) {
 	T_TCP_HDR *tcph = GET_TCP_HDR(input,thoff);
 
 	switch (VAR_cep.fsm_state) {
@@ -2344,8 +2336,7 @@ proc_ack1 (CELLCB *p_cellcb,T_NET_BUF *input, uint_t thoff, bool_t *needoutput)
  */
 
 static ER
-listening (CELLCB *p_cellcb,T_NET_BUF *input, int32_t thoff, T_TCP_SEQ iss)
-{
+listening (CELLCB *p_cellcb,T_NET_BUF *input, int32_t thoff, T_TCP_SEQ iss) {
 	T_TCP_HDR	*tcph;
 	T_TCP_SEQ    tcp_iss;
 
@@ -2442,8 +2433,7 @@ listening (CELLCB *p_cellcb,T_NET_BUF *input, int32_t thoff, T_TCP_SEQ iss)
  */
 
 static ER
-syn_sent (CELLCB *p_cellcb,T_TCP_HDR *tcph,T_TCP_CEP *cep)
-{
+syn_sent (CELLCB *p_cellcb,T_TCP_HDR *tcph,T_TCP_CEP *cep) {
 	ER error = RET_OK;
 
 	/*
@@ -2980,8 +2970,7 @@ drop:
  */
 
 static ER
-tcp_lock_cep (CELLCB *p_cellcb, FN tfn)
-{
+tcp_lock_cep (CELLCB *p_cellcb, FN tfn) {
 	ER		error = E_OK;
 
 	/* TCP 通信端点をロックする。*/
@@ -3038,8 +3027,7 @@ static uint16_t tcp_port_auto = TCP_PORT_FIRST_AUTO;	/* 自動割り当て番号
  */
 
 void
-tcp_alloc_auto_port (CELLCB *p_cellcb)
-{
+tcp_alloc_auto_port (CELLCB *p_cellcb) {
 	int_t		ix;
 	uint16_t	portno;
 	CELLCB *p_cb;
@@ -3073,8 +3061,7 @@ tcp_alloc_auto_port (CELLCB *p_cellcb)
  */
 
 static T_TCP_CEP *
-tcp_user_closed (CELLCB *p_cellcb)
-{
+tcp_user_closed (CELLCB *p_cellcb) {
 	T_TCP_CEP *cep = &VAR_cep;
 	
 	switch (VAR_cep.fsm_state) {
@@ -3109,8 +3096,7 @@ tcp_user_closed (CELLCB *p_cellcb)
  */
 
 static ER
-tcp_alloc_port (CELLCB *p_cellcb, uint16_t portno)
-{
+tcp_alloc_port (CELLCB *p_cellcb, uint16_t portno) {
 	int_t	ix;
 	CELLCB *p_cb;
 
@@ -3133,8 +3119,7 @@ tcp_alloc_port (CELLCB *p_cellcb, uint16_t portno)
  */
 
 static void
-tcp_init_cep (CELLCB *p_cellcb)
-{
+tcp_init_cep (CELLCB *p_cellcb) {
 	int_t i;
 	for(i=0;i<NUM_TCP_TIMERS;i++)
 	  VAR_cep.timer[i] = 0;
@@ -3202,8 +3187,7 @@ tcp_init_cep (CELLCB *p_cellcb)
  */
 
 static ER
-tcp_can_send_more (CELLCB *p_cellcb, FN fncd, TMO tmout)
-{
+tcp_can_send_more (CELLCB *p_cellcb, FN fncd, TMO tmout) {
 	ER	error;
 
 	/* 送信できるか、CEP の FSM 状態を見る。*/
@@ -3235,8 +3219,7 @@ tcp_can_send_more (CELLCB *p_cellcb, FN fncd, TMO tmout)
  */
 
 static ER
-tcp_can_recv_more (ER *error, CELLCB *p_cellcb, FN fncd, TMO tmout)
-{
+tcp_can_recv_more (ER *error, CELLCB *p_cellcb, FN fncd, TMO tmout) {
 	/*
 	 *  受信できるか、fsm_state を見る。受信できない場合は
 	 *  長さ 0、またはエラーを返す。
@@ -3273,8 +3256,7 @@ tcp_can_recv_more (ER *error, CELLCB *p_cellcb, FN fncd, TMO tmout)
  */
 
 static ER
-tcp_wait_rwbuf (CELLCB *p_cellcb, TMO tmout)
-{
+tcp_wait_rwbuf (CELLCB *p_cellcb, TMO tmout) {
 	ER	error;
 	FLGPTN	flag;
 
@@ -3317,8 +3299,7 @@ tcp_wait_rwbuf (CELLCB *p_cellcb, TMO tmout)
  */
 
 static ER
-tcp_can_snd (CELLCB *p_cellcb, FN fncd)
-{
+tcp_can_snd (CELLCB *p_cellcb, FN fncd) {
 	ER	error = E_OK;
 	T_TCP_CEP *cep = &VAR_cep;
 
@@ -3369,8 +3350,7 @@ tcp_can_snd (CELLCB *p_cellcb, FN fncd)
  */
 
 static ER
-tcp_can_rcv (CELLCB *p_cellcb, FN fncd)
-{
+tcp_can_rcv (CELLCB *p_cellcb, FN fncd) {
 	ER	error = E_OK;
 	T_TCP_CEP *cep = &VAR_cep;
 
@@ -3472,7 +3452,7 @@ eInput_notify(CELLIDX idx, ER error)
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 ER
-eAPI_accept(CELLIDX idx, sREP4_entrypoint sREP4, uint16_t* dstport, TMO tmout)
+eAPI_accept(CELLIDX idx, intptr_t sREP4, uint16_t* dstport, TMO tmout)
 {
 	CELLCB	*p_cellcb;
 	if (VALID_IDX(idx)) {
@@ -4007,32 +3987,32 @@ eAPI_shutdown(CELLIDX idx)
 	
 }
 
-/* #[<ENTRY_PORT>]# eInitializeBody
- * entry port: eInitializeBody
- * signature:  sInitializeRoutineBody
+/* #[<ENTRY_PORT>]# eInitializeRoutineBody
+ * entry port: eInitializeRoutineBody
+ * signature:  sRoutineBody
  * context:    task
  * #[</ENTRY_PORT>]# */
 
-/* #[<ENTRY_FUNC>]# eInitializeBody_main
- * name:         eInitializeBody_main
- * global_name:  tTCPCEP_eInitializeBody_main
+/* #[<ENTRY_FUNC>]# eInitializeRoutineBody_main
+ * name:         eInitializeRoutineBody_main
+ * global_name:  tTCPCEP_eInitializeRoutineBody_main
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 void
-eInitializeBody_main(CELLIDX idx)
+eInitializeRoutineBody_main(CELLIDX idx)
 {
 	CELLCB	*p_cellcb;
 	if (VALID_IDX(idx)) {
 		p_cellcb = GET_CELLCB(idx);
 	}
 	else {
-		/* Write error processing code here */
+		/* エラー処理コードをここに記述します */
 	} /* end if VALID_IDX(idx) */
 
-	/* Put statements here #_TEFB_# */
-	VAR_offset.protocolflag = 0;
+	/* ここに処理本体を記述します #_TEFB_# */
+
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

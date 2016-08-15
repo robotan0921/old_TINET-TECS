@@ -5,37 +5,38 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * fragId           uint16_t         VAR_fragId      
  *
- * call port function #_TCPF_#
- * call port : cEthernetOutput  signature: sEthernetOutput context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cEthernetOutput signature: sEthernetOutput context:task optional:true
+ *   bool_t     is_cEthernetOutput_joined()                     check if joined
  *   ER             cEthernetOutput_ethernetOutput( int8_t* outputp, int32_t size, T_IN4_ADDR dstaddr, TMO tmout );
- * call port : cFunctions  signature: sIPv4Functions context: task
+ * call port: cFunctions signature: sIPv4Functions context:task
  *   uint16_t       cFunctions_checkSum( const int8_t* data, uint32_t len );
  *   T_IN4_ADDR     cFunctions_getIPv4Address( );
  *   T_IN4_ADDR     cFunctions_getIPv4Mask( );
- * call port : cRoutingTable  signature: sIPv4RoutingTable context: task
+ * call port: cRoutingTable signature: sIPv4RoutingTable context:task
  *   T_IN4_ADDR     cRoutingTable_routeAlloc( T_IN4_ADDR dst );
  *   void           cRoutingTable_redirect( T_IN4_ADDR gateway, T_IN4_ADDR target, uint8_t flags, uint32_t tmo );
- * call port : cIPv4CheckSum  signature: sIPv4CheckSum context: task
+ * call port: cIPv4CheckSum signature: sIPv4CheckSum context:task
  *   uint16_t       cIPv4CheckSum_ipv4CheckSum( int8_t* data, int32_t size, uint32_t offset, uint8_t proto );
- * allocator port for call port: cEthernetOutput func: ethernetOutput param: outputp
+ * allocator port for call port:cEthernetOutput func:ethernetOutput param: outputp
  *   ER             cEthernetOutput_ethernetOutput_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cEthernetOutput_ethernetOutput_outputp_dealloc( const void* buf );
  *   ER             cEthernetOutput_ethernetOutput_outputp_reuse( void* buf );
  *   ER_UINT        cEthernetOutput_ethernetOutput_outputp_bufferSize( const void* buf );
  *   uint32_t       cEthernetOutput_ethernetOutput_outputp_bufferMaxSize( );
- * allocator port for call port: eOutput func: IPv4Output param: outputp
+ * allocator port for call port:eOutput func:IPv4Output param: outputp
  *   ER             eOutput_IPv4Output_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eOutput_IPv4Output_outputp_dealloc( const void* buf );
  *   ER             eOutput_IPv4Output_outputp_reuse( void* buf );
  *   ER_UINT        eOutput_IPv4Output_outputp_bufferSize( const void* buf );
  *   uint32_t       eOutput_IPv4Output_outputp_bufferMaxSize( );
- * allocator port for call port: eOutput func: IPv4Reply param: outputp
+ * allocator port for call port:eOutput func:IPv4Reply param: outputp
  *   ER             eOutput_IPv4Reply_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eOutput_IPv4Reply_outputp_dealloc( const void* buf );
  *   ER             eOutput_IPv4Reply_outputp_reuse( void* buf );
@@ -65,7 +66,7 @@
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 ER
-eOutput_IPv4Output(CELLIDX idx, int8_t* outputp, int32_t size,TMO tmout)
+eOutput_IPv4Output(CELLIDX idx, int8_t* outputp, int32_t size, TMO tmout)
 {
 	ER		ercd = E_OK;
 
@@ -229,7 +230,7 @@ eOutput_setHeader(CELLIDX idx, int8_t* outputp, int32_t size, T_IN4_ADDR dstaddr
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 ER
-eOutput_IPv4Reply(CELLIDX idx, int8_t* outputp, int32_t size,  TMO tmout)
+eOutput_IPv4Reply(CELLIDX idx, int8_t* outputp, int32_t size, TMO tmout)
 {
 	ER		ercd = E_OK;
 	CELLCB	*p_cellcb;
@@ -266,5 +267,5 @@ eOutput_IPv4Reply(CELLIDX idx, int8_t* outputp, int32_t size,  TMO tmout)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

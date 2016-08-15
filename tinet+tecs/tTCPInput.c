@@ -5,43 +5,44 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * call port function #_TCPF_#
- * call port : cCEPInput  signature: sTCPCEPInput context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cCEPInput signature: sTCPCEPInput context:task
  *   ER             cCEPInput_check( subscript, const int8_t* dstaddr, const int8_t* srcaddr, int32_t len, uint16_t dstport, uint16_t srcport );
  *   ER             cCEPInput_input( subscript, int8_t* inputp, int32_t size );
  *   void           cCEPInput_notify( subscript, ER error );
  *       subscript:  0...(NCP_cCEPInput-1)
- * call port : cTCPRespond  signature: sTCPOutput context: task
+ * call port: cTCPRespond signature: sTCPOutput context:task
  *   ER             cTCPRespond_output( int8_t* outputp, int32_t size, const int8_t* dstaddr, const int8_t* srcaddr, int32_t addrlen );
  *   ER             cTCPRespond_getOffset( T_OFF_BUF* offset );
  *   T_IN4_ADDR     cTCPRespond_getIPv4Address( );
  *   ER             cTCPRespond_respond( int8_t* outputp, int32_t size, T_TCP_CEP* cep, T_TCP_SEQ ack, T_TCP_SEQ seq, uint32_t rbfree, uint8_t flags );
  *   ER             cTCPRespond_allocAndRespond( const int8_t* dstaddr, const int8_t* srcaddr, int32_t addrlen, uint16_t dstport, uint16_t srcport, T_TCP_SEQ ack, T_TCP_SEQ seq, uint32_t rbfree, uint8_t flags, T_OFF_BUF offset );
- * call port : cIPv4CheckSum  signature: sIPv4CheckSum context: task
+ * call port: cIPv4CheckSum signature: sIPv4CheckSum context:task optional:true
+ *   bool_t     is_cIPv4CheckSum_joined()                     check if joined
  *   uint16_t       cIPv4CheckSum_ipv4CheckSum( int8_t* data, int32_t size, uint32_t offset, uint8_t proto );
- * allocator port for call port: cCEPInput func: input param: inputp
+ * allocator port for call port:cCEPInput func:input param: inputp
  *   ER             cCEPInput_input_inputp_alloc( subscript, void** buf, const int32_t minlen, TMO tmout );
  *   ER             cCEPInput_input_inputp_dealloc( subscript, const void* buf );
  *   ER             cCEPInput_input_inputp_reuse( subscript, void* buf );
  *   ER_UINT        cCEPInput_input_inputp_bufferSize( subscript, const void* buf );
  *   uint32_t       cCEPInput_input_inputp_bufferMaxSize( subscript );
  *       subscript:  0...(NCP_cCEPInput_input_inputp-1)
- * allocator port for call port: cTCPRespond func: output param: outputp
+ * allocator port for call port:cTCPRespond func:output param: outputp
  *   ER             cTCPRespond_output_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cTCPRespond_output_outputp_dealloc( const void* buf );
  *   ER             cTCPRespond_output_outputp_reuse( void* buf );
  *   ER_UINT        cTCPRespond_output_outputp_bufferSize( const void* buf );
  *   uint32_t       cTCPRespond_output_outputp_bufferMaxSize( );
- * allocator port for call port: cTCPRespond func: respond param: outputp
+ * allocator port for call port:cTCPRespond func:respond param: outputp
  *   ER             cTCPRespond_respond_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cTCPRespond_respond_outputp_dealloc( const void* buf );
  *   ER             cTCPRespond_respond_outputp_reuse( void* buf );
  *   ER_UINT        cTCPRespond_respond_outputp_bufferSize( const void* buf );
  *   uint32_t       cTCPRespond_respond_outputp_bufferMaxSize( );
- * allocator port for call port: eInput func: TCPInput param: inputp
+ * allocator port for call port:eInput func:TCPInput param: inputp
  *   ER             eInput_TCPInput_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eInput_TCPInput_inputp_dealloc( const void* buf );
  *   ER             eInput_TCPInput_inputp_reuse( void* buf );
@@ -220,5 +221,5 @@ eInput_TCPNotify(const int8_t* inputp, int32_t size, ER error)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

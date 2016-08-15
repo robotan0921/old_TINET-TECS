@@ -5,10 +5,10 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * macaddr0         uint8_t          ATTR_macaddr0   
  * macaddr1         uint8_t          ATTR_macaddr1   
  * macaddr2         uint8_t          ATTR_macaddr2   
@@ -17,51 +17,57 @@
  * macaddr5         uint8_t          ATTR_macaddr5   
  * Timer            uint16_t         VAR_Timer       
  *
- * call port function #_TCPF_#
- * require port : signature: sKernel context: task
+ * 呼び口関数 #_TCPF_#
+ * require port: signature:sKernel context:task
+ *   ER             getExtendedInformation( intptr_t* p_exinf );
  *   ER             sleep( );
  *   ER             sleepTimeout( TMO timeout );
  *   ER             delay( RELTIM delayTime );
- *   ER             exitTask( );
- *   ER             getTaskId( ID* p_taskId );
- *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             exit( );
+ *   ER             disableTerminate( );
+ *   ER             enableTerminate( );
+ *   bool_t         senseTerminate( );
+ *   ER             setTime( SYSTIM systemTime );
  *   ER             getTime( SYSTIM* p_systemTime );
- *   ER             getMicroTime( SYSUTM* p_systemMicroTime );
+ *   ER             adjustTime( int32_t adjustTime );
+ *   HRTCNT         fetchHighResolutionTimer( );
+ *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             getTaskId( ID* p_taskId );
+ *   ER             getLoad( PRI taskPriority, uint_t* p_load );
+ *   ER             getNthTask( PRI taskPriority, uint_t nth, ID* p_taskID );
  *   ER             lockCpu( );
  *   ER             unlockCpu( );
  *   ER             disableDispatch( );
  *   ER             enableDispatch( );
- *   ER             disableTaskException( );
- *   ER             enableTaskException( );
- *   ER             changeInterruptPriorityMask( PRI interruptPriority );
- *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
- *   ER             exitKernel( );
  *   bool_t         senseContext( );
  *   bool_t         senseLock( );
  *   bool_t         senseDispatch( );
  *   bool_t         senseDispatchPendingState( );
  *   bool_t         senseKernel( );
- * call port : cSemaphoreSend  signature: sSemaphore context: task
+ *   ER             exitKernel( );
+ *   ER             changeInterruptPriorityMask( PRI interruptPriority );
+ *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
+ * call port: cSemaphoreSend signature: sSemaphore context:task
  *   ER             cSemaphoreSend_signal( );
  *   ER             cSemaphoreSend_wait( );
  *   ER             cSemaphoreSend_waitPolling( );
  *   ER             cSemaphoreSend_waitTimeout( TMO timeout );
  *   ER             cSemaphoreSend_initialize( );
  *   ER             cSemaphoreSend_refer( T_RSEM* pk_semaphoreStatus );
- * call port : ciSemaphoreReceive  signature: siSemaphore context: non-task
+ * call port: ciSemaphoreReceive signature: siSemaphore context:non-task
  *   ER             ciSemaphoreReceive_signal( );
- * call port : cConfigInterrupt  signature: sConfigInterrupt context: task
- *   ER             cConfigInterrupt_disable( );
- *   ER             cConfigInterrupt_enable( );
- * call port : cNetworkTimer  signature: sNetworkTimer context: task
+ * call port: cInterruptRequest signature: sInterruptRequest context:task
+ *   ER             cInterruptRequest_disable( );
+ *   ER             cInterruptRequest_enable( );
+ * call port: cNetworkTimer signature: sNetworkTimer context:task
  *   ER             cNetworkTimer_Timeout( RELTIM timout );
- * allocator port for call port: eNicDriver func: start param: outputp
+ * allocator port for call port:eNicDriver func:start param: outputp
  *   ER             eNicDriver_start_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eNicDriver_start_outputp_dealloc( const void* buf );
  *   ER             eNicDriver_start_outputp_reuse( void* buf );
  *   ER_UINT        eNicDriver_start_outputp_bufferSize( const void* buf );
  *   uint32_t       eNicDriver_start_outputp_bufferMaxSize( );
- * allocator port for call port: eNicDriver func: read param: inputp
+ * allocator port for call port:eNicDriver func:read param: inputp
  *   ER             eNicDriver_read_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eNicDriver_read_inputp_dealloc( const void* buf );
  *   ER             eNicDriver_read_inputp_reuse( void* buf );
@@ -86,8 +92,7 @@ extern ER		dly_tsk(RELTIM dlytim);
 
 
 
-static unsigned long lan9221_get_mac_csr(CELLCB *p_cellcb,unsigned char addr)
-{
+static unsigned long lan9221_get_mac_csr(CELLCB *p_cellcb,unsigned char addr) {
 	unsigned long csr;
 
 	while(lan9221_reg_read(LAN9221_MAC_CSR_CMD) & LAN9221_MAC_CSR_CMD_CSR_BUSY);
@@ -102,8 +107,7 @@ static unsigned long lan9221_get_mac_csr(CELLCB *p_cellcb,unsigned char addr)
 	return csr;
 }
 
-static void lan9221_set_mac_csr(CELLCB *p_cellcb,unsigned char addr, unsigned long data)
-{
+static void lan9221_set_mac_csr(CELLCB *p_cellcb,unsigned char addr, unsigned long data) {
 	while(lan9221_reg_read(LAN9221_MAC_CSR_CMD) & LAN9221_MAC_CSR_CMD_CSR_BUSY);
 
 	lan9221_reg_write(LAN9221_MAC_CSR_DATA, data);
@@ -114,8 +118,7 @@ static void lan9221_set_mac_csr(CELLCB *p_cellcb,unsigned char addr, unsigned lo
 
 
 
-static void lan9221_reset(CELLCB *p_cellcb)
-{
+static void lan9221_reset(CELLCB *p_cellcb) {
 	int timeout;
 
 	if(lan9221_reg_read(LAN9221_PMT_CTRL) & LAN9221_PMT_CTRL_READY) {
@@ -153,8 +156,7 @@ static void lan9221_reset(CELLCB *p_cellcb)
 }
 
 
-static void lan9221_handle_mac_address(CELLCB *p_cellcb)
-{
+static void lan9221_handle_mac_address(CELLCB *p_cellcb) {
 	unsigned long addrh, addrl;
 
 	addrl = lan9221_get_mac_csr(p_cellcb,LAN9221_ADDRL);
@@ -172,8 +174,7 @@ static void lan9221_handle_mac_address(CELLCB *p_cellcb)
 //	my_macaddr_h = lan9221_get_mac_csr(LAN9221_ADDRH);
 }
 
-static int lan9221_miiphy_read(CELLCB *p_cellcb,unsigned char phy, unsigned char addr, unsigned long *data)
-{
+static int lan9221_miiphy_read(CELLCB *p_cellcb,unsigned char phy, unsigned char addr, unsigned long *data) {
 	while(lan9221_get_mac_csr(p_cellcb,LAN9221_MII_ACC) & LAN9221_MII_ACC_MII_BUSY);
 
 	lan9221_set_mac_csr(p_cellcb,LAN9221_MII_ACC, 
@@ -186,8 +187,7 @@ static int lan9221_miiphy_read(CELLCB *p_cellcb,unsigned char phy, unsigned char
 	return 0;
 }
 
-static int lan9221_miiphy_write(CELLCB *p_cellcb,unsigned char phy, unsigned char addr, unsigned long  data)
-{
+static int lan9221_miiphy_write(CELLCB *p_cellcb,unsigned char phy, unsigned char addr, unsigned long  data) {
 	while(lan9221_get_mac_csr(p_cellcb,LAN9221_MII_ACC) & LAN9221_MII_ACC_MII_BUSY)
 		;
 
@@ -201,8 +201,7 @@ static int lan9221_miiphy_write(CELLCB *p_cellcb,unsigned char phy, unsigned cha
 	return 0;
 }
 
-static int lan9221_phy_reset(CELLCB *p_cellcb)
-{
+static int lan9221_phy_reset(CELLCB *p_cellcb) {
 	unsigned long val;
 
 	val = lan9221_reg_read(LAN9221_PMT_CTRL);
@@ -216,8 +215,7 @@ static int lan9221_phy_reset(CELLCB *p_cellcb)
 	return 0;
 }
 
-static void lan9221_phy_configure(CELLCB *p_cellcb)
-{
+static void lan9221_phy_configure(CELLCB *p_cellcb) {
 	unsigned long status;
 	int timeout;
 
@@ -247,8 +245,7 @@ err_out:
 	return;
 }
 
-static void lan9221_enable(CELLCB *p_cellcb)
-{
+static void lan9221_enable(CELLCB *p_cellcb) {
 
 	lan9221_reg_write(LAN9221_HW_CFG, 8 << 16 | LAN9221_HW_CFG_MBO);
 
@@ -275,9 +272,7 @@ static void lan9221_enable(CELLCB *p_cellcb)
 	
 }
 
-static int lan9221_open(CELLCB *p_cellcb)
-{
-
+static int lan9221_open(CELLCB *p_cellcb) {
 
 	if(lan9221_reg_read(LAN9221_BYTE_TEST) != LAN9221_BYTE_TEST_VAL) {
 		lan9221_reg_write(LAN9221_WORD_SWAP, LAN9221_WORD_SWAP_DISABLE);
@@ -301,8 +296,7 @@ static int lan9221_open(CELLCB *p_cellcb)
  */
 
 static void
-ed_inter_init (CELLCB *p_cellcb)
-{
+ed_inter_init (CELLCB *p_cellcb) {
 
 	//ICR0のIRLMビットを立てて、割り込み受付可能なようにする
 	//while((sil_reh_mem((void *)ICR0) & ICR0_ENABLE) != ICR0_ENABLE)
@@ -402,7 +396,7 @@ eNicDriver_init(CELLIDX idx)
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 void
-eNicDriver_start(CELLIDX idx,int8_t* outputp, int32_t size,uint8_t align)
+eNicDriver_start(CELLIDX idx, int8_t* outputp, int32_t size, uint8_t align)
 {
 
 	CELLCB	*p_cellcb;
@@ -471,7 +465,7 @@ eNicDriver_start(CELLIDX idx,int8_t* outputp, int32_t size,uint8_t align)
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 void
-eNicDriver_read(CELLIDX idx, int8_t** inputp, int32_t *size,uint8_t align)
+eNicDriver_read(CELLIDX idx, int8_t** inputp, int32_t* size, uint8_t align)
 {
 	CELLCB	*p_cellcb;
 	if (VALID_IDX(idx)) {
@@ -589,5 +583,5 @@ eiBody_main(CELLIDX idx)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

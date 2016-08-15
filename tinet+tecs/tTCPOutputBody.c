@@ -5,58 +5,61 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * call port function #_TCPF_#
- * require port : signature: sTINET context: task
+ * 呼び口関数 #_TCPF_#
+ * require port: signature:sTINET context:task
  *   uint32_t       netRand( );
  *   void           netSrand( uint32_t speed );
- * call port : cIPv4Output  signature: sIPv4Output context: task
+ * call port: cIPv4Output signature: sIPv4Output context:task optional:true
+ *   bool_t     is_cIPv4Output_joined()                     check if joined
  *   ER             cIPv4Output_IPv4Output( int8_t* outputp, int32_t size, TMO tmout );
  *   ER             cIPv4Output_getOffset( T_OFF_BUF* offset );
  *   T_IN4_ADDR     cIPv4Output_getIPv4Address( );
  *   void           cIPv4Output_setHeader( int8_t* outputp, int32_t size, T_IN4_ADDR dstaddr, T_IN4_ADDR srcaddr );
  *   ER             cIPv4Output_IPv4Reply( int8_t* outputp, int32_t size, TMO tmout );
- * call port : cIPv4CheckSum  signature: sIPv4CheckSum context: task
+ * call port: cIPv4CheckSum signature: sIPv4CheckSum context:task optional:true
+ *   bool_t     is_cIPv4CheckSum_joined()                     check if joined
  *   uint16_t       cIPv4CheckSum_ipv4CheckSum( int8_t* data, int32_t size, uint32_t offset, uint8_t proto );
- * call port : cTCPOutputStart  signature: sTCPOutputStart context: task
+ * call port: cTCPOutputStart signature: sTCPOutputStart context:task
  *   ER             cTCPOutputStart_outputStart( subscript );
  *   ER             cTCPOutputStart_timerFunction( subscript );
  *       subscript:  0...(NCP_cTCPOutputStart-1)
- * call port : cSemaphore  signature: sSemaphore context: task
+ * call port: cSemaphore signature: sSemaphore context:task
  *   ER             cSemaphore_signal( );
  *   ER             cSemaphore_wait( );
  *   ER             cSemaphore_waitPolling( );
  *   ER             cSemaphore_waitTimeout( TMO timeout );
  *   ER             cSemaphore_initialize( );
  *   ER             cSemaphore_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cTCPFunctions  signature: sTCPFunctions context: task
+ * call port: cTCPFunctions signature: sTCPFunctions context:task
  *   T_TCP_SEQ      cTCPFunctions_getTcpIss( );
  *   void           cTCPFunctions_setTcpIss( T_TCP_SEQ iss );
  *   T_TCP_SEQ      cTCPFunctions_initTcpIss( );
  *   T_TCP_TIME     cTCPFunctions_tcpRexmtValue( T_TCP_TIME srtt, T_TCP_TIME rttvar );
- * call port : cNetworkTimer  signature: sNetworkTimer context: task
+ *   T_TCP_TIME     cTCPFunctions_tcpRangeSet( T_TCP_TIME value, T_TCP_TIME tvmin, T_TCP_TIME tvmax );
+ * call port: cNetworkTimer signature: sNetworkTimer context:task
  *   ER             cNetworkTimer_Timeout( RELTIM timout );
- * allocator port for call port: cIPv4Output func: IPv4Output param: outputp
+ * allocator port for call port:cIPv4Output func:IPv4Output param: outputp
  *   ER             cIPv4Output_IPv4Output_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cIPv4Output_IPv4Output_outputp_dealloc( const void* buf );
  *   ER             cIPv4Output_IPv4Output_outputp_reuse( void* buf );
  *   ER_UINT        cIPv4Output_IPv4Output_outputp_bufferSize( const void* buf );
  *   uint32_t       cIPv4Output_IPv4Output_outputp_bufferMaxSize( );
- * allocator port for call port: cIPv4Output func: IPv4Reply param: outputp
+ * allocator port for call port:cIPv4Output func:IPv4Reply param: outputp
  *   ER             cIPv4Output_IPv4Reply_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cIPv4Output_IPv4Reply_outputp_dealloc( const void* buf );
  *   ER             cIPv4Output_IPv4Reply_outputp_reuse( void* buf );
  *   ER_UINT        cIPv4Output_IPv4Reply_outputp_bufferSize( const void* buf );
  *   uint32_t       cIPv4Output_IPv4Reply_outputp_bufferMaxSize( );
- * allocator port for call port: eTCPOutput func: output param: outputp
+ * allocator port for call port:eTCPOutput func:output param: outputp
  *   ER             eTCPOutput_output_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eTCPOutput_output_outputp_dealloc( const void* buf );
  *   ER             eTCPOutput_output_outputp_reuse( void* buf );
  *   ER_UINT        eTCPOutput_output_outputp_bufferSize( const void* buf );
  *   uint32_t       eTCPOutput_output_outputp_bufferMaxSize( );
- * allocator port for call port: eTCPOutput func: respond param: outputp
+ * allocator port for call port:eTCPOutput func:respond param: outputp
  *   ER             eTCPOutput_respond_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eTCPOutput_respond_outputp_dealloc( const void* buf );
  *   ER             eTCPOutput_respond_outputp_reuse( void* buf );
@@ -329,7 +332,7 @@ eTCPOutput_respond(CELLIDX idx, int8_t* outputp, int32_t size, T_TCP_CEP* cep, T
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 ER
-eTCPOutput_allocAndRespond(CELLIDX idx, const int8_t *dstaddr,const int8_t *srcaddr,int32_t addrlen,uint16_t dstport,uint16_t srcport,T_TCP_SEQ ack, T_TCP_SEQ seq, uint32_t rbfree, uint8_t flags,T_OFF_BUF offset)
+eTCPOutput_allocAndRespond(CELLIDX idx, const int8_t* dstaddr, const int8_t* srcaddr, int32_t addrlen, uint16_t dstport, uint16_t srcport, T_TCP_SEQ ack, T_TCP_SEQ seq, uint32_t rbfree, uint8_t flags, T_OFF_BUF offset)
 {
 	ER		ercd = E_OK;
 	CELLCB	*p_cellcb;
@@ -437,5 +440,5 @@ eCallTimerFunction_callFunction(CELLIDX idx)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

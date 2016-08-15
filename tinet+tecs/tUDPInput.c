@@ -5,36 +5,39 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * call port function #_TCPF_#
- * call port : cCEPInput  signature: sUDPCEPInput context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cCEPInput signature: sUDPCEPInput context:task
  *   ID             cCEPInput_receiveTaskID( subscript );
  *   ER             cCEPInput_check( subscript, const int8_t* dstaddr, int32_t len, uint16_t dstport );
  *   ER             cCEPInput_sendData( subscript, int8_t* input, int32_t size );
  *       subscript:  0...(NCP_cCEPInput-1)
- * call port : cCallback  signature: sUDPCallback context: task
+ * call port: cCallback signature: sUDPCallback context:task optional:true
+ *   bool_t     is_cCallback_joined(int subscript)        check if joined
  *   void           cCallback_callback( subscript, FN fncd, ER_UINT error );
  *       subscript:  0...(NCP_cCallback-1)
- * call port : cICMP4Error  signature: sICMP4Error context: task
+ * call port: cICMP4Error signature: sICMP4Error context:task optional:true
+ *   bool_t     is_cICMP4Error_joined()                     check if joined
  *   void           cICMP4Error_error( int8_t* inputp, int32_t size, uint8_t code );
- * call port : cIPv4CheckSum  signature: sIPv4CheckSum context: task
+ * call port: cIPv4CheckSum signature: sIPv4CheckSum context:task optional:true
+ *   bool_t     is_cIPv4CheckSum_joined()                     check if joined
  *   uint16_t       cIPv4CheckSum_ipv4CheckSum( int8_t* data, int32_t size, uint32_t offset, uint8_t proto );
- * allocator port for call port: cCEPInput func: sendData param: input
+ * allocator port for call port:cCEPInput func:sendData param: input
  *   ER             cCEPInput_sendData_input_alloc( subscript, void** buf, const int32_t minlen, TMO tmout );
  *   ER             cCEPInput_sendData_input_dealloc( subscript, const void* buf );
  *   ER             cCEPInput_sendData_input_reuse( subscript, void* buf );
  *   ER_UINT        cCEPInput_sendData_input_bufferSize( subscript, const void* buf );
  *   uint32_t       cCEPInput_sendData_input_bufferMaxSize( subscript );
  *       subscript:  0...(NCP_cCEPInput_sendData_input-1)
- * allocator port for call port: cICMP4Error func: error param: inputp
+ * allocator port for call port:cICMP4Error func:error param: inputp
  *   ER             cICMP4Error_error_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cICMP4Error_error_inputp_dealloc( const void* buf );
  *   ER             cICMP4Error_error_inputp_reuse( void* buf );
  *   ER_UINT        cICMP4Error_error_inputp_bufferSize( const void* buf );
  *   uint32_t       cICMP4Error_error_inputp_bufferMaxSize( );
- * allocator port for call port: eInput func: UDPInput param: inputp
+ * allocator port for call port:eInput func:UDPInput param: inputp
  *   ER             eInput_UDPInput_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eInput_UDPInput_inputp_dealloc( const void* buf );
  *   ER             eInput_UDPInput_inputp_reuse( void* buf );
@@ -64,7 +67,7 @@
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 uint32_t
-eInput_UDPInput(int8_t* inputp, int32_t size,  const int8_t* dstaddr, int32_t addrlen)
+eInput_UDPInput(int8_t* inputp, int32_t size, const int8_t* dstaddr, int32_t addrlen)
 {
 	/* Put statements here #_TEFB_# */
 
@@ -143,5 +146,5 @@ buf_rel:
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

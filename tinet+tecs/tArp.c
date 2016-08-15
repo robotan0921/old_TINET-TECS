@@ -5,42 +5,42 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * arpEntry         int32_t          ATTR_arpEntry   
  * arp_cache        T_ARP_ENTRY*     VAR_arp_cache   
  *
- * call port function #_TCPF_#
- * call port : cIPv4Functions  signature: sIPv4Functions context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cIPv4Functions signature: sIPv4Functions context:task
  *   uint16_t       cIPv4Functions_checkSum( const int8_t* data, uint32_t len );
  *   T_IN4_ADDR     cIPv4Functions_getIPv4Address( );
  *   T_IN4_ADDR     cIPv4Functions_getIPv4Mask( );
- * call port : cEthernetRawOutput  signature: sEthernetRawOutput context: task
+ * call port: cEthernetRawOutput signature: sEthernetRawOutput context:task
  *   ER             cEthernetRawOutput_ethernetRawOutput( int8_t* outputp, int32_t size, TMO tmout );
- * call port : cNetworkTimer  signature: sNetworkTimer context: task
+ * call port: cNetworkTimer signature: sNetworkTimer context:task
  *   ER             cNetworkTimer_Timeout( RELTIM timout );
- * call port : cArpSemaphore  signature: sSemaphore context: task
+ * call port: cArpSemaphore signature: sSemaphore context:task
  *   ER             cArpSemaphore_signal( );
  *   ER             cArpSemaphore_wait( );
  *   ER             cArpSemaphore_waitPolling( );
  *   ER             cArpSemaphore_waitTimeout( TMO timeout );
  *   ER             cArpSemaphore_initialize( );
  *   ER             cArpSemaphore_refer( T_RSEM* pk_semaphoreStatus );
- * allocator port for call port: cEthernetRawOutput func: ethernetRawOutput param: outputp
+ * allocator port for call port:cEthernetRawOutput func:ethernetRawOutput param: outputp
  *   ER             cEthernetRawOutput_ethernetRawOutput_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cEthernetRawOutput_ethernetRawOutput_outputp_dealloc( const void* buf );
  *   ER             cEthernetRawOutput_ethernetRawOutput_outputp_reuse( void* buf );
  *   ER_UINT        cEthernetRawOutput_ethernetRawOutput_outputp_bufferSize( const void* buf );
  *   uint32_t       cEthernetRawOutput_ethernetRawOutput_outputp_bufferMaxSize( );
- * allocator port for call port: eArpInput func: arpInput param: inputp
+ * allocator port for call port:eArpInput func:arpInput param: inputp
  *   ER             eArpInput_arpInput_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eArpInput_arpInput_inputp_dealloc( const void* buf );
  *   ER             eArpInput_arpInput_inputp_reuse( void* buf );
  *   ER_UINT        eArpInput_arpInput_inputp_bufferSize( const void* buf );
  *   uint32_t       eArpInput_arpInput_inputp_bufferMaxSize( );
- * allocator port for call port: eArpOutput func: arpResolve param: outputp
+ * allocator port for call port:eArpOutput func:arpResolve param: outputp
  *   ER             eArpOutput_arpResolve_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eArpOutput_arpResolve_outputp_dealloc( const void* buf );
  *   ER             eArpOutput_arpResolve_outputp_reuse( void* buf );
@@ -71,8 +71,7 @@ const uint8_t ether_broad_cast_addr[6] = {
  */
 
 static T_ARP_ENTRY *
-arp_lookup (CELLCB	*p_cellcb,T_IN4_ADDR addr, bool_t create)
-{
+arp_lookup (CELLCB	*p_cellcb,T_IN4_ADDR addr, bool_t create) {
 	int32_t		ix, six;
 	uint16_t	min;
 
@@ -115,8 +114,7 @@ arp_lookup (CELLCB	*p_cellcb,T_IN4_ADDR addr, bool_t create)
  */
 
 static ER
-arp_request (CELLCB	*p_cellcb,const uint8_t *macaddress, T_IN4_ADDR dst)
-{
+arp_request (CELLCB	*p_cellcb,const uint8_t *macaddress, T_IN4_ADDR dst) {
 
 	/* Put statements here #_TEFB_# */
 	ER		error;
@@ -169,8 +167,7 @@ arp_request (CELLCB	*p_cellcb,const uint8_t *macaddress, T_IN4_ADDR dst)
  */
 
 static void
-in_arpinput (CELLCB	*p_cellcb,const uint8_t *macaddress, T_NET_BUF *input)
-{
+in_arpinput (CELLCB	*p_cellcb,const uint8_t *macaddress, T_NET_BUF *input) {
 
 	T_ETHER_ARP_HDR	*et_arph;
 	T_IN4_ADDR	saddr, taddr;
@@ -361,7 +358,7 @@ buf_rel:
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 ER
-eArpOutput_arpResolve(CELLIDX idx, int8_t* outputp, int32_t size,T_IN4_ADDR dstaddr,const uint8_t *macaddress,TMO tmout)
+eArpOutput_arpResolve(CELLIDX idx, int8_t* outputp, int32_t size, T_IN4_ADDR dstaddr, const uint8_t* macaddress, TMO tmout)
 {
 	ER		ercd = E_OK;
 	CELLCB	*p_cellcb;
@@ -466,5 +463,5 @@ eArpTimer_callFunction(CELLIDX idx)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

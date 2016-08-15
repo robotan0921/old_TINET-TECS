@@ -5,10 +5,10 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * port             uint16_t         ATTR_port       
  * ipLength         int8_t           ATTR_ipLength   
  * myport           uint16_t         VAR_myport      
@@ -18,36 +18,42 @@
  * receiveTaskID    ID               VAR_receiveTaskID
  * cb_netbuf        T_NET_BUF*       VAR_cb_netbuf   
  *
- * call port function #_TCPF_#
- * require port : signature: sKernel context: task
+ * 呼び口関数 #_TCPF_#
+ * require port: signature:sKernel context:task
+ *   ER             getExtendedInformation( intptr_t* p_exinf );
  *   ER             sleep( );
  *   ER             sleepTimeout( TMO timeout );
  *   ER             delay( RELTIM delayTime );
- *   ER             exitTask( );
- *   ER             getTaskId( ID* p_taskId );
- *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             exit( );
+ *   ER             disableTerminate( );
+ *   ER             enableTerminate( );
+ *   bool_t         senseTerminate( );
+ *   ER             setTime( SYSTIM systemTime );
  *   ER             getTime( SYSTIM* p_systemTime );
- *   ER             getMicroTime( SYSUTM* p_systemMicroTime );
+ *   ER             adjustTime( int32_t adjustTime );
+ *   HRTCNT         fetchHighResolutionTimer( );
+ *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             getTaskId( ID* p_taskId );
+ *   ER             getLoad( PRI taskPriority, uint_t* p_load );
+ *   ER             getNthTask( PRI taskPriority, uint_t nth, ID* p_taskID );
  *   ER             lockCpu( );
  *   ER             unlockCpu( );
  *   ER             disableDispatch( );
  *   ER             enableDispatch( );
- *   ER             disableTaskException( );
- *   ER             enableTaskException( );
- *   ER             changeInterruptPriorityMask( PRI interruptPriority );
- *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
- *   ER             exitKernel( );
  *   bool_t         senseContext( );
  *   bool_t         senseLock( );
  *   bool_t         senseDispatch( );
  *   bool_t         senseDispatchPendingState( );
  *   bool_t         senseKernel( );
- * call port : cUDPOutput  signature: sUDPOutput context: task
+ *   ER             exitKernel( );
+ *   ER             changeInterruptPriorityMask( PRI interruptPriority );
+ *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
+ * call port: cUDPOutput signature: sUDPOutput context:task
  *   ER             cUDPOutput_UDPOutput( const int8_t* outputp, int32_t size, const int8_t* dstaddr, const int8_t* srcaddr, int32_t addrlen, uint16_t dstport, uint16_t myport, T_OFF_BUF offset, TMO tmout );
  *   ER             cUDPOutput_getOffset( T_OFF_BUF* offset );
- * call port : cGetAddress  signature: sGetAddress context: task
+ * call port: cGetAddress signature: sGetAddress context:task
  *   int8_t*        cGetAddress_getAddress( );
- * call port : cDataqueue  signature: sDataqueue context: task
+ * call port: cDataqueue signature: sDataqueue context:task
  *   ER             cDataqueue_send( intptr_t data );
  *   ER             cDataqueue_sendPolling( intptr_t data );
  *   ER             cDataqueue_sendTimeout( intptr_t data, TMO timeout );
@@ -57,24 +63,25 @@
  *   ER             cDataqueue_receiveTimeout( intptr_t* p_data, TMO timeout );
  *   ER             cDataqueue_initialize( );
  *   ER             cDataqueue_refer( T_RDTQ* pk_dataqueueStatus );
- * call port : cSemaphore  signature: sSemaphore context: task
+ * call port: cSemaphore signature: sSemaphore context:task
  *   ER             cSemaphore_signal( );
  *   ER             cSemaphore_wait( );
  *   ER             cSemaphore_waitPolling( );
  *   ER             cSemaphore_waitTimeout( TMO timeout );
  *   ER             cSemaphore_initialize( );
  *   ER             cSemaphore_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cSemaphoreAllCEP  signature: sSemaphore context: task
+ * call port: cSemaphoreAllCEP signature: sSemaphore context:task
  *   ER             cSemaphoreAllCEP_signal( );
  *   ER             cSemaphoreAllCEP_wait( );
  *   ER             cSemaphoreAllCEP_waitPolling( );
  *   ER             cSemaphoreAllCEP_waitTimeout( TMO timeout );
  *   ER             cSemaphoreAllCEP_initialize( );
  *   ER             cSemaphoreAllCEP_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cCallingSendTask  signature: sTask context: task
+ * call port: cCallingSendTask signature: sTask context:task optional:true
+ *   bool_t     is_cCallingSendTask_joined()                     check if joined
  *   ER             cCallingSendTask_activate( );
  *   ER_UINT        cCallingSendTask_cancelActivate( );
- *   ER             cCallingSendTask_terminate( );
+ *   ER             cCallingSendTask_getTaskState( STAT* p_tskstat );
  *   ER             cCallingSendTask_changePriority( PRI priority );
  *   ER             cCallingSendTask_getPriority( PRI* p_priority );
  *   ER             cCallingSendTask_refer( T_RTSK* pk_taskStatus );
@@ -83,11 +90,13 @@
  *   ER             cCallingSendTask_releaseWait( );
  *   ER             cCallingSendTask_suspend( );
  *   ER             cCallingSendTask_resume( );
- *   ER             cCallingSendTask_raiseException( TEXPTN pattern );
- * call port : cCallingReceiveTask  signature: sTask context: task
+ *   ER             cCallingSendTask_raiseTerminate( );
+ *   ER             cCallingSendTask_terminate( );
+ * call port: cCallingReceiveTask signature: sTask context:task optional:true
+ *   bool_t     is_cCallingReceiveTask_joined()                     check if joined
  *   ER             cCallingReceiveTask_activate( );
  *   ER_UINT        cCallingReceiveTask_cancelActivate( );
- *   ER             cCallingReceiveTask_terminate( );
+ *   ER             cCallingReceiveTask_getTaskState( STAT* p_tskstat );
  *   ER             cCallingReceiveTask_changePriority( PRI priority );
  *   ER             cCallingReceiveTask_getPriority( PRI* p_priority );
  *   ER             cCallingReceiveTask_refer( T_RTSK* pk_taskStatus );
@@ -96,8 +105,9 @@
  *   ER             cCallingReceiveTask_releaseWait( );
  *   ER             cCallingReceiveTask_suspend( );
  *   ER             cCallingReceiveTask_resume( );
- *   ER             cCallingReceiveTask_raiseException( TEXPTN pattern );
- * allocator port for call port: eInput func: sendData param: input
+ *   ER             cCallingReceiveTask_raiseTerminate( );
+ *   ER             cCallingReceiveTask_terminate( );
+ * allocator port for call port:eInput func:sendData param: input
  *   ER             eInput_sendData_input_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eInput_sendData_input_dealloc( const void* buf );
  *   ER             eInput_sendData_input_reuse( void* buf );
@@ -133,8 +143,7 @@ typedef struct tag_tTask_VCB {
 }  tTask_VCB;
 
 static struct tag_sTask_VDES*
-get_tTask_DES()
-{
+get_tTask_DES() {
 	intptr_t inf;
 	tTask_VCB *vcb;
 
@@ -146,18 +155,18 @@ get_tTask_DES()
 
 
 
-#define tUDPCEP_cCallingSendTask_bind(p_that) ¥
-  (p_that)->cCallingSendTask = get_tTask_DES()
+#define tUDPCEP_cCallingSendTask_bind(p_that) \
+	(p_that)->cCallingSendTask = get_tTask_DES()
 #define cCallingSendTask_bind() tUDPCEP_cCallingSendTask_bind(p_cellcb)
 
-#define tUDPCEP_cCallingReceiveTask_bind(p_that) ¥
-  (p_that)->cCallingReceiveTask = get_tTask_DES()
+#define tUDPCEP_cCallingReceiveTask_bind(p_that) \
+	(p_that)->cCallingReceiveTask = get_tTask_DES()
 #define cCallingReceiveTask_bind() tUDPCEP_cCallingReceiveTask_bind(p_cellcb)
 
 //temp ここまで
 
 //keisoku----
-//#define cCallingSendTask_bind() 
+//#define cCallingSendTask_bind()
 //#define cCallingReceiveTask_bind()
 //---keisoku
 
@@ -168,8 +177,7 @@ static uint16_t udp_port_auto = UDP_PORT_FIRST_AUTO;
  */
 
 static ER
-udp_alloc_auto_port (CELLCB	*p_cellcb)
-{
+udp_alloc_auto_port (CELLCB	*p_cellcb) {
 	CELLCB	*p_cb;
 
 	p_cb = p_cellcb;
@@ -346,12 +354,12 @@ eAPI_send(CELLIDX idx, const int8_t* data, int32_t len, const int8_t* dstaddr, i
 		if ((error = udp_alloc_auto_port(idx)) != E_OK)
 		  return error;
 	}
-	   
-	   
+
+
 	/* 通信端点をロックする。*/
 	cSemaphore_wait();
 
-	   
+	
 	if (VAR_sendTaskID != TA_NULL) {
 
 		/* 非ノンブロッキングコールでペンディング中 */
@@ -362,10 +370,10 @@ eAPI_send(CELLIDX idx, const int8_t* data, int32_t len, const int8_t* dstaddr, i
 	}
 	else {
 		/* 現在のタスク識別子を記録する。*/
-		getTaskId(&VAR_sendTaskID);
+        getTaskId(&VAR_sendTaskID);
 
-		/* タスクセルと動的結合する */
-		cCallingSendTask_bind();
+        /* タスクセルと動的結合する。*/
+        cCallingSendTask_bind();
 
 		/* 通信端点をロックを解除する。*/
 		cSemaphore_signal();
@@ -421,7 +429,7 @@ eAPI_receive(CELLIDX idx, int8_t* data, int32_t len, TMO tmout)
 		getTaskId(&VAR_receiveTaskID);
 
 		/* タスクを動的結合する */
-		cCallingReceiveTask_bind();
+        cCallingReceiveTask_bind();
 
 		//通信端点のロックを解除する
 		cSemaphore_signal();
@@ -557,5 +565,5 @@ eCallback_callback(CELLIDX idx, FN fncd, ER_UINT error)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

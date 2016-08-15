@@ -5,19 +5,21 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * call port function #_TCPF_#
- * call port : cFixedSizeMemoryPool  signature: sFixedSizeMemoryPool context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cFixedSizeMemoryPool signature: sFixedSizeMemoryPool context:task optional:true
+ *   bool_t     is_cFixedSizeMemoryPool_joined(int subscript)        check if joined
  *   ER             cFixedSizeMemoryPool_get( subscript, void** p_block );
  *   ER             cFixedSizeMemoryPool_getPolling( subscript, void** p_block );
  *   ER             cFixedSizeMemoryPool_getTimeout( subscript, void** p_block, TMO timeout );
  *   ER             cFixedSizeMemoryPool_release( subscript, const void* block );
  *   ER             cFixedSizeMemoryPool_initialize( subscript );
- *   ER             cFixedSizeMemoryPool_refer( subscript, T_RMPF* pk_memoryPoolFixedSizeStatus );
+ *   ER             cFixedSizeMemoryPool_refer( subscript, T_RMPF* pk_fixedSizeMemoryPoolStatus );
  *       subscript:  0...(NCP_cFixedSizeMemoryPool-1)
- * call port : cMemoryPoolStatus  signature: sMemoryPoolStatus context: task
+ * call port: cMemoryPoolStatus signature: sMemoryPoolStatus context:task optional:true
+ *   bool_t     is_cMemoryPoolStatus_joined(int subscript)        check if joined
  *   uint32_t       cMemoryPoolStatus_getSize( subscript );
  *       subscript:  0...(NCP_cMemoryPoolStatus-1)
  *
@@ -165,5 +167,5 @@ eNetworkAlloc_bufferMaxSize()
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

@@ -5,48 +5,49 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * call port function #_TCPF_#
- * call port : cTCPInput  signature: sTCPInput context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cTCPInput signature: sTCPInput context:task optional:true
+ *   bool_t     is_cTCPInput_joined()                     check if joined
  *   uint32_t       cTCPInput_TCPInput( int8_t* inputp, int32_t size, const int8_t* dstaddr, const int8_t* srcaddr, int32_t addrlen );
  *   void           cTCPInput_TCPNotify( const int8_t* inputp, int32_t size, ER error );
- * call port : cIPv4Reply  signature: sIPv4Output context: task
+ * call port: cIPv4Reply signature: sIPv4Output context:task
  *   ER             cIPv4Reply_IPv4Output( int8_t* outputp, int32_t size, TMO tmout );
  *   ER             cIPv4Reply_getOffset( T_OFF_BUF* offset );
  *   T_IN4_ADDR     cIPv4Reply_getIPv4Address( );
  *   void           cIPv4Reply_setHeader( int8_t* outputp, int32_t size, T_IN4_ADDR dstaddr, T_IN4_ADDR srcaddr );
  *   ER             cIPv4Reply_IPv4Reply( int8_t* outputp, int32_t size, TMO tmout );
- * call port : cIPv4Functions  signature: sIPv4Functions context: task
+ * call port: cIPv4Functions signature: sIPv4Functions context:task
  *   uint16_t       cIPv4Functions_checkSum( const int8_t* data, uint32_t len );
  *   T_IN4_ADDR     cIPv4Functions_getIPv4Address( );
  *   T_IN4_ADDR     cIPv4Functions_getIPv4Mask( );
- * allocator port for call port: cTCPInput func: TCPInput param: inputp
+ * allocator port for call port:cTCPInput func:TCPInput param: inputp
  *   ER             cTCPInput_TCPInput_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cTCPInput_TCPInput_inputp_dealloc( const void* buf );
  *   ER             cTCPInput_TCPInput_inputp_reuse( void* buf );
  *   ER_UINT        cTCPInput_TCPInput_inputp_bufferSize( const void* buf );
  *   uint32_t       cTCPInput_TCPInput_inputp_bufferMaxSize( );
- * allocator port for call port: cIPv4Reply func: IPv4Output param: outputp
+ * allocator port for call port:cIPv4Reply func:IPv4Output param: outputp
  *   ER             cIPv4Reply_IPv4Output_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cIPv4Reply_IPv4Output_outputp_dealloc( const void* buf );
  *   ER             cIPv4Reply_IPv4Output_outputp_reuse( void* buf );
  *   ER_UINT        cIPv4Reply_IPv4Output_outputp_bufferSize( const void* buf );
  *   uint32_t       cIPv4Reply_IPv4Output_outputp_bufferMaxSize( );
- * allocator port for call port: cIPv4Reply func: IPv4Reply param: outputp
+ * allocator port for call port:cIPv4Reply func:IPv4Reply param: outputp
  *   ER             cIPv4Reply_IPv4Reply_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cIPv4Reply_IPv4Reply_outputp_dealloc( const void* buf );
  *   ER             cIPv4Reply_IPv4Reply_outputp_reuse( void* buf );
  *   ER_UINT        cIPv4Reply_IPv4Reply_outputp_bufferSize( const void* buf );
  *   uint32_t       cIPv4Reply_IPv4Reply_outputp_bufferMaxSize( );
- * allocator port for call port: eICMP4 func: input param: inputp
+ * allocator port for call port:eICMP4 func:input param: inputp
  *   ER             eICMP4_input_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eICMP4_input_inputp_dealloc( const void* buf );
  *   ER             eICMP4_input_inputp_reuse( void* buf );
  *   ER_UINT        eICMP4_input_inputp_bufferSize( const void* buf );
  *   uint32_t       eICMP4_input_inputp_bufferMaxSize( );
- * allocator port for call port: eICMP4Error func: error param: inputp
+ * allocator port for call port:eICMP4Error func:error param: inputp
  *   ER             eICMP4Error_error_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eICMP4Error_error_inputp_dealloc( const void* buf );
  *   ER             eICMP4Error_error_inputp_reuse( void* buf );
@@ -73,8 +74,7 @@
  */
 
 static void
-icmp_echo (CELLCB *p_cellcb,T_NET_BUF *input,int32_t size)
-{
+icmp_echo (CELLCB *p_cellcb,T_NET_BUF *input,int32_t size) {
 	
 	T_IP4_HDR	*ip4h;
 	T_ICMP4_HDR	*icmp4h;
@@ -130,8 +130,7 @@ static const int8_t code2error[] = {
 
 
 static void
-icmp_unreach (CELLCB *p_cellcb,T_NET_BUF *input,int32_t size)
-{
+icmp_unreach (CELLCB *p_cellcb,T_NET_BUF *input,int32_t size) {
 	T_IP4_HDR	*ip4h;
 	uint8_t		code;
 	ER error;
@@ -346,5 +345,5 @@ eICMP4Error_error(CELLIDX idx, int8_t* inputp, int32_t size, uint8_t code)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

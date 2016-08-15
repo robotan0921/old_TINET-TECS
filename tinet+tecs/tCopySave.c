@@ -5,38 +5,38 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * call port function #_TCPF_#
- * call port : cSemaphore  signature: sSemaphore context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cSemaphore signature: sSemaphore context:task
  *   ER             cSemaphore_signal( );
  *   ER             cSemaphore_wait( );
  *   ER             cSemaphore_waitPolling( );
  *   ER             cSemaphore_waitTimeout( TMO timeout );
  *   ER             cSemaphore_initialize( );
  *   ER             cSemaphore_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cSemTcppost  signature: sSemaphore context: task
+ * call port: cSemTcppost signature: sSemaphore context:task
  *   ER             cSemTcppost_signal( );
  *   ER             cSemTcppost_wait( );
  *   ER             cSemTcppost_waitPolling( );
  *   ER             cSemTcppost_waitTimeout( TMO timeout );
  *   ER             cSemTcppost_initialize( );
  *   ER             cSemTcppost_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cSendFlag  signature: sEventflag context: task
+ * call port: cSendFlag signature: sEventflag context:task
  *   ER             cSendFlag_set( FLGPTN setPattern );
  *   ER             cSendFlag_clear( FLGPTN clearPattern );
- *   ER             cSendFlag_wait( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern );
- *   ER             cSendFlag_waitPolling( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern );
- *   ER             cSendFlag_waitTimeout( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern, TMO timeout );
+ *   ER             cSendFlag_wait( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern );
+ *   ER             cSendFlag_waitPolling( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern );
+ *   ER             cSendFlag_waitTimeout( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern, TMO timeout );
  *   ER             cSendFlag_initialize( );
  *   ER             cSendFlag_refer( T_RFLG* pk_eventflagStatus );
- * call port : cRcvFlag  signature: sEventflag context: task
+ * call port: cRcvFlag signature: sEventflag context:task
  *   ER             cRcvFlag_set( FLGPTN setPattern );
  *   ER             cRcvFlag_clear( FLGPTN clearPattern );
- *   ER             cRcvFlag_wait( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern );
- *   ER             cRcvFlag_waitPolling( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern );
- *   ER             cRcvFlag_waitTimeout( FLGPTN waitPattern, MODE waitFlagMode, FLGPTN* p_flagPattern, TMO timeout );
+ *   ER             cRcvFlag_wait( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern );
+ *   ER             cRcvFlag_waitPolling( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern );
+ *   ER             cRcvFlag_waitTimeout( FLGPTN waitPattern, MODE waitMode, FLGPTN* p_flagPattern, TMO timeout );
  *   ER             cRcvFlag_initialize( );
  *   ER             cRcvFlag_refer( T_RFLG* pk_eventflagStatus );
  *
@@ -154,7 +154,7 @@ eCopySave_tcpWriteRwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* inputp, int32_t siz
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 void
-eCopySave_tcpReadSwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* outputp, int32_t size, uint32_t doff, int8_t* sbuf, int32_t buflen,int32_t hoff,int32_t len)
+eCopySave_tcpReadSwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* outputp, int32_t size, uint32_t doff, int8_t* sbuf, int32_t buflen, int32_t hoff, int32_t len)
 {
 	CELLCB	*p_cellcb;
 	if (VALID_IDX(idx)) {
@@ -206,7 +206,7 @@ eCopySave_tcpReadSwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* outputp, int32_t siz
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 ER
-eCopySave_tcpWaitSwbuf(CELLIDX idx, T_TCP_CEP* cep, uint32_t* flags,int32_t sbufSize,TMO tmout)
+eCopySave_tcpWaitSwbuf(CELLIDX idx, T_TCP_CEP* cep, uint32_t* flags, int32_t sbufSize, TMO tmout)
 {
 
 	CELLCB	*p_cellcb;
@@ -367,7 +367,7 @@ eCopySave_tcpReadRwbuf(CELLIDX idx, T_TCP_CEP* cep, int8_t* data, int32_t datale
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 void
-eCopySave_tcpDropSwbuf(CELLIDX idx, T_TCP_CEP* cep, uint32_t len, const int8_t* sbuf,int32_t sbufSize, uint32_t* flags)
+eCopySave_tcpDropSwbuf(CELLIDX idx, T_TCP_CEP* cep, uint32_t len, const int8_t* sbuf, int32_t sbufSize, uint32_t* flags)
 {
 	CELLCB	*p_cellcb;
 	if (VALID_IDX(idx)) {
@@ -444,5 +444,5 @@ eCopySave_tcpFreeSwbufq(CELLIDX idx, T_TCP_CEP* cep)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

@@ -5,44 +5,45 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * call port function #_TCPF_#
- * call port : cRawOutput  signature: sEthernetRawOutput context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cRawOutput signature: sEthernetRawOutput context:task
  *   ER             cRawOutput_ethernetRawOutput( int8_t* outputp, int32_t size, TMO tmout );
- * call port : cNicDriver  signature: sNicDriver context: task
+ * call port: cNicDriver signature: sNicDriver context:task
  *   void           cNicDriver_init( );
  *   void           cNicDriver_start( int8_t* outputp, int32_t size, uint8_t align );
  *   void           cNicDriver_read( int8_t** inputp, int32_t* size, uint8_t align );
  *   void           cNicDriver_getMac( uint8_t* macaddress );
- * call port : cArpOutput  signature: sArpOutput context: task
+ * call port: cArpOutput signature: sArpOutput context:task optional:true
+ *   bool_t     is_cArpOutput_joined()                     check if joined
  *   ER             cArpOutput_arpResolve( int8_t* outputp, int32_t size, T_IN4_ADDR dstaddr, const uint8_t* macaddress, TMO tmout );
- * allocator port for call port: cRawOutput func: ethernetRawOutput param: outputp
+ * allocator port for call port:cRawOutput func:ethernetRawOutput param: outputp
  *   ER             cRawOutput_ethernetRawOutput_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cRawOutput_ethernetRawOutput_outputp_dealloc( const void* buf );
  *   ER             cRawOutput_ethernetRawOutput_outputp_reuse( void* buf );
  *   ER_UINT        cRawOutput_ethernetRawOutput_outputp_bufferSize( const void* buf );
  *   uint32_t       cRawOutput_ethernetRawOutput_outputp_bufferMaxSize( );
- * allocator port for call port: cNicDriver func: start param: outputp
+ * allocator port for call port:cNicDriver func:start param: outputp
  *   ER             cNicDriver_start_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cNicDriver_start_outputp_dealloc( const void* buf );
  *   ER             cNicDriver_start_outputp_reuse( void* buf );
  *   ER_UINT        cNicDriver_start_outputp_bufferSize( const void* buf );
  *   uint32_t       cNicDriver_start_outputp_bufferMaxSize( );
- * allocator port for call port: cNicDriver func: read param: inputp
+ * allocator port for call port:cNicDriver func:read param: inputp
  *   ER             cNicDriver_read_inputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cNicDriver_read_inputp_dealloc( const void* buf );
  *   ER             cNicDriver_read_inputp_reuse( void* buf );
  *   ER_UINT        cNicDriver_read_inputp_bufferSize( const void* buf );
  *   uint32_t       cNicDriver_read_inputp_bufferMaxSize( );
- * allocator port for call port: cArpOutput func: arpResolve param: outputp
+ * allocator port for call port:cArpOutput func:arpResolve param: outputp
  *   ER             cArpOutput_arpResolve_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cArpOutput_arpResolve_outputp_dealloc( const void* buf );
  *   ER             cArpOutput_arpResolve_outputp_reuse( void* buf );
  *   ER_UINT        cArpOutput_arpResolve_outputp_bufferSize( const void* buf );
  *   uint32_t       cArpOutput_arpResolve_outputp_bufferMaxSize( );
- * allocator port for call port: eEthernetOutput func: ethernetOutput param: outputp
+ * allocator port for call port:eEthernetOutput func:ethernetOutput param: outputp
  *   ER             eEthernetOutput_ethernetOutput_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             eEthernetOutput_ethernetOutput_outputp_dealloc( const void* buf );
  *   ER             eEthernetOutput_ethernetOutput_outputp_reuse( void* buf );
@@ -104,5 +105,5 @@ eEthernetOutput_ethernetOutput(CELLIDX idx, int8_t* outputp, int32_t size, T_IN4
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

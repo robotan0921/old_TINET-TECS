@@ -5,34 +5,40 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * call port function #_TCPF_#
- * require port : signature: sKernel context: task
+ * 呼び口関数 #_TCPF_#
+ * require port: signature:sKernel context:task
+ *   ER             getExtendedInformation( intptr_t* p_exinf );
  *   ER             sleep( );
  *   ER             sleepTimeout( TMO timeout );
  *   ER             delay( RELTIM delayTime );
- *   ER             exitTask( );
- *   ER             getTaskId( ID* p_taskId );
- *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             exit( );
+ *   ER             disableTerminate( );
+ *   ER             enableTerminate( );
+ *   bool_t         senseTerminate( );
+ *   ER             setTime( SYSTIM systemTime );
  *   ER             getTime( SYSTIM* p_systemTime );
- *   ER             getMicroTime( SYSUTM* p_systemMicroTime );
+ *   ER             adjustTime( int32_t adjustTime );
+ *   HRTCNT         fetchHighResolutionTimer( );
+ *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             getTaskId( ID* p_taskId );
+ *   ER             getLoad( PRI taskPriority, uint_t* p_load );
+ *   ER             getNthTask( PRI taskPriority, uint_t nth, ID* p_taskID );
  *   ER             lockCpu( );
  *   ER             unlockCpu( );
  *   ER             disableDispatch( );
  *   ER             enableDispatch( );
- *   ER             disableTaskException( );
- *   ER             enableTaskException( );
- *   ER             changeInterruptPriorityMask( PRI interruptPriority );
- *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
- *   ER             exitKernel( );
  *   bool_t         senseContext( );
  *   bool_t         senseLock( );
  *   bool_t         senseDispatch( );
  *   bool_t         senseDispatchPendingState( );
  *   bool_t         senseKernel( );
- * call port : cTCPAPI4  signature: sTCPCEPAPI4 context: task
+ *   ER             exitKernel( );
+ *   ER             changeInterruptPriorityMask( PRI interruptPriority );
+ *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
+ * call port: cTCPAPI4 signature: sTCPCEPAPI4 context:task
  *   ER             cTCPAPI4_accept( intptr_t sREP4, T_IPV4EP* dstep4, TMO tmout );
  *   ER             cTCPAPI4_connect( T_IN4_ADDR myaddr, uint16_t myport, T_IN4_ADDR dstaddr, uint16_t dstport, TMO tmout );
  *   ER_UINT        cTCPAPI4_send( const int8_t* data, int32_t len, TMO tmout );
@@ -40,20 +46,20 @@
  *   ER             cTCPAPI4_cancel( FN fncd );
  *   ER             cTCPAPI4_close( TMO tmout );
  *   ER             cTCPAPI4_shutdown( );
- * call port : cUDPAPI4  signature: sUDPCEPAPI4 context: task
+ * call port: cUDPAPI4 signature: sUDPCEPAPI4 context:task
  *   ER_UINT        cUDPAPI4_send( const int8_t* data, int32_t len, T_IN4_ADDR dstaddr, uint16_t dstport, TMO tmout );
  *   ER_UINT        cUDPAPI4_receive( int8_t* data, int32_t len, TMO tmout );
  *   ER             cUDPAPI4_cancelSend( ER error );
  *   ER             cUDPAPI4_cancelReceive( ER error );
- * call port : cREP4  signature: sREP4 context: task
- *   T_IPV4EP       cREP4_getEndpoint( );
- *   ER             cREP4_signal( );
- *   ER             cREP4_wait( );
- *   ER             cREP4_waitPolling( );
- *   ER             cREP4_waitTimeout( TMO timeout );
- *   ER             cREP4_initialize( );
- *   ER             cREP4_refer( T_RSEM* pk_semaphoreStatus );
- * call port : cREP4_001  signature: sREP4 context: task
+ * call port: cREP4_000 signature: sREP4 context:task
+ *   T_IPV4EP       cREP4_000_getEndpoint( );
+ *   ER             cREP4_000_signal( );
+ *   ER             cREP4_000_wait( );
+ *   ER             cREP4_000_waitPolling( );
+ *   ER             cREP4_000_waitTimeout( TMO timeout );
+ *   ER             cREP4_000_initialize( );
+ *   ER             cREP4_000_refer( T_RSEM* pk_semaphoreStatus );
+ * call port: cREP4_001 signature: sREP4 context:task
  *   T_IPV4EP       cREP4_001_getEndpoint( );
  *   ER             cREP4_001_signal( );
  *   ER             cREP4_001_wait( );
@@ -130,5 +136,5 @@ eTestTask_main()
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

@@ -5,15 +5,15 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * attr access macro #_CAAM_#
+ * 属性アクセスマクロ #_CAAM_#
  * v4addr           T_IN4_ADDR       ATTR_v4addr     
  * addr             T_IN4_ADDR       VAR_addr        
  *
- * call port function #_TCPF_#
- * call port : cAPI  signature: sUDPCEPAPI context: task
+ * 呼び口関数 #_TCPF_#
+ * call port: cAPI signature: sUDPCEPAPI context:task
  *   ER_UINT        cAPI_send( const int8_t* data, int32_t len, const int8_t* dstaddr, int32_t addrlen, uint16_t dstport, TMO tmout );
  *   ER_UINT        cAPI_receive( int8_t* data, int32_t len, TMO tmout );
  *   ER             cAPI_cancelSend( ER error );
@@ -152,5 +152,5 @@ eGetAddress4_getAddress(CELLIDX idx)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/

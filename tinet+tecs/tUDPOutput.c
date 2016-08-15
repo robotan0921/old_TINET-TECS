@@ -5,48 +5,56 @@
  * to avoid to be overwritten by tecsgen.
  */
 /* #[<PREAMBLE>]#
- * Don't edit the comments between #[<...>]# and #[</...>]#
- * These comment are used by tecsmerege when merging.
+ * #[<...>]# から #[</...>]# で囲まれたコメントは編集しないでください
+ * tecsmerge によるマージに使用されます
  *
- * call port function #_TCPF_#
- * require port : signature: sKernel context: task
+ * 呼び口関数 #_TCPF_#
+ * require port: signature:sKernel context:task
+ *   ER             getExtendedInformation( intptr_t* p_exinf );
  *   ER             sleep( );
  *   ER             sleepTimeout( TMO timeout );
  *   ER             delay( RELTIM delayTime );
- *   ER             exitTask( );
- *   ER             getTaskId( ID* p_taskId );
- *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             exit( );
+ *   ER             disableTerminate( );
+ *   ER             enableTerminate( );
+ *   bool_t         senseTerminate( );
+ *   ER             setTime( SYSTIM systemTime );
  *   ER             getTime( SYSTIM* p_systemTime );
- *   ER             getMicroTime( SYSUTM* p_systemMicroTime );
+ *   ER             adjustTime( int32_t adjustTime );
+ *   HRTCNT         fetchHighResolutionTimer( );
+ *   ER             rotateReadyQueue( PRI taskPriority );
+ *   ER             getTaskId( ID* p_taskId );
+ *   ER             getLoad( PRI taskPriority, uint_t* p_load );
+ *   ER             getNthTask( PRI taskPriority, uint_t nth, ID* p_taskID );
  *   ER             lockCpu( );
  *   ER             unlockCpu( );
  *   ER             disableDispatch( );
  *   ER             enableDispatch( );
- *   ER             disableTaskException( );
- *   ER             enableTaskException( );
- *   ER             changeInterruptPriorityMask( PRI interruptPriority );
- *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
- *   ER             exitKernel( );
  *   bool_t         senseContext( );
  *   bool_t         senseLock( );
  *   bool_t         senseDispatch( );
  *   bool_t         senseDispatchPendingState( );
  *   bool_t         senseKernel( );
- * call port : cIPv4CheckSum  signature: sIPv4CheckSum context: task
+ *   ER             exitKernel( );
+ *   ER             changeInterruptPriorityMask( PRI interruptPriority );
+ *   ER             getInterruptPriorityMask( PRI* p_interruptPriority );
+ * call port: cIPv4CheckSum signature: sIPv4CheckSum context:task optional:true
+ *   bool_t     is_cIPv4CheckSum_joined()                     check if joined
  *   uint16_t       cIPv4CheckSum_ipv4CheckSum( int8_t* data, int32_t size, uint32_t offset, uint8_t proto );
- * call port : cIPv4Output  signature: sIPv4Output context: task
+ * call port: cIPv4Output signature: sIPv4Output context:task optional:true
+ *   bool_t     is_cIPv4Output_joined()                     check if joined
  *   ER             cIPv4Output_IPv4Output( int8_t* outputp, int32_t size, TMO tmout );
  *   ER             cIPv4Output_getOffset( T_OFF_BUF* offset );
  *   T_IN4_ADDR     cIPv4Output_getIPv4Address( );
  *   void           cIPv4Output_setHeader( int8_t* outputp, int32_t size, T_IN4_ADDR dstaddr, T_IN4_ADDR srcaddr );
  *   ER             cIPv4Output_IPv4Reply( int8_t* outputp, int32_t size, TMO tmout );
- * allocator port for call port: cIPv4Output func: IPv4Output param: outputp
+ * allocator port for call port:cIPv4Output func:IPv4Output param: outputp
  *   ER             cIPv4Output_IPv4Output_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cIPv4Output_IPv4Output_outputp_dealloc( const void* buf );
  *   ER             cIPv4Output_IPv4Output_outputp_reuse( void* buf );
  *   ER_UINT        cIPv4Output_IPv4Output_outputp_bufferSize( const void* buf );
  *   uint32_t       cIPv4Output_IPv4Output_outputp_bufferMaxSize( );
- * allocator port for call port: cIPv4Output func: IPv4Reply param: outputp
+ * allocator port for call port:cIPv4Output func:IPv4Reply param: outputp
  *   ER             cIPv4Output_IPv4Reply_outputp_alloc( void** buf, const int32_t minlen, TMO tmout );
  *   ER             cIPv4Output_IPv4Reply_outputp_dealloc( const void* buf );
  *   ER             cIPv4Output_IPv4Reply_outputp_reuse( void* buf );
@@ -76,7 +84,7 @@
  * oneway:       false
  * #[</ENTRY_FUNC>]# */
 ER
-eOutput_UDPOutput(const int8_t* outputp, int32_t size, const int8_t* dstaddr, const int8_t* srcaddr,int32_t addrlen,uint16_t dstport,uint16_t myport, T_OFF_BUF offset,TMO tmout)
+eOutput_UDPOutput(const int8_t* outputp, int32_t size, const int8_t* dstaddr, const int8_t* srcaddr, int32_t addrlen, uint16_t dstport, uint16_t myport, T_OFF_BUF offset, TMO tmout)
 {
 	T_NET_BUF	*output;
 	T_UDP_HDR	*udph;
@@ -174,5 +182,5 @@ eOutput_getOffset(T_OFF_BUF* offset)
 }
 
 /* #[<POSTAMBLE>]#
- *   Put non-entry functions below.
+ *   これより下に非受け口関数を書きます
  * #[</POSTAMBLE>]#*/
