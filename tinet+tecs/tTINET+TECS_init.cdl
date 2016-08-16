@@ -92,7 +92,7 @@ cell tIPv4Input IPv4Input{
 //LANコントローラの組み上げ記述
 [allocator(eNicDriver.start.outputp=NetworkBuffer.eNetworkAlloc,
            eNicDriver.read.inputp=NetworkBuffer.eNetworkAlloc)]
-cell tLan9221Composite Lan9221Composite {
+cell tMbedComposite MbedComposite {
 
     cNetworkTimer = NetworkTimer.eNetworkTimer[0];
     
@@ -115,8 +115,8 @@ cell tDataqueue DataqueueEthernet{
 };
 [allocator(eRawOutput.ethernetRawOutput.outputp=NetworkBuffer.eNetworkAlloc)]
 cell tEthernetOutputTaskBody EthernetOutputTaskBody{
-    cNicDriver = Lan9221Composite.eNicDriver;
-    cSemaphoreSend = Lan9221Composite.eSemaphoreSend;
+    cNicDriver = MbedComposite.eNicDriver;
+    cSemaphoreSend = MbedComposite.eSemaphoreSend;
     cSemTcppost = SemaphoreTcppost.eSemaphore;
     cDataqueue = DataqueueEthernet.eDataqueue;
 };
@@ -152,7 +152,7 @@ cell tArp Arp{
 //イーサレベルの組み上げ宣言
 [allocator(eEthernetOutput.ethernetOutput.outputp=NetworkBuffer.eNetworkAlloc)]
 cell tEthernetOutput EthernetOutput{
-    cNicDriver = Lan9221Composite.eNicDriver;
+    cNicDriver = MbedComposite.eNicDriver;
     cArpOutput = Arp.eArpOutput;
     cRawOutput = EthernetOutputTaskBody.eRawOutput;
 };
@@ -163,8 +163,8 @@ cell tEthernetInputTaskBody EthernetInputTaskBody {
     cTaskNetworkTimer = NetTimerTask.eTask;
     cTaskEthernetOutput = EthernetOutputTask.eTask;
 
-    cSemaphoreReceive = Lan9221Composite.eSemaphoreReceive;
-    cNicDriver = Lan9221Composite.eNicDriver;
+    cSemaphoreReceive = MbedComposite.eSemaphoreReceive;
+    cNicDriver = MbedComposite.eNicDriver;
 
     cArpInput = Arp.eArpInput;
     cIPv4Input = IPv4Input.eIPv4Input;
@@ -223,7 +223,7 @@ cell tNetworkTimer NetworkTimer{
     cTCPTask = TCPTask.eTask;
 
     //有効なネットワークタイマ宣言
-    cCallTimerFunction[0] = Lan9221Composite.eWatchdogTimer;
+    cCallTimerFunction[0] = MbedComposite.eWatchdogTimer;
     cCallTimerFunction[1] = Arp.eArpTimer;
     cCallTimerFunction[2] = IPv4RoutingTable.eRoutingTableTimer;
     cCallTimerFunction[3] = TCPOutputBody.eCallTimerFunction;

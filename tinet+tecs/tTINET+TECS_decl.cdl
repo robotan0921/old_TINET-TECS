@@ -33,7 +33,9 @@ import ("tNetworkTimer.cdl");
 
 
 //Lan9221用デバドラコンポーネントの定義
-import ("tLan9221.cdl");
+//import ("tLan9221.cdl");
+//mbed用デバドラコンポーネントの定義
+import ("tMbed.cdl");
 
 //Ethernetレイヤ用のコンポーネント定義部分
 import ("tEthernet.cdl");
