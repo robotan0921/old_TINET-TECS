@@ -395,7 +395,8 @@ cfg1_out.srec: $(CFG1_OUT)
 
 $(CFG2_OUT_SRCS) cfg2_out.db: kernel_cfg.timestamp ;
 kernel_cfg.timestamp: cfg1_out.db cfg1_out.syms cfg1_out.srec
-	$(CFG) --pass 2 --kernel asp $(INCLUDES) -T $(TARGET_TCPIP_TRB):tcpip -T $(TARGET_KERNEL_TRB):kernel
+	$(CFG) --pass 2 --kernel asp $(INCLUDES) -T $(TARGET_KERNEL_TRB):kernel
+	# $(CFG) --pass 2 --kernel asp $(INCLUDES) -T $(TARGET_TCPIP_TRB):tcpip -T $(TARGET_KERNEL_TRB):kernel
 
 #
 #  オフセットファイル（offset.h）の生成規則
