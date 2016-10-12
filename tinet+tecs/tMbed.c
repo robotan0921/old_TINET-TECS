@@ -81,6 +81,11 @@
 #include "tMbed_tecsgen.h"
 
 #include "lan9221.h"
+
+#include "ethernet_api.h"
+#include "ethernetext_api.h"
+#include "iodefine.h"
+
 extern ER		dly_tsk(RELTIM dlytim);
 
 #ifndef E_OK
@@ -90,6 +95,8 @@ extern ER		dly_tsk(RELTIM dlytim);
 
 #define DEFAULT_MAC_H	0x00000100				/* デフォルトMACアドレス */
 #define DEFAULT_MAC_L	0x2A7B0C00				/* 00-0C-7B-2A-00-01     */
+
+#define ETHER_EESR0_TC 0x00200000
 
 
 static unsigned long lan9221_get_mac_csr(CELLCB *p_cellcb,unsigned char addr) {
@@ -294,7 +301,7 @@ static int lan9221_open(CELLCB *p_cellcb) {
 /*
  *  ed_inter_init -- ターゲット依存部の割込みの初期化
  */
-
+/*
 static void
 ed_inter_init (CELLCB *p_cellcb) {
 
@@ -308,6 +315,27 @@ ed_inter_init (CELLCB *p_cellcb) {
 	//割り込みマスククリア
 	sil_wrw_mem((void *)C0INTMSKCLR0,0x80000000);
 	
+}
+*/
+
+static void rza1_recv_callback(CELLCB *p_cellcb) {
+    //sig_sem(if_softc.semid_rxb_ready);
+    ciSemaphoreReceive_signal();
+}
+
+static void
+if_mbed_init_sub (CELLCB *p_cellcb)
+{
+    ethernet_cfg_t ethcfg;
+    uint8_t *macaddress;
+    eNicDriver_getMac(p_cellcb, macaddress);
+
+    /* Initialize the hardware */
+    ethcfg.int_priority = 6;
+    ethcfg.recv_cb      = &rza1_recv_callback;
+    //ethcfg.ether_mac    = (char *)ic->ifaddr.lladdr;
+    ethcfg.ether_mac    = (char *)macaddress;
+    ethernetext_init(&ethcfg);
 }
 
 /* entry port function #_TEPF_# */
@@ -373,16 +401,25 @@ eNicDriver_init(CELLIDX idx)
 	} /* end if VALID_IDX(idx) */
 
 	/* Put statements here #_TEFB_# */
-	VAR_Timer = 0;
-	cNetworkTimer_Timeout(10);
+	/* VAR_Timer = 0; */
+	/* cNetworkTimer_Timeout(10); */
+    /*  */
+	/* cInterruptRequest_disable(); */
+    /*  */
+	/* lan9221_open(p_cellcb); */
+	/* cSemaphoreSend_signal(); */
+	/* ed_inter_init(p_cellcb); */
+    /*  */
+	/* cInterruptRequest_enable();	 */
+    
+    /* mbed_init 本体を呼び出す。*/
+	if_mbed_init_sub(p_cellcb);
 
-	cInterruptRequest_disable();
+	//act_tsk(IF_MBED_PHY_TASK);
 
-	lan9221_open(p_cellcb);
-	cSemaphoreSend_signal();
-	ed_inter_init(p_cellcb);
+	ethernet_set_link(-1, 0);
 
-	cInterruptRequest_enable();	
+	ETHER.EESIPR0 |= ETHER_EESR0_TC;
 }
 
 
@@ -571,12 +608,12 @@ eiBody_main(CELLIDX idx)
 	} /* end if VALID_IDX(idx) */
 
 	/* Put statements here #_TEFB_# */	
-	ciSemaphoreReceive_signal();
+	//ciSemaphoreReceive_signal();
 	//割り込み優先度決定
-	sil_wrw_mem((void *)INTPRI, 0x00000000);
+	//sil_wrw_mem((void *)INTPRI, 0x00000000);
 	//syslog(LOG_EMERG,"%x",	sil_rew_mem(INTREQ));//debug
 	//syslog(LOG_EMERG,"%x",	lan9221_reg_read(LAN9221_RX_FIFO_INF));//debug FIFOの使用量
-	lan9221_reg_write(LAN9221_INT_STS,LAN9221_INT_STS_RSFL);
+	//lan9221_reg_write(LAN9221_INT_STS,LAN9221_INT_STS_RSFL);
 }
 
 /* #[<POSTAMBLE>]#
