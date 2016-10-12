@@ -81,6 +81,12 @@
 #include "tMbed_tecsgen.h"
 
 #include "lan9221.h"
+#include "if_mbed.h"
+
+//#include <tinet_defs.h>
+#include "tinet_nic_defs.h"
+//#include <tinet_config.h>
+
 
 #include "ethernet_api.h"
 #include "ethernetext_api.h"
@@ -97,6 +103,16 @@ extern ER		dly_tsk(RELTIM dlytim);
 #define DEFAULT_MAC_L	0x2A7B0C00				/* 00-0C-7B-2A-00-01     */
 
 #define ETHER_EESR0_TC 0x00200000
+
+/*
+ *  ネットワークインタフェースに依存するソフトウェア情報 
+ */
+typedef struct t_mbed_softc {
+	bool_t link_pre;
+	bool_t link_now;
+	bool_t over_flow;
+} T_MBED_SOFTC;
+
 
 
 static unsigned long lan9221_get_mac_csr(CELLCB *p_cellcb,unsigned char addr) {
@@ -403,9 +419,9 @@ eNicDriver_init(CELLIDX idx)
 	/* Put statements here #_TEFB_# */
 	/* VAR_Timer = 0; */
 	/* cNetworkTimer_Timeout(10); */
-    /*  */
+
 	/* cInterruptRequest_disable(); */
-    /*  */
+ 
 	/* lan9221_open(p_cellcb); */
 	/* cSemaphoreSend_signal(); */
 	/* ed_inter_init(p_cellcb); */
@@ -442,7 +458,7 @@ eNicDriver_start(CELLIDX idx, int8_t* outputp, int32_t size, uint8_t align)
 	} /* end if VALID_IDX(idx) */
 
 	/* Put statements here #_TEFB_# */
-
+/*
 	T_NET_BUF *output = (T_NET_BUF*)outputp;
 	unsigned char *tmp = (unsigned char *)(output->buf);
 	tmp += align;//アラインが必要な場合は
@@ -490,7 +506,15 @@ eNicDriver_start(CELLIDX idx, int8_t* outputp, int32_t size, uint8_t align)
 	
 	cSemaphoreSend_signal();
 //	ic->timer =
+*/
+	//T_MBED_SOFTC *sc = ic->sc;
+	T_NET_BUF *output = (T_NET_BUF*)outputp;
+	int32_t len, res, pos;
 
+	for ( res = output->len, pos = 0; res > 0; res -= len, pos += len ) {
+		len = ethernet_write((char *)output->buf + IF_ETHER_NIC_HDR_ALIGN + pos, res);
+	}
+    ethernet_send();
 }
 
 /* #[<ENTRY_FUNC>]# eNicDriver_read

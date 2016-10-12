@@ -1,3 +1,6 @@
+#ifndef _BUFFER_DEFINE_H_
+#define _BUFFER_DEFINE_H_
+
 typedef struct {
 	uint8_t tphdrlen; //トランスポート層のヘッダ長
 	uint8_t iphdrlen; //IP層のヘッダ長
@@ -11,6 +14,9 @@ typedef struct {
 	uint16_t iphdrlenall; //IP層のヘッダ長（動的変化分含む）
 }T_OFF_BUF;
 
+#ifndef T_NET_BUF_DEFINED
+#define T_NET_BUF_DEFINED
+
 typedef struct {
     uint16_t len;
     uint8_t idix;
@@ -20,3 +26,7 @@ typedef struct {
 
 	uint8_t buf[4];
 }T_NET_BUF;
+
+#endif	/* of #ifndef T_NET_BUF_DEFINED */
+
+#endif /* _BUFFER_DEFINE_H_ */
